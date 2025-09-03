@@ -455,6 +455,15 @@ namespace IT_CONFIRM
         }
         private void CoordinateTextBox_KeyPress(object sender, KeyPressEventArgs e)
         {
+            TextBox textBox = sender as TextBox;
+
+            // Kiểm tra độ dài tổng của ô nhập liệu
+            if (!char.IsControl(e.KeyChar) && textBox.Text.Length >= 5)
+            {
+                e.Handled = true;
+                return;
+            }
+
             // Cho phép nhập số, dấu chấm (hoặc dấu phẩy), và phím Backspace
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '.') && (e.KeyChar != ','))
             {
