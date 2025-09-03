@@ -1,0 +1,528 @@
+﻿using System;
+using System.Diagnostics;
+using System.Drawing;
+using System.IO;
+using System.Windows.Forms;
+using System.Collections.Generic;
+
+namespace IT_CONFIRM
+{
+    public partial class MainForm : Form
+    {
+        private TextBox currentTextBox;
+        private ToolTip validationToolTip;
+        private string _lastSavedFilePath; // Biến mới để lưu đường dẫn file        
+        private ToolTip statusToolTip;// Biến mới cho ToolTip của thông báo trạng thái     
+        private Timer rainbowTimer;// Các biến cho hiệu ứng chuyển màu cầu vồng mượt mà
+        private bool isRainbowActive = false;
+        private Color originalCopyrightColor;
+        private double rainbowPhase = 0;       
+        private Dictionary<string, Color> originalColors = new Dictionary<string, Color>();// Sử dụng Dictionary để lưu màu gốc của tất cả các nút
+
+        #region MainForm
+        public MainForm()
+        {
+            InitializeComponent();
+            InitializeKeyboardEvents();
+            txtSAPN.MaxLength = 300;
+            validationToolTip = new ToolTip();//Thông báo yêu cầu nhập dữ liệu
+            statusToolTip = new ToolTip();//Gợi ý bấm vào để mở thư mục
+            this.lblStatus.Text = "Sẵn sàng nhập dữ liệu...";
+            UpdateSavedSAPNCount();
+
+            // Khởi tạo timer cho hiệu ứng cầu vồng
+            this.rainbowTimer = new Timer();
+            this.rainbowTimer.Interval = 20; // Cập nhật màu mỗi 20ms để mượt hơn
+            this.rainbowTimer.Tick += new EventHandler(this.RainbowTimer_Tick);
+
+            // Gắn sự kiện cho lblCopyright
+            lblCopyright.MouseEnter += LblCopyright_MouseEnter;
+            lblCopyright.MouseLeave += LblCopyright_MouseLeave;
+            // Gán sự kiện Click và thay đổi con trỏ chuột cho lblStatus
+            this.lblStatus.Click += new EventHandler(this.lblStatus_Click);
+            this.lblStatus.Cursor = Cursors.Hand;
+
+            // Khởi tạo hiệu ứng cho các nút
+            InitializeButtonEffects();
+        }
+        #endregion
+
+        #region Hiệu ứng nút bấm
+        private void InitializeButtonEffects()
+        {
+            Color keyboardBaseColor = Color.FloralWhite;
+
+            // Xử lý nút SAVE (giữ nguyên màu ban đầu)
+            originalColors.Add("btnSave", btnSave.BackColor);
+            btnSave.MouseEnter += Button_MouseEnter;
+            btnSave.MouseLeave += Button_MouseLeave;
+            btnSave.MouseDown += Button_MouseDown;
+            btnSave.MouseUp += Button_MouseUp;
+
+            // Xử lý nút RESET (giữ nguyên màu ban đầu)
+            originalColors.Add("btnReset", btnReset.BackColor);
+            btnReset.MouseEnter += Button_MouseEnter;
+            btnReset.MouseLeave += Button_MouseLeave;
+            btnReset.MouseDown += Button_MouseDown;
+            btnReset.MouseUp += Button_MouseUp;
+
+            // Áp dụng màu nền mới cho các nút trên bàn phím ảo
+            Button[] keyboardButtons = { btn0, btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btnDot, btnBack };
+            foreach (Button btn in keyboardButtons)
+            {               
+                // Chỉ áp dụng màu nền mới cho các nút số
+                if (btn.Name != "btnBack")
+                {
+                    btn.BackColor = keyboardBaseColor;
+                }
+
+                originalColors.Add(btn.Name, btn.BackColor);
+
+                btn.MouseEnter += Button_MouseEnter;
+                btn.MouseLeave += Button_MouseLeave;
+                btn.MouseDown += Button_MouseDown;
+                btn.MouseUp += Button_MouseUp;
+            }
+        }
+
+        // Hiệu ứng khi di chuột vào nút
+        private void Button_MouseEnter(object sender, EventArgs e)
+        {
+            Button btn = sender as Button;
+            if (btn != null)
+            {
+                // Áp dụng hiệu ứng di chuột cho TẤT CẢ các nút
+                if (originalColors.ContainsKey(btn.Name))
+                {
+                    Color originalColor = originalColors[btn.Name];
+                    int r = Math.Min(255, originalColor.R + 30);
+                    int g = Math.Min(255, originalColor.G + 30);
+                    int b = Math.Min(255, originalColor.B + 30);
+                    btn.BackColor = Color.FromArgb(r, g, b);
+                }
+            }
+        }
+
+        private void Button_MouseLeave(object sender, EventArgs e)
+        {
+            Button btn = sender as Button;
+            if (btn != null && originalColors.ContainsKey(btn.Name))
+            {
+                // Khôi phục màu nền ban đầu
+                btn.BackColor = originalColors[btn.Name];
+            }
+        }
+
+        private void Button_MouseDown(object sender, EventArgs e)
+        {
+            Button btn = sender as Button;
+            if (btn != null)
+            {
+                // Áp dụng hiệu ứng khi nhấn chuột xuống cho TẤT CẢ các nút
+                if (originalColors.ContainsKey(btn.Name))
+                {
+                    Color originalColor = originalColors[btn.Name];
+                    int r = Math.Max(0, originalColor.R - 30);
+                    int g = Math.Max(0, originalColor.G - 30);
+                    int b = Math.Max(0, originalColor.B - 30);
+                    btn.BackColor = Color.FromArgb(r, g, b);
+                }
+            }
+        }
+
+        private void Button_MouseUp(object sender, EventArgs e)
+        {
+            Button btn = sender as Button;
+            if (btn != null)
+            {
+                if (btn.ClientRectangle.Contains(btn.PointToClient(Cursor.Position)))
+                {
+                    // Nếu nhả chuột trong vùng nút, khôi phục hiệu ứng di chuột vào
+                    if (originalColors.ContainsKey(btn.Name))
+                    {
+                        Color originalColor = originalColors[btn.Name];
+                        int r = Math.Min(255, originalColor.R + 30);
+                        int g = Math.Min(255, originalColor.G + 30);
+                        int b = Math.Min(255, originalColor.B + 30);
+                        btn.BackColor = Color.FromArgb(r, g, b);
+                    }
+                }
+                else
+                {
+                    // Nếu nhả chuột ngoài vùng nút, khôi phục màu ban đầu
+                    if (originalColors.ContainsKey(btn.Name))
+                    {
+                        btn.BackColor = originalColors[btn.Name];
+                    }
+                }
+            }
+        }
+        #endregion
+
+        #region XỬ LÝ BÀN PHÍM ẢO VÀ KIỂM TRA DỮ LIỆU
+        // Hàm này được gọi trong constructor
+        private void InitializeKeyboardEvents()
+        {
+            // Gán sự kiện cho các TextBox để biết TextBox nào đang được chọn
+            txtSAPN.Click += TextBox_Click;
+            txtSx1.Click += TextBox_Click;
+            txtSy1.Click += TextBox_Click;
+            txtEx1.Click += TextBox_Click;
+            txtEy1.Click += TextBox_Click;
+            txtSx2.Click += TextBox_Click;
+            txtSy2.Click += TextBox_Click;
+            txtEx2.Click += TextBox_Click;
+            txtEy2.Click += TextBox_Click;
+            txtSx3.Click += TextBox_Click;
+            txtSy3.Click += TextBox_Click;
+            txtEx3.Click += TextBox_Click;
+            txtEy3.Click += TextBox_Click;
+            txtX1.Click += TextBox_Click;
+            txtY1.Click += TextBox_Click;
+            txtX2.Click += TextBox_Click;
+            txtY2.Click += TextBox_Click;
+            txtX3.Click += TextBox_Click;
+            txtY3.Click += TextBox_Click;
+
+            // Gán sự kiện kiểm tra phím bấm cho các ô tọa độ
+            txtSAPN.KeyDown += txtSAPN_KeyDown;
+            txtSx1.KeyPress += CoordinateTextBox_KeyPress;
+            txtSy1.KeyPress += CoordinateTextBox_KeyPress;
+            txtEx1.KeyPress += CoordinateTextBox_KeyPress;
+            txtEy1.KeyPress += CoordinateTextBox_KeyPress;
+            txtSx2.KeyPress += CoordinateTextBox_KeyPress;
+            txtSy2.KeyPress += CoordinateTextBox_KeyPress;
+            txtEx2.KeyPress += CoordinateTextBox_KeyPress;
+            txtEy2.KeyPress += CoordinateTextBox_KeyPress;
+            txtSx3.KeyPress += CoordinateTextBox_KeyPress;
+            txtSy3.KeyPress += CoordinateTextBox_KeyPress;
+            txtEx3.KeyPress += CoordinateTextBox_KeyPress;
+            txtEy3.KeyPress += CoordinateTextBox_KeyPress;
+            txtX1.KeyPress += CoordinateTextBox_KeyPress;
+            txtY1.KeyPress += CoordinateTextBox_KeyPress;
+            txtX2.KeyPress += CoordinateTextBox_KeyPress;
+            txtY2.KeyPress += CoordinateTextBox_KeyPress;
+            txtX3.KeyPress += CoordinateTextBox_KeyPress;
+            txtY3.KeyPress += CoordinateTextBox_KeyPress;
+        }
+        // Khi chuột di vào nhãn, kích hoạt hiệu ứng cầu vồng
+        private void LblCopyright_MouseEnter(object sender, EventArgs e)
+        {
+            if (!isRainbowActive)
+            {
+                isRainbowActive = true;
+                originalCopyrightColor = lblCopyright.ForeColor;
+                rainbowTimer.Start();
+            }
+        }
+
+        // Khi chuột rời nhãn, tắt hiệu ứng và khôi phục màu gốc
+        private void LblCopyright_MouseLeave(object sender, EventArgs e)
+        {
+            if (isRainbowActive)
+            {
+                isRainbowActive = false;
+                rainbowTimer.Stop();
+                lblCopyright.ForeColor = originalCopyrightColor;
+            }
+        }
+        #endregion
+
+        #region Cập nhật màu sắc
+        // Sự kiện Tick của timer, cập nhật màu sắc
+        private void RainbowTimer_Tick(object sender, EventArgs e)
+        {
+            rainbowPhase += 0.05; // Giảm tốc độ thay đổi để màu chuyển từ từ hơn
+
+            Color newColor = CalculateRainbowColor(rainbowPhase);
+            lblCopyright.ForeColor = newColor;
+        }
+
+        // Tính toán màu sắc cầu vồng dựa trên giai đoạn
+        private Color CalculateRainbowColor(double phase)
+        {
+            double red = Math.Sin(phase) * 127 + 128;
+            double green = Math.Sin(phase + 2 * Math.PI / 3) * 127 + 128;
+            double blue = Math.Sin(phase + 4 * Math.PI / 3) * 127 + 128;
+
+            red = Math.Max(0, Math.Min(255, red));
+            green = Math.Max(0, Math.Min(255, green));
+            blue = Math.Max(0, Math.Min(255, blue));
+
+            return Color.FromArgb((int)red, (int)green, (int)blue);
+        }
+        private void TextBox_Click(object sender, EventArgs e)
+        {
+            currentTextBox = (TextBox)sender;
+            currentTextBox.Focus(); // Đảm bảo TextBox được focus
+        }
+        #endregion
+
+        #region LABEL TRẠNG THÁI VÀ MỞ THƯ MỤC
+        // Phương thức xử lý sự kiện Click cho lblStatus
+        private void lblStatus_Click(object sender, EventArgs e)
+        {
+            // Kiểm tra xem đã có đường dẫn file được lưu chưa
+            if (!string.IsNullOrEmpty(_lastSavedFilePath))
+            {
+                try
+                {
+                    // Lấy đường dẫn thư mục chứa file
+                    string folderPath = Path.GetDirectoryName(_lastSavedFilePath);
+                    // Mở thư mục bằng Windows Explorer
+                    Process.Start("explorer.exe", folderPath);
+                }
+                catch (Exception ex)
+                {
+                    // Báo lỗi nếu không thể mở thư mục
+                    MessageBox.Show($"Không thể mở thư mục. Lỗi: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        // Phương thức xử lý sự kiện KeyDown của txtSAPN
+        private void txtSAPN_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                txtSx1.Focus();
+                e.SuppressKeyPress = true; // Ngăn không cho tiếng bíp khi nhấn Enter
+            }
+        }
+
+        // Xử lý các nút số trên bàn phím ảo
+        private void btnNumber_Click(object sender, EventArgs e)
+        {
+            if (currentTextBox != null)
+            {
+                Button btn = (Button)sender;
+                currentTextBox.Text += btn.Text;
+            }
+        }
+
+        // Xử lý nút xóa (Back)
+        private void btnBack_Click(object sender, EventArgs e)
+        {
+            if (currentTextBox != null && currentTextBox.Text.Length > 0)
+            {
+                currentTextBox.Text = currentTextBox.Text.Substring(0, currentTextBox.Text.Length - 1);
+            }
+        }
+
+        // Kiểm tra dữ liệu sAPN và ít nhất một trường tọa độ
+        private bool IsDataValid()
+        {
+            if (string.IsNullOrWhiteSpace(txtSAPN.Text))
+            {
+                return false;
+            }
+
+            // Kiểm tra xem ít nhất một trong các ô tọa độ có dữ liệu không
+            if (string.IsNullOrWhiteSpace(txtSx1.Text) && string.IsNullOrWhiteSpace(txtSy1.Text) && string.IsNullOrWhiteSpace(txtEx1.Text) && string.IsNullOrWhiteSpace(txtEy1.Text) &&
+                string.IsNullOrWhiteSpace(txtSx2.Text) && string.IsNullOrWhiteSpace(txtSy2.Text) && string.IsNullOrWhiteSpace(txtEx2.Text) && string.IsNullOrWhiteSpace(txtEy2.Text) &&
+                string.IsNullOrWhiteSpace(txtSx3.Text) && string.IsNullOrWhiteSpace(txtSy3.Text) && string.IsNullOrWhiteSpace(txtEx3.Text) && string.IsNullOrWhiteSpace(txtEy3.Text) &&
+                string.IsNullOrWhiteSpace(txtX1.Text) && string.IsNullOrWhiteSpace(txtY1.Text) && string.IsNullOrWhiteSpace(txtX2.Text) && string.IsNullOrWhiteSpace(txtY2.Text) &&
+                string.IsNullOrWhiteSpace(txtX3.Text) && string.IsNullOrWhiteSpace(txtY3.Text))
+            {
+                return false;
+            }
+            return true;
+        }
+
+        #endregion
+
+        #region SƯ KIỆN NÚT BẤM
+        // Xử lý nút SAVE
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            if (!IsDataValid())
+            {
+                validationToolTip.ToolTipIcon = ToolTipIcon.Warning;
+                validationToolTip.ToolTipTitle = "Lỗi";
+                validationToolTip.Show("Vui lòng nhập sAPN và ít nhất một trong số các ô tọa độ!", txtSAPN, 0, txtSAPN.Height, 5000);
+                return;
+            }
+
+            string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            string appFolderPath = Path.Combine(desktopPath, "IT_CONFIRM");
+            string fileName = $"TOA DO_{DateTime.Now:yyyyMMdd}.csv";
+            string filePath = Path.Combine(appFolderPath, fileName);
+            string timestamp = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
+
+            try
+            {
+                if (!Directory.Exists(appFolderPath))
+                {
+                    Directory.CreateDirectory(appFolderPath);
+                }
+
+                bool fileExists = File.Exists(filePath);
+                if (!fileExists)
+                {
+                    string header = "sAPN,Sx1,Sy1,Ex1,Ey1,Sx2,Sy2,Ex2,Ey2,Sx3,Sy3,Ex3,Ey3,X1,Y1,X2,Y2,X3,Y3,TIME EVENT";
+                    File.AppendAllText(filePath, header + Environment.NewLine, System.Text.Encoding.UTF8);
+                }
+
+                string csvData = $"{txtSAPN.Text},{txtSx1.Text},{txtSy1.Text},{txtEx1.Text},{txtEy1.Text}," +
+                                 $"{txtSx2.Text},{txtSy2.Text},{txtEx2.Text},{txtEy2.Text}," +
+                                 $"{txtSx3.Text},{txtSy3.Text},{txtEx3.Text},{txtEy3.Text}," +
+                                 $"{txtX1.Text},{txtY1.Text},{txtX2.Text},{txtY2.Text},{txtX3.Text},{txtY3.Text},{timestamp}";
+
+                File.AppendAllText(filePath, csvData + Environment.NewLine, System.Text.Encoding.UTF8);
+                // Cập nhật thông báo thành công
+                _lastSavedFilePath = filePath; // Lưu đường dẫn file vào biến toàn cục
+                // Cập nhật thông báo thành công
+                lblStatus.ForeColor = System.Drawing.Color.Green;
+                lblStatus.Text = $"Lưu thành công lúc gần đây nhất {timestamp}\nDữ liệu được lưu tại {filePath}";
+                // Thiết lập tooltip cho lblStatus
+                statusToolTip.SetToolTip(lblStatus, "Bấm vào đây để mở thư mục lưu file");
+
+                // Xóa nội dung của tất cả các TextBox sau khi lưu thành công
+                txtSAPN.Clear();
+                txtSx1.Clear();
+                txtSy1.Clear();
+                txtEx1.Clear();
+                txtEy1.Clear();
+                txtSx2.Clear();
+                txtSy2.Clear();
+                txtEx2.Clear();
+                txtEy2.Clear();
+                txtSx3.Clear();
+                txtSy3.Clear();
+                txtEx3.Clear();
+                txtEy3.Clear();
+                txtX1.Clear();
+                txtY1.Clear();
+                txtX2.Clear();
+                txtY2.Clear();
+                txtX3.Clear();
+                txtY3.Clear();
+
+                // Đặt focus lại cho ô đầu tiên
+                txtSAPN.Focus();
+                // Cập nhật bộ đếm sau khi lưu
+                UpdateSavedSAPNCount();
+            }
+            catch (IOException)
+            {
+                // Cập nhật thông báo lỗi cụ thể khi file đang được mở
+                lblStatus.ForeColor = System.Drawing.Color.Red;
+                lblStatus.Text = "File đang được mở bởi ứng dụng khác hoặc không thể ghi dữ liệu.\nHãy đóng file đang mở trước khi bấm Save";
+                // Xóa tooltip khi có lỗi
+                statusToolTip.SetToolTip(lblStatus, "");
+            }
+            catch (Exception ex)
+            {
+                // Báo lỗi chung nếu có lỗi khác
+                lblStatus.ForeColor = System.Drawing.Color.Red;
+                lblStatus.Text = $"Đã xảy ra lỗi: {ex.Message}";
+                // Xóa tooltip khi có lỗi
+                statusToolTip.SetToolTip(lblStatus, "");
+            }
+        }
+
+        // Xử lý nút RESET
+        private void btnReset_Click(object sender, EventArgs e)
+        {
+            // Xóa nội dung của tất cả các TextBox
+            txtSAPN.Clear();
+            txtSx1.Clear();
+            txtSy1.Clear();
+            txtEx1.Clear();
+            txtEy1.Clear();
+            txtSx2.Clear();
+            txtSy2.Clear();
+            txtEx2.Clear();
+            txtEy2.Clear();
+            txtSx3.Clear();
+            txtSy3.Clear();
+            txtEx3.Clear();
+            txtEy3.Clear();
+            txtX1.Clear();
+            txtY1.Clear();
+            txtX2.Clear();
+            txtY2.Clear();
+            txtX3.Clear();
+            txtY3.Clear();
+
+            // Cập nhật thông báo
+            lblStatus.ForeColor = System.Drawing.Color.DarkOrange;
+            lblStatus.Text = "Đã khởi tạo lại ứng dụng.";
+            // Xóa tooltip khi reset ứng dụng
+            statusToolTip.SetToolTip(lblStatus, "");
+            // Đặt focus lại cho ô đầu tiên
+            txtSAPN.Focus();
+        }
+        private void CoordinateTextBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Cho phép nhập số, dấu chấm (hoặc dấu phẩy), và phím Backspace
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '.') && (e.KeyChar != ','))
+            {
+                e.Handled = true;
+            }
+
+            // Chỉ cho phép một dấu chấm (hoặc dấu phẩy)
+            if ((e.KeyChar == '.') && ((sender as TextBox).Text.IndexOf('.') > -1))
+            {
+                e.Handled = true;
+            }
+            if ((e.KeyChar == ',') && ((sender as TextBox).Text.IndexOf(',') > -1))
+            {
+                e.Handled = true;
+            }
+        }
+        // Phương thức mới để đếm và cập nhật số lượng sAPN đã lưu
+        private void UpdateSavedSAPNCount()
+        {
+            string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            string appFolderPath = Path.Combine(desktopPath, "IT_CONFIRM");
+            string fileName = $"TOA DO_{DateTime.Now:yyyyMMdd}.csv";
+            string filePath = Path.Combine(appFolderPath, fileName);
+
+            int count = 0;
+            if (File.Exists(filePath))
+            {
+                try
+                {
+                    var lines = File.ReadAllLines(filePath, System.Text.Encoding.UTF8);
+                    // Bỏ qua dòng tiêu đề
+                    for (int i = 1; i < lines.Length; i++)
+                    {
+                        var parts = lines[i].Split(',');
+                        if (parts.Length > 1 && !string.IsNullOrWhiteSpace(parts[0]))
+                        {
+                            // Kiểm tra xem có ít nhất một tọa độ không rỗng
+                            bool hasCoordinates = false;
+                            for (int j = 1; j < parts.Length - 1; j++)
+                            {
+                                if (!string.IsNullOrWhiteSpace(parts[j]))
+                                {
+                                    hasCoordinates = true;
+                                    break;
+                                }
+                            }
+                            if (hasCoordinates)
+                            {
+                                count++;
+                            }
+                        }
+                    }
+                }
+                catch (IOException)
+                {
+                    // Bỏ qua lỗi nếu file đang được mở, không cập nhật bộ đếm
+                    return;
+                }
+                catch (Exception ex)
+                {
+                    // Xử lý các lỗi khác nếu có
+                    lblStatus.ForeColor = System.Drawing.Color.Red;
+                    lblStatus.Text = $"Lỗi khi đọc file đếm số lượng: {ex.Message}";
+                    return;
+                }
+            }
+            lblSAPNCount.Text = $"Số lượng APN đã lưu: {count}";
+        }
+        #endregion
+    }
+}

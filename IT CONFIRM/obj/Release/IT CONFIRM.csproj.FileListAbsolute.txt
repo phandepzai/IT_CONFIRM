@@ -1,0 +1,10 @@
+D:\DEV\IT CONFIRM\IT CONFIRM\bin\Release\IT CONFIRM.exe.config
+D:\DEV\IT CONFIRM\IT CONFIRM\bin\Release\IT CONFIRM.exe
+D:\DEV\IT CONFIRM\IT CONFIRM\bin\Release\IT CONFIRM.pdb
+D:\DEV\IT CONFIRM\IT CONFIRM\obj\Release\IT CONFIRM.csproj.AssemblyReference.cache
+D:\DEV\IT CONFIRM\IT CONFIRM\obj\Release\IT_CONFIRM.MainForm.resources
+D:\DEV\IT CONFIRM\IT CONFIRM\obj\Release\IT_CONFIRM.Properties.Resources.resources
+D:\DEV\IT CONFIRM\IT CONFIRM\obj\Release\IT CONFIRM.csproj.GenerateResource.cache
+D:\DEV\IT CONFIRM\IT CONFIRM\obj\Release\IT CONFIRM.csproj.CoreCompileInputs.cache
+D:\DEV\IT CONFIRM\IT CONFIRM\obj\Release\IT CONFIRM.exe
+D:\DEV\IT CONFIRM\IT CONFIRM\obj\Release\IT CONFIRM.pdb
