@@ -71,7 +71,7 @@
             this.txtY3 = new System.Windows.Forms.TextBox();
             this.panelKeyboard = new System.Windows.Forms.Panel();
             this.btnBack = new System.Windows.Forms.Button();
-            this.btnDot = new System.Windows.Forms.Button();
+            this.btnAll = new System.Windows.Forms.Button();
             this.btn0 = new System.Windows.Forms.Button();
             this.btn3 = new System.Windows.Forms.Button();
             this.btn2 = new System.Windows.Forms.Button();
@@ -520,7 +520,7 @@
             // panelKeyboard
             // 
             this.panelKeyboard.Controls.Add(this.btnBack);
-            this.panelKeyboard.Controls.Add(this.btnDot);
+            this.panelKeyboard.Controls.Add(this.btnAll);
             this.panelKeyboard.Controls.Add(this.btn0);
             this.panelKeyboard.Controls.Add(this.btn3);
             this.panelKeyboard.Controls.Add(this.btn2);
@@ -550,17 +550,18 @@
             this.btnBack.UseVisualStyleBackColor = false;
             this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
             // 
-            // btnDot
+            // btnAll
             // 
-            this.btnDot.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDot.Location = new System.Drawing.Point(10, 222);
-            this.btnDot.Margin = new System.Windows.Forms.Padding(4);
-            this.btnDot.Name = "btnDot";
-            this.btnDot.Size = new System.Drawing.Size(65, 55);
-            this.btnDot.TabIndex = 10;
-            this.btnDot.Text = ".";
-            this.btnDot.UseVisualStyleBackColor = true;
-            this.btnDot.Click += new System.EventHandler(this.btnNumber_Click);
+            this.btnAll.BackColor = System.Drawing.ColorTranslator.FromHtml("#97FFFF");
+            this.btnAll.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAll.Location = new System.Drawing.Point(10, 222);
+            this.btnAll.Margin = new System.Windows.Forms.Padding(4);
+            this.btnAll.Name = "btnAll";
+            this.btnAll.Size = new System.Drawing.Size(65, 55);
+            this.btnAll.TabIndex = 10;
+            this.btnAll.Text = "All";
+            this.btnAll.UseVisualStyleBackColor = true;
+            this.btnAll.Click += new System.EventHandler(this.btnNumber_Click);
             // 
             // btn0
             // 
@@ -863,7 +864,7 @@
         private System.Windows.Forms.Button btn3;
         private System.Windows.Forms.Button btn2;
         private System.Windows.Forms.Button btn1;
-        private System.Windows.Forms.Button btnDot;
+        private System.Windows.Forms.Button btnAll;
         private System.Windows.Forms.Button btn0;
         private System.Windows.Forms.Button btnBack;
         private System.Windows.Forms.Label lblStatus;

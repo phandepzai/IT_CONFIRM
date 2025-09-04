@@ -50,7 +50,7 @@ namespace IT_CONFIRM
         #region Hiệu ứng nút bấm
         private void InitializeButtonEffects()
         {
-            Color keyboardBaseColor = Color.FloralWhite;
+            Color keyboardBaseColor = System.Drawing.ColorTranslator.FromHtml("#F5F5DC");
 
             // Xử lý nút SAVE (giữ nguyên màu ban đầu)
             originalColors.Add("btnSave", btnSave.BackColor);
@@ -66,16 +66,25 @@ namespace IT_CONFIRM
             btnReset.MouseDown += Button_MouseDown;
             btnReset.MouseUp += Button_MouseUp;
 
-            // Áp dụng màu nền mới cho các nút trên bàn phím ảo
-            Button[] keyboardButtons = { btn0, btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btnDot, btnBack };
+            // Đặt lại màu cho nút ALL và xử lý riêng biệt
+            btnAll.BackColor = System.Drawing.ColorTranslator.FromHtml("#97FFFF");
+            originalColors.Add("btnAll", btnAll.BackColor);
+            btnAll.MouseEnter += Button_MouseEnter;
+            btnAll.MouseLeave += Button_MouseLeave;
+            btnAll.MouseDown += Button_MouseDown;
+            btnAll.MouseUp += Button_MouseUp;
+
+            // Áp dụng màu nền mới cho các nút trên bàn phím ảo (trừ nút ALL và btnBack)
+            Button[] keyboardButtons = { btn0, btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btnBack };
             foreach (Button btn in keyboardButtons)
-            {               
+            {
                 // Chỉ áp dụng màu nền mới cho các nút số
                 if (btn.Name != "btnBack")
                 {
                     btn.BackColor = keyboardBaseColor;
                 }
 
+                // Lưu màu nền hiện tại (đã được đổi) vào từ điển
                 originalColors.Add(btn.Name, btn.BackColor);
 
                 btn.MouseEnter += Button_MouseEnter;
@@ -296,7 +305,24 @@ namespace IT_CONFIRM
             if (currentTextBox != null)
             {
                 Button btn = (Button)sender;
-                currentTextBox.Text += btn.Text;
+                string buttonText = btn.Text;
+
+                // Nếu nút bấm là "All" và ô nhập liệu đã có nội dung, không làm gì cả.
+                if (buttonText.Equals("All", StringComparison.OrdinalIgnoreCase) && !string.IsNullOrWhiteSpace(currentTextBox.Text))
+                {
+                    return;
+                }
+
+                // Nếu nút bấm là "All" và ô nhập liệu đang trống, chỉ cho phép nhập "All".
+                if (buttonText.Equals("All", StringComparison.OrdinalIgnoreCase) && string.IsNullOrWhiteSpace(currentTextBox.Text))
+                {
+                    currentTextBox.Text = buttonText;
+                }
+                // Với các nút số khác, thêm vào nội dung hiện tại.
+                else if (!buttonText.Equals("All", StringComparison.OrdinalIgnoreCase))
+                {
+                    currentTextBox.Text += buttonText;
+                }
             }
         }
 
@@ -458,28 +484,34 @@ namespace IT_CONFIRM
             TextBox textBox = sender as TextBox;
 
             // Kiểm tra độ dài tổng của ô nhập liệu
-            if (!char.IsControl(e.KeyChar) && textBox.Text.Length >= 5)
+            if (!char.IsControl(e.KeyChar) && textBox.Text.Length >= 4)
             {
                 e.Handled = true;
                 return;
             }
 
-            // Cho phép nhập số, dấu chấm (hoặc dấu phẩy), và phím Backspace
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '.') && (e.KeyChar != ','))
+            // Cho phép nhập số, dấu chấm, dấu phẩy và các ký tự 'A', 'l', 'l'
+            if (!char.IsControl(e.KeyChar) &&
+                !char.IsDigit(e.KeyChar) &&
+                (e.KeyChar != '.') &&
+                (e.KeyChar != ',') &&
+                (char.ToLower(e.KeyChar) != 'a') && // Thêm kiểm tra cho ký tự 'a'
+                (char.ToLower(e.KeyChar) != 'l'))  // Thêm kiểm tra cho ký tự 'l'
             {
                 e.Handled = true;
             }
 
-            // Chỉ cho phép một dấu chấm (hoặc dấu phẩy)
-            if ((e.KeyChar == '.') && ((sender as TextBox).Text.IndexOf('.') > -1))
+            // Chỉ cho phép một dấu chấm hoặc một dấu phẩy
+            if ((e.KeyChar == '.') && (textBox.Text.IndexOf('.') > -1))
             {
                 e.Handled = true;
             }
-            if ((e.KeyChar == ',') && ((sender as TextBox).Text.IndexOf(',') > -1))
+            if ((e.KeyChar == ',') && (textBox.Text.IndexOf(',') > -1))
             {
                 e.Handled = true;
             }
         }
+
         // Phương thức mới để đếm và cập nhật số lượng sAPN đã lưu
         private void UpdateSavedSAPNCount()
         {
