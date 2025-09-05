@@ -398,7 +398,7 @@ namespace IT_CONFIRM
                 _lastSavedFilePath = filePath; // Lưu đường dẫn file vào biến toàn cục
                 // Cập nhật thông báo thành công
                 lblStatus.ForeColor = System.Drawing.Color.Green;
-                lblStatus.Text = $"Lưu thành công lúc gần đây nhất {timestamp}\nDữ liệu được lưu tại {filePath}";
+                lblStatus.Text = $"Lưu thành công lúc gần đây nhất: {timestamp}\nDữ liệu được lưu tại: {filePath}";
                 // Thiết lập tooltip cho lblStatus
                 statusToolTip.SetToolTip(lblStatus, "Bấm vào đây để mở thư mục lưu file");
 
@@ -565,4 +565,5 @@ namespace IT_CONFIRM
         }
         #endregion
     }
+
 }
