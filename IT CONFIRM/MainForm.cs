@@ -19,7 +19,7 @@ namespace IT_CONFIRM
         private double rainbowPhase = 0;       
         private Dictionary<string, Color> originalColors = new Dictionary<string, Color>();// Sử dụng Dictionary để lưu màu gốc của tất cả các nút
 
-        #region MainForm
+        #region FORM KHỞI TẠO UI
         public MainForm()
         {
             InitializeComponent();
@@ -47,7 +47,7 @@ namespace IT_CONFIRM
         }
         #endregion
 
-        #region Hiệu ứng nút bấm
+        #region HIỆU ỨNG CHO CÁC NÚT BẤM
         private void InitializeButtonEffects()
         {
             Color keyboardBaseColor = System.Drawing.ColorTranslator.FromHtml("#F5F5DC");
@@ -237,7 +237,7 @@ namespace IT_CONFIRM
         }
         #endregion
 
-        #region Cập nhật màu sắc
+        #region THAY ĐỔI MÀU SẮC KHI DI CHUỘT VÀO TÊN TÁC GIẢ
         // Sự kiện Tick của timer, cập nhật màu sắc
         private void RainbowTimer_Tick(object sender, EventArgs e)
         {
@@ -295,7 +295,8 @@ namespace IT_CONFIRM
             if (e.KeyCode == Keys.Enter)
             {
                 txtSx1.Focus();
-                e.SuppressKeyPress = true; // Ngăn không cho tiếng bíp khi nhấn Enter
+                currentTextBox = txtSx1; // Cập nhật currentTextBox để bàn phím ảo tương tác với txtSx1
+                e.SuppressKeyPress = true;
             }
         }
 
@@ -307,19 +308,17 @@ namespace IT_CONFIRM
                 Button btn = (Button)sender;
                 string buttonText = btn.Text;
 
-                // Nếu nút bấm là "All" và ô nhập liệu đã có nội dung, không làm gì cả.
-                if (buttonText.Equals("All", StringComparison.OrdinalIgnoreCase) && !string.IsNullOrWhiteSpace(currentTextBox.Text))
+                // Chỉ cho phép nhập "All" vào txtSx1
+                if (buttonText.Equals("All", StringComparison.OrdinalIgnoreCase))
                 {
-                    return;
-                }
-
-                // Nếu nút bấm là "All" và ô nhập liệu đang trống, chỉ cho phép nhập "All".
-                if (buttonText.Equals("All", StringComparison.OrdinalIgnoreCase) && string.IsNullOrWhiteSpace(currentTextBox.Text))
-                {
+                    if (currentTextBox != txtSx1 || !string.IsNullOrWhiteSpace(currentTextBox.Text))
+                    {
+                        return; // Không làm gì nếu không phải txtSx1 hoặc ô đã có nội dung
+                    }
                     currentTextBox.Text = buttonText;
                 }
-                // Với các nút số khác, thêm vào nội dung hiện tại.
-                else if (!buttonText.Equals("All", StringComparison.OrdinalIgnoreCase))
+                // Cho phép nhập số vào các ô
+                else
                 {
                     currentTextBox.Text += buttonText;
                 }
@@ -357,7 +356,7 @@ namespace IT_CONFIRM
 
         #endregion
 
-        #region SƯ KIỆN NÚT BẤM
+        #region SƯ KIỆN BẤM NÚT SAVE VÀ RESET
         // Xử lý nút SAVE
         private void btnSave_Click(object sender, EventArgs e)
         {

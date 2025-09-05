@@ -809,7 +809,7 @@
 
         #endregion
 
-        #region KHAI BÁO BIẾN
+        #region KHAI BÁO BIẾN VÀ ĐỐI TƯỢNG
         private System.Windows.Forms.Label lblCopyright;
         private System.Windows.Forms.Label lblSAPNCount;
         private System.Windows.Forms.Label labelSAPN;
