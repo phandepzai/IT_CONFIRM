@@ -154,7 +154,7 @@
             this.labelSy1.Name = "labelSy1";
             this.labelSy1.Size = new System.Drawing.Size(33, 17);
             this.labelSy1.TabIndex = 5;
-            this.labelSy1.Text = "Sy1:";
+            this.labelSy1.Text = "Ex1:";
             // 
             // txtSy1
             // 
@@ -176,7 +176,7 @@
             this.labelEx1.Name = "labelEx1";
             this.labelEx1.Size = new System.Drawing.Size(33, 17);
             this.labelEx1.TabIndex = 7;
-            this.labelEx1.Text = "Ex1:";
+            this.labelEx1.Text = "Sy1:";
             // 
             // txtEx1
             // 
@@ -242,7 +242,7 @@
             this.labelSy2.Name = "labelSy2";
             this.labelSy2.Size = new System.Drawing.Size(33, 17);
             this.labelSy2.TabIndex = 13;
-            this.labelSy2.Text = "Sy2:";
+            this.labelSy2.Text = "Ey2:";
             // 
             // txtSy2
             // 
@@ -264,7 +264,7 @@
             this.labelEx2.Name = "labelEx2";
             this.labelEx2.Size = new System.Drawing.Size(33, 17);
             this.labelEx2.TabIndex = 15;
-            this.labelEx2.Text = "Ex2:";
+            this.labelEx2.Text = "Sy2:";
             // 
             // txtEx2
             // 
@@ -330,7 +330,7 @@
             this.labelSy3.Name = "labelSy3";
             this.labelSy3.Size = new System.Drawing.Size(33, 17);
             this.labelSy3.TabIndex = 21;
-            this.labelSy3.Text = "Sy3:";
+            this.labelSy3.Text = "Ex3:";
             // 
             // txtSy3
             // 
@@ -352,7 +352,7 @@
             this.labelEx3.Name = "labelEx3";
             this.labelEx3.Size = new System.Drawing.Size(33, 17);
             this.labelEx3.TabIndex = 23;
-            this.labelEx3.Text = "Ex3:";
+            this.labelEx3.Text = "Sy3:";
             // 
             // txtEx3
             // 
@@ -552,7 +552,7 @@
             // 
             // btnAll
             // 
-            this.btnAll.BackColor = System.Drawing.ColorTranslator.FromHtml("#97FFFF");
+            this.btnAll.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(151)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.btnAll.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAll.Location = new System.Drawing.Point(10, 222);
             this.btnAll.Margin = new System.Windows.Forms.Padding(4);
