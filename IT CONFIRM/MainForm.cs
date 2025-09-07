@@ -384,13 +384,13 @@ namespace IT_CONFIRM
                 bool fileExists = File.Exists(filePath);
                 if (!fileExists)
                 {
-                    string header = "sAPN,Sx1,Ex1,Sy1,Ey1,Sx2,Ex2,Sy2,Ey2,Sx3,Ex3,Sy3,Ey3,X1,Y1,X2,Y2,X3,Y3,EVENT_TIME";
+                    string header = "sAPN,Sx1,Sy1,Ex1,Ey1,Sx2,Sy2,Ex2,Ey2,Sx3,Sy3,Ex3,Ey3,X1,Y1,X2,Y2,X3,Y3,EVENT_TIME";
                     File.AppendAllText(filePath, header + Environment.NewLine, System.Text.Encoding.UTF8);
                 }
 
-                string csvData = $"{txtSAPN.Text},{txtSx1.Text},{txtEx1.Text},{txtSy1.Text},{txtEy1.Text}," +
-                                 $"{txtSx2.Text},{txtEx2.Text},{txtSy2.Text},{txtEy2.Text}," +
-                                 $"{txtSx3.Text},{txtEx3.Text},{txtSy3.Text},{txtEy3.Text}," +
+                string csvData = $"{txtSAPN.Text},{txtSx1.Text},{txtSy1.Text},{txtEx1.Text},{txtEy1.Text}," +
+                                 $"{txtSx2.Text},{txtSy2.Text},{txtEx2.Text},{txtEy2.Text}," +
+                                 $"{txtSx3.Text},{txtSy3.Text},{txtEx3.Text},{txtEy3.Text}," +
                                  $"{txtX1.Text},{txtY1.Text},{txtX2.Text},{txtY2.Text},{txtX3.Text},{txtY3.Text},{timestamp}";
 
                 File.AppendAllText(filePath, csvData + Environment.NewLine, System.Text.Encoding.UTF8);
@@ -398,7 +398,7 @@ namespace IT_CONFIRM
                 _lastSavedFilePath = filePath; // Lưu đường dẫn file vào biến toàn cục
                 // Cập nhật thông báo thành công
                 lblStatus.ForeColor = System.Drawing.Color.Green;
-                lblStatus.Text = $"Lưu thành công lúc gần đây nhất: {timestamp}\nDữ liệu được lưu tại: {filePath}";
+                lblStatus.Text = $"Lưu thành công lúc gần đây nhất {timestamp}\nDữ liệu được lưu tại {filePath}";
                 // Thiết lập tooltip cho lblStatus
                 statusToolTip.SetToolTip(lblStatus, "Bấm vào đây để mở thư mục lưu file");
 
@@ -565,5 +565,4 @@ namespace IT_CONFIRM
         }
         #endregion
     }
-
 }

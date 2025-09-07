@@ -104,11 +104,12 @@
             // txtSAPN
             // 
             this.txtSAPN.BackColor = System.Drawing.SystemColors.Window;
-            this.txtSAPN.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtSAPN.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.txtSAPN.Font = new System.Drawing.Font("Segoe UI Semibold", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtSAPN.Location = new System.Drawing.Point(65, 15);
             this.txtSAPN.Margin = new System.Windows.Forms.Padding(4);
             this.txtSAPN.Name = "txtSAPN";
-            this.txtSAPN.Size = new System.Drawing.Size(562, 39);
+            this.txtSAPN.Size = new System.Drawing.Size(562, 35);
             this.txtSAPN.TabIndex = 1;
             // 
             // labelCoordSE
@@ -154,7 +155,7 @@
             this.labelSy1.Name = "labelSy1";
             this.labelSy1.Size = new System.Drawing.Size(33, 17);
             this.labelSy1.TabIndex = 5;
-            this.labelSy1.Text = "Ex1:";
+            this.labelSy1.Text = "Sy1:";
             // 
             // txtSy1
             // 
@@ -176,7 +177,7 @@
             this.labelEx1.Name = "labelEx1";
             this.labelEx1.Size = new System.Drawing.Size(33, 17);
             this.labelEx1.TabIndex = 7;
-            this.labelEx1.Text = "Sy1:";
+            this.labelEx1.Text = "Ex1:";
             // 
             // txtEx1
             // 
@@ -242,7 +243,7 @@
             this.labelSy2.Name = "labelSy2";
             this.labelSy2.Size = new System.Drawing.Size(33, 17);
             this.labelSy2.TabIndex = 13;
-            this.labelSy2.Text = "Ey2:";
+            this.labelSy2.Text = "Sy2:";
             // 
             // txtSy2
             // 
@@ -264,7 +265,7 @@
             this.labelEx2.Name = "labelEx2";
             this.labelEx2.Size = new System.Drawing.Size(33, 17);
             this.labelEx2.TabIndex = 15;
-            this.labelEx2.Text = "Sy2:";
+            this.labelEx2.Text = "Ex2:";
             // 
             // txtEx2
             // 
@@ -330,7 +331,7 @@
             this.labelSy3.Name = "labelSy3";
             this.labelSy3.Size = new System.Drawing.Size(33, 17);
             this.labelSy3.TabIndex = 21;
-            this.labelSy3.Text = "Ex3:";
+            this.labelSy3.Text = "Sy3:";
             // 
             // txtSy3
             // 
@@ -352,7 +353,7 @@
             this.labelEx3.Name = "labelEx3";
             this.labelEx3.Size = new System.Drawing.Size(33, 17);
             this.labelEx3.TabIndex = 23;
-            this.labelEx3.Text = "Sy3:";
+            this.labelEx3.Text = "Ex3:";
             // 
             // txtEx3
             // 
@@ -689,7 +690,7 @@
             this.btnSave.Location = new System.Drawing.Point(426, 414);
             this.btnSave.Margin = new System.Windows.Forms.Padding(4);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(81, 42);
+            this.btnSave.Size = new System.Drawing.Size(81, 44);
             this.btnSave.TabIndex = 41;
             this.btnSave.Text = "SAVE";
             this.btnSave.UseVisualStyleBackColor = false;
@@ -701,7 +702,7 @@
             this.btnReset.Location = new System.Drawing.Point(535, 414);
             this.btnReset.Margin = new System.Windows.Forms.Padding(4);
             this.btnReset.Name = "btnReset";
-            this.btnReset.Size = new System.Drawing.Size(81, 42);
+            this.btnReset.Size = new System.Drawing.Size(81, 44);
             this.btnReset.TabIndex = 42;
             this.btnReset.Text = "RESET";
             this.btnReset.UseVisualStyleBackColor = false;
