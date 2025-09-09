@@ -9,6 +9,9 @@ namespace IT_CONFIRM
 {
     public partial class MainForm : Form
     {
+
+
+        #region KHAI BÁO CÁC BIẾN
         private TextBox currentTextBox;
         private ToolTip validationToolTip;
         private string _lastSavedFilePath; // Biến mới để lưu đường dẫn file        
@@ -18,8 +21,7 @@ namespace IT_CONFIRM
         private Color originalCopyrightColor;
         private double rainbowPhase = 0;       
         private Dictionary<string, Color> originalColors = new Dictionary<string, Color>();// Sử dụng Dictionary để lưu màu gốc của tất cả các nút
-
-
+        #endregion
 
         #region FORM KHỞI TẠO UI
         public MainForm()
@@ -33,7 +35,7 @@ namespace IT_CONFIRM
             UpdateSavedSAPNCount();
 
             // Khởi tạo ComboBox với danh sách lỗi
-            cboErrorType.Items.AddRange(new string[] { "B-SPOT", "W-POT", "ĐỐM SPIN", "ĐỐM PANEL", "ĐỐM ĐƯỜNG DỌC", "-" });
+            cboErrorType.Items.AddRange(new string[] { "B-SPOT", "WHITE SPOT", "ĐỐM SPIN", "ĐỐM PANEL", "ĐỐM ĐƯỜNG DỌC", "-" });
             cboErrorType.SelectedIndex = -1; // Mặc định chọn "ĐỐM" =-1 KHÔNG CHỌN GÌ
 
             // Khởi tạo timer cho hiệu ứng cầu vồng
@@ -44,6 +46,7 @@ namespace IT_CONFIRM
             // Gắn sự kiện cho lblCopyright
             lblCopyright.MouseEnter += LblCopyright_MouseEnter;
             lblCopyright.MouseLeave += LblCopyright_MouseLeave;
+
             // Gán sự kiện Click và thay đổi con trỏ chuột cho lblStatus
             this.lblStatus.Click += new EventHandler(this.lblStatus_Click);
             this.lblStatus.Cursor = Cursors.Hand;
@@ -56,7 +59,7 @@ namespace IT_CONFIRM
         #region HIỆU ỨNG CHO CÁC NÚT BẤM
         private void InitializeButtonEffects()
         {
-            Color keyboardBaseColor = System.Drawing.ColorTranslator.FromHtml("#F5F5DC");
+            Color keyboardBaseColor = System.Drawing.ColorTranslator.FromHtml("#C8E2B1");
 
             // Xử lý nút SAVE (giữ nguyên màu ban đầu)
             originalColors.Add("btnSave", btnSave.BackColor);
@@ -273,7 +276,7 @@ namespace IT_CONFIRM
         }
         #endregion
 
-        #region LABEL TRẠNG THÁI VÀ MỞ THƯ MỤC
+        #region KIỂM TRA ĐÃ NHẬP DỮ LIÊU HAY CHƯA
         // Phương thức xử lý sự kiện Click cho lblStatus
         private void lblStatus_Click(object sender, EventArgs e)
         {
@@ -412,7 +415,7 @@ namespace IT_CONFIRM
                     File.AppendAllText(filePath, header + Environment.NewLine, System.Text.Encoding.UTF8);
                 }
 
-                // Lấy model đã chọn
+                // Lấy model đã chọn từ button được chọn
                 string selectedModel = rdoI251.Checked ? "I251" : "I252";
                 // Lấy loại lỗi đã chọn từ ComboBox
                 string selectedErrorType = cboErrorType.SelectedItem.ToString();
@@ -427,7 +430,7 @@ namespace IT_CONFIRM
                 _lastSavedFilePath = filePath; // Lưu đường dẫn file vào biến toàn cục
                 // Cập nhật thông báo thành công
                 lblStatus.ForeColor = System.Drawing.Color.Green;
-                lblStatus.Text = $"Lưu thành công lúc gần đây nhất {timestamp}\nDữ liệu được lưu tại {filePath}";
+                lblStatus.Text = $"Lưu thành công! Dữ liệu đã được ghi lại lúc: {timestamp}\nDữ liệu được lưu tại: {filePath}";
                 // Thiết lập tooltip cho lblStatus
                 statusToolTip.SetToolTip(lblStatus, "Bấm vào đây để mở thư mục lưu file");
 
@@ -513,8 +516,15 @@ namespace IT_CONFIRM
         {
             TextBox textBox = sender as TextBox;
 
+            // Chỉ cho phép nhập "a", "l" vào txtSx1
+            if (textBox != txtSx1 && (char.ToLower(e.KeyChar) == 'a' || char.ToLower(e.KeyChar) == 'l'))
+            {
+                e.Handled = true;
+                return;
+            }
+
             // Kiểm tra độ dài tổng của ô nhập liệu
-            if (!char.IsControl(e.KeyChar) && textBox.Text.Length >= 4)
+            if (!char.IsControl(e.KeyChar) && textBox.Text.Length >= 3)
             {
                 e.Handled = true;
                 return;
@@ -525,8 +535,7 @@ namespace IT_CONFIRM
                 !char.IsDigit(e.KeyChar) &&
                 (e.KeyChar != '.') &&
                 (e.KeyChar != ',') &&
-                (char.ToLower(e.KeyChar) != 'a') && // Thêm kiểm tra cho ký tự 'a'
-                (char.ToLower(e.KeyChar) != 'l'))  // Thêm kiểm tra cho ký tự 'l'
+                !(textBox == txtSx1 && (char.ToLower(e.KeyChar) == 'a' || char.ToLower(e.KeyChar) == 'l')))
             {
                 e.Handled = true;
             }
