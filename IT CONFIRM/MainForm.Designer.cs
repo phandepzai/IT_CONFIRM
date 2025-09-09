@@ -87,6 +87,10 @@
             this.lblStatus = new System.Windows.Forms.Label();
             this.lblSAPNCount = new System.Windows.Forms.Label();
             this.lblCopyright = new System.Windows.Forms.Label();
+            this.labelErrorType = new System.Windows.Forms.Label();
+            this.cboErrorType = new System.Windows.Forms.ComboBox();
+            this.rdoI251 = new System.Windows.Forms.RadioButton();
+            this.rdoI252 = new System.Windows.Forms.RadioButton();
             this.panelKeyboard.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -391,7 +395,7 @@
             // 
             this.labelCoordXY.AutoSize = true;
             this.labelCoordXY.Font = new System.Drawing.Font("Segoe UI Semibold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelCoordXY.Location = new System.Drawing.Point(42, 315);
+            this.labelCoordXY.Location = new System.Drawing.Point(19, 315);
             this.labelCoordXY.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelCoordXY.Name = "labelCoordXY";
             this.labelCoordXY.Size = new System.Drawing.Size(254, 20);
@@ -401,7 +405,7 @@
             // labelX1
             // 
             this.labelX1.AutoSize = true;
-            this.labelX1.Location = new System.Drawing.Point(55, 355);
+            this.labelX1.Location = new System.Drawing.Point(19, 355);
             this.labelX1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelX1.Name = "labelX1";
             this.labelX1.Size = new System.Drawing.Size(28, 17);
@@ -411,7 +415,7 @@
             // txtX1
             // 
             this.txtX1.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtX1.Location = new System.Drawing.Point(85, 345);
+            this.txtX1.Location = new System.Drawing.Point(50, 345);
             this.txtX1.Margin = new System.Windows.Forms.Padding(4);
             this.txtX1.Name = "txtX1";
             this.txtX1.Size = new System.Drawing.Size(70, 39);
@@ -421,7 +425,7 @@
             // labelY1
             // 
             this.labelY1.AutoSize = true;
-            this.labelY1.Location = new System.Drawing.Point(190, 355);
+            this.labelY1.Location = new System.Drawing.Point(135, 355);
             this.labelY1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelY1.Name = "labelY1";
             this.labelY1.Size = new System.Drawing.Size(27, 17);
@@ -431,7 +435,7 @@
             // txtY1
             // 
             this.txtY1.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtY1.Location = new System.Drawing.Point(220, 345);
+            this.txtY1.Location = new System.Drawing.Point(165, 345);
             this.txtY1.Margin = new System.Windows.Forms.Padding(4);
             this.txtY1.Name = "txtY1";
             this.txtY1.Size = new System.Drawing.Size(70, 39);
@@ -441,7 +445,7 @@
             // labelX2
             // 
             this.labelX2.AutoSize = true;
-            this.labelX2.Location = new System.Drawing.Point(55, 405);
+            this.labelX2.Location = new System.Drawing.Point(19, 405);
             this.labelX2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelX2.Name = "labelX2";
             this.labelX2.Size = new System.Drawing.Size(28, 17);
@@ -451,7 +455,7 @@
             // txtX2
             // 
             this.txtX2.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtX2.Location = new System.Drawing.Point(85, 395);
+            this.txtX2.Location = new System.Drawing.Point(50, 395);
             this.txtX2.Margin = new System.Windows.Forms.Padding(4);
             this.txtX2.Name = "txtX2";
             this.txtX2.Size = new System.Drawing.Size(70, 39);
@@ -461,7 +465,7 @@
             // labelY2
             // 
             this.labelY2.AutoSize = true;
-            this.labelY2.Location = new System.Drawing.Point(190, 405);
+            this.labelY2.Location = new System.Drawing.Point(135, 405);
             this.labelY2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelY2.Name = "labelY2";
             this.labelY2.Size = new System.Drawing.Size(27, 17);
@@ -471,7 +475,7 @@
             // txtY2
             // 
             this.txtY2.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtY2.Location = new System.Drawing.Point(220, 395);
+            this.txtY2.Location = new System.Drawing.Point(165, 395);
             this.txtY2.Margin = new System.Windows.Forms.Padding(4);
             this.txtY2.Name = "txtY2";
             this.txtY2.Size = new System.Drawing.Size(70, 39);
@@ -481,7 +485,7 @@
             // labelX3
             // 
             this.labelX3.AutoSize = true;
-            this.labelX3.Location = new System.Drawing.Point(55, 455);
+            this.labelX3.Location = new System.Drawing.Point(19, 455);
             this.labelX3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelX3.Name = "labelX3";
             this.labelX3.Size = new System.Drawing.Size(28, 17);
@@ -491,7 +495,7 @@
             // txtX3
             // 
             this.txtX3.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtX3.Location = new System.Drawing.Point(85, 445);
+            this.txtX3.Location = new System.Drawing.Point(50, 445);
             this.txtX3.Margin = new System.Windows.Forms.Padding(4);
             this.txtX3.Name = "txtX3";
             this.txtX3.Size = new System.Drawing.Size(70, 39);
@@ -501,7 +505,7 @@
             // labelY3
             // 
             this.labelY3.AutoSize = true;
-            this.labelY3.Location = new System.Drawing.Point(190, 455);
+            this.labelY3.Location = new System.Drawing.Point(135, 455);
             this.labelY3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelY3.Name = "labelY3";
             this.labelY3.Size = new System.Drawing.Size(27, 17);
@@ -511,7 +515,7 @@
             // txtY3
             // 
             this.txtY3.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtY3.Location = new System.Drawing.Point(220, 445);
+            this.txtY3.Location = new System.Drawing.Point(165, 445);
             this.txtY3.Margin = new System.Windows.Forms.Padding(4);
             this.txtY3.Name = "txtY3";
             this.txtY3.Size = new System.Drawing.Size(70, 39);
@@ -532,20 +536,20 @@
             this.panelKeyboard.Controls.Add(this.btn9);
             this.panelKeyboard.Controls.Add(this.btn8);
             this.panelKeyboard.Controls.Add(this.btn7);
-            this.panelKeyboard.Location = new System.Drawing.Point(404, 95);
+            this.panelKeyboard.Location = new System.Drawing.Point(393, 105);
             this.panelKeyboard.Margin = new System.Windows.Forms.Padding(4);
             this.panelKeyboard.Name = "panelKeyboard";
-            this.panelKeyboard.Size = new System.Drawing.Size(236, 292);
+            this.panelKeyboard.Size = new System.Drawing.Size(250, 265);
             this.panelKeyboard.TabIndex = 40;
             // 
             // btnBack
             // 
             this.btnBack.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
             this.btnBack.Font = new System.Drawing.Font("Segoe UI", 8.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnBack.Location = new System.Drawing.Point(160, 222);
+            this.btnBack.Location = new System.Drawing.Point(175, 205);
             this.btnBack.Margin = new System.Windows.Forms.Padding(4);
             this.btnBack.Name = "btnBack";
-            this.btnBack.Size = new System.Drawing.Size(65, 55);
+            this.btnBack.Size = new System.Drawing.Size(60, 54);
             this.btnBack.TabIndex = 11;
             this.btnBack.Text = "⫷ XÓA";
             this.btnBack.UseVisualStyleBackColor = false;
@@ -555,10 +559,10 @@
             // 
             this.btnAll.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(151)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.btnAll.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAll.Location = new System.Drawing.Point(10, 222);
+            this.btnAll.Location = new System.Drawing.Point(15, 205);
             this.btnAll.Margin = new System.Windows.Forms.Padding(4);
             this.btnAll.Name = "btnAll";
-            this.btnAll.Size = new System.Drawing.Size(65, 55);
+            this.btnAll.Size = new System.Drawing.Size(60, 54);
             this.btnAll.TabIndex = 10;
             this.btnAll.Text = "All";
             this.btnAll.UseVisualStyleBackColor = true;
@@ -567,10 +571,10 @@
             // btn0
             // 
             this.btn0.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn0.Location = new System.Drawing.Point(85, 222);
+            this.btn0.Location = new System.Drawing.Point(95, 205);
             this.btn0.Margin = new System.Windows.Forms.Padding(4);
             this.btn0.Name = "btn0";
-            this.btn0.Size = new System.Drawing.Size(65, 55);
+            this.btn0.Size = new System.Drawing.Size(60, 54);
             this.btn0.TabIndex = 9;
             this.btn0.Text = "0";
             this.btn0.UseVisualStyleBackColor = true;
@@ -579,10 +583,10 @@
             // btn3
             // 
             this.btn3.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn3.Location = new System.Drawing.Point(160, 152);
+            this.btn3.Location = new System.Drawing.Point(175, 140);
             this.btn3.Margin = new System.Windows.Forms.Padding(4);
             this.btn3.Name = "btn3";
-            this.btn3.Size = new System.Drawing.Size(65, 58);
+            this.btn3.Size = new System.Drawing.Size(60, 57);
             this.btn3.TabIndex = 8;
             this.btn3.Text = "3";
             this.btn3.UseVisualStyleBackColor = true;
@@ -591,10 +595,10 @@
             // btn2
             // 
             this.btn2.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn2.Location = new System.Drawing.Point(85, 152);
+            this.btn2.Location = new System.Drawing.Point(95, 140);
             this.btn2.Margin = new System.Windows.Forms.Padding(4);
             this.btn2.Name = "btn2";
-            this.btn2.Size = new System.Drawing.Size(65, 58);
+            this.btn2.Size = new System.Drawing.Size(60, 57);
             this.btn2.TabIndex = 7;
             this.btn2.Text = "2";
             this.btn2.UseVisualStyleBackColor = true;
@@ -603,10 +607,10 @@
             // btn1
             // 
             this.btn1.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn1.Location = new System.Drawing.Point(10, 152);
+            this.btn1.Location = new System.Drawing.Point(15, 140);
             this.btn1.Margin = new System.Windows.Forms.Padding(4);
             this.btn1.Name = "btn1";
-            this.btn1.Size = new System.Drawing.Size(65, 58);
+            this.btn1.Size = new System.Drawing.Size(60, 57);
             this.btn1.TabIndex = 6;
             this.btn1.Text = "1";
             this.btn1.UseVisualStyleBackColor = true;
@@ -615,10 +619,10 @@
             // btn6
             // 
             this.btn6.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn6.Location = new System.Drawing.Point(160, 82);
+            this.btn6.Location = new System.Drawing.Point(175, 75);
             this.btn6.Margin = new System.Windows.Forms.Padding(4);
             this.btn6.Name = "btn6";
-            this.btn6.Size = new System.Drawing.Size(65, 58);
+            this.btn6.Size = new System.Drawing.Size(60, 57);
             this.btn6.TabIndex = 5;
             this.btn6.Text = "6";
             this.btn6.UseVisualStyleBackColor = true;
@@ -627,10 +631,10 @@
             // btn5
             // 
             this.btn5.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn5.Location = new System.Drawing.Point(85, 82);
+            this.btn5.Location = new System.Drawing.Point(95, 75);
             this.btn5.Margin = new System.Windows.Forms.Padding(4);
             this.btn5.Name = "btn5";
-            this.btn5.Size = new System.Drawing.Size(65, 58);
+            this.btn5.Size = new System.Drawing.Size(60, 57);
             this.btn5.TabIndex = 4;
             this.btn5.Text = "5";
             this.btn5.UseVisualStyleBackColor = true;
@@ -639,10 +643,10 @@
             // btn4
             // 
             this.btn4.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn4.Location = new System.Drawing.Point(10, 82);
+            this.btn4.Location = new System.Drawing.Point(15, 75);
             this.btn4.Margin = new System.Windows.Forms.Padding(4);
             this.btn4.Name = "btn4";
-            this.btn4.Size = new System.Drawing.Size(65, 58);
+            this.btn4.Size = new System.Drawing.Size(60, 57);
             this.btn4.TabIndex = 3;
             this.btn4.Text = "4";
             this.btn4.UseVisualStyleBackColor = true;
@@ -651,10 +655,10 @@
             // btn9
             // 
             this.btn9.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn9.Location = new System.Drawing.Point(160, 12);
+            this.btn9.Location = new System.Drawing.Point(175, 10);
             this.btn9.Margin = new System.Windows.Forms.Padding(4);
             this.btn9.Name = "btn9";
-            this.btn9.Size = new System.Drawing.Size(65, 58);
+            this.btn9.Size = new System.Drawing.Size(60, 57);
             this.btn9.TabIndex = 2;
             this.btn9.Text = "9";
             this.btn9.UseVisualStyleBackColor = true;
@@ -663,10 +667,10 @@
             // btn8
             // 
             this.btn8.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn8.Location = new System.Drawing.Point(85, 12);
+            this.btn8.Location = new System.Drawing.Point(95, 10);
             this.btn8.Margin = new System.Windows.Forms.Padding(4);
             this.btn8.Name = "btn8";
-            this.btn8.Size = new System.Drawing.Size(65, 58);
+            this.btn8.Size = new System.Drawing.Size(60, 57);
             this.btn8.TabIndex = 1;
             this.btn8.Text = "8";
             this.btn8.UseVisualStyleBackColor = true;
@@ -675,10 +679,10 @@
             // btn7
             // 
             this.btn7.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn7.Location = new System.Drawing.Point(10, 12);
+            this.btn7.Location = new System.Drawing.Point(15, 10);
             this.btn7.Margin = new System.Windows.Forms.Padding(4);
             this.btn7.Name = "btn7";
-            this.btn7.Size = new System.Drawing.Size(65, 58);
+            this.btn7.Size = new System.Drawing.Size(60, 57);
             this.btn7.TabIndex = 0;
             this.btn7.Text = "7";
             this.btn7.UseVisualStyleBackColor = true;
@@ -687,7 +691,7 @@
             // btnSave
             // 
             this.btnSave.BackColor = System.Drawing.Color.MediumSeaGreen;
-            this.btnSave.Location = new System.Drawing.Point(426, 414);
+            this.btnSave.Location = new System.Drawing.Point(450, 395);
             this.btnSave.Margin = new System.Windows.Forms.Padding(4);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(81, 44);
@@ -699,7 +703,7 @@
             // btnReset
             // 
             this.btnReset.BackColor = System.Drawing.Color.Orange;
-            this.btnReset.Location = new System.Drawing.Point(535, 414);
+            this.btnReset.Location = new System.Drawing.Point(555, 395);
             this.btnReset.Margin = new System.Windows.Forms.Padding(4);
             this.btnReset.Name = "btnReset";
             this.btnReset.Size = new System.Drawing.Size(81, 44);
@@ -724,7 +728,7 @@
             this.lblSAPNCount.AutoSize = true;
             this.lblSAPNCount.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSAPNCount.ForeColor = System.Drawing.Color.Blue;
-            this.lblSAPNCount.Location = new System.Drawing.Point(458, 485);
+            this.lblSAPNCount.Location = new System.Drawing.Point(472, 462);
             this.lblSAPNCount.Name = "lblSAPNCount";
             this.lblSAPNCount.Size = new System.Drawing.Size(123, 15);
             this.lblSAPNCount.TabIndex = 59;
@@ -743,11 +747,60 @@
             this.lblCopyright.MouseEnter += new System.EventHandler(this.LblCopyright_MouseEnter);
             this.lblCopyright.MouseLeave += new System.EventHandler(this.LblCopyright_MouseEnter);
             // 
+            // labelErrorType
+            // 
+            this.labelErrorType.AutoSize = true;
+            this.labelErrorType.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelErrorType.Location = new System.Drawing.Point(297, 374);
+            this.labelErrorType.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelErrorType.Name = "labelErrorType";
+            this.labelErrorType.Size = new System.Drawing.Size(98, 17);
+            this.labelErrorType.TabIndex = 2;
+            this.labelErrorType.Text = "CHỌN TÊN LỖI";
+            // 
+            // cboErrorType
+            // 
+            this.cboErrorType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboErrorType.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cboErrorType.Location = new System.Drawing.Point(245, 395);
+            this.cboErrorType.Margin = new System.Windows.Forms.Padding(4);
+            this.cboErrorType.Name = "cboErrorType";
+            this.cboErrorType.Size = new System.Drawing.Size(188, 40);
+            this.cboErrorType.TabIndex = 3;
+            // 
+            // rdoI251
+            // 
+            this.rdoI251.AutoSize = true;
+            this.rdoI251.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rdoI251.Location = new System.Drawing.Point(457, 66);
+            this.rdoI251.Margin = new System.Windows.Forms.Padding(4);
+            this.rdoI251.Name = "rdoI251";
+            this.rdoI251.Size = new System.Drawing.Size(60, 25);
+            this.rdoI251.TabIndex = 61;
+            this.rdoI251.Text = "I251";
+            this.rdoI251.UseVisualStyleBackColor = true;
+            // 
+            // rdoI252
+            // 
+            this.rdoI252.AutoSize = true;
+            this.rdoI252.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rdoI252.Location = new System.Drawing.Point(537, 66);
+            this.rdoI252.Margin = new System.Windows.Forms.Padding(4);
+            this.rdoI252.Name = "rdoI252";
+            this.rdoI252.Size = new System.Drawing.Size(60, 25);
+            this.rdoI252.TabIndex = 62;
+            this.rdoI252.Text = "I252";
+            this.rdoI252.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(656, 562);
+            this.Controls.Add(this.rdoI252);
+            this.Controls.Add(this.rdoI251);
+            this.Controls.Add(this.cboErrorType);
+            this.Controls.Add(this.labelErrorType);
             this.Controls.Add(this.lblStatus);
             this.Controls.Add(this.btnReset);
             this.Controls.Add(this.btnSave);
@@ -869,6 +922,10 @@
         private System.Windows.Forms.Button btn0;
         private System.Windows.Forms.Button btnBack;
         private System.Windows.Forms.Label lblStatus;
+        private System.Windows.Forms.Label labelErrorType;
+        private System.Windows.Forms.ComboBox cboErrorType;
+        private System.Windows.Forms.RadioButton rdoI251;
+        private System.Windows.Forms.RadioButton rdoI252;
         #endregion
 
     }

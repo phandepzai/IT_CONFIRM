@@ -19,6 +19,8 @@ namespace IT_CONFIRM
         private double rainbowPhase = 0;       
         private Dictionary<string, Color> originalColors = new Dictionary<string, Color>();// Sử dụng Dictionary để lưu màu gốc của tất cả các nút
 
+
+
         #region FORM KHỞI TẠO UI
         public MainForm()
         {
@@ -29,6 +31,10 @@ namespace IT_CONFIRM
             statusToolTip = new ToolTip();//Gợi ý bấm vào để mở thư mục
             this.lblStatus.Text = "Sẵn sàng nhập dữ liệu...";
             UpdateSavedSAPNCount();
+
+            // Khởi tạo ComboBox với danh sách lỗi
+            cboErrorType.Items.AddRange(new string[] { "B-SPOT", "W-POT", "ĐỐM SPIN", "ĐỐM PANEL", "ĐỐM ĐƯỜNG DỌC", "-" });
+            cboErrorType.SelectedIndex = -1; // Mặc định chọn "ĐỐM" =-1 KHÔNG CHỌN GÌ
 
             // Khởi tạo timer cho hiệu ứng cầu vồng
             this.rainbowTimer = new Timer();
@@ -360,6 +366,24 @@ namespace IT_CONFIRM
         // Xử lý nút SAVE
         private void btnSave_Click(object sender, EventArgs e)
         {
+            // Kiểm tra xem đã chọn loại lỗi chưa
+            if (cboErrorType.SelectedIndex == -1)
+            {
+                validationToolTip.ToolTipIcon = ToolTipIcon.Warning;
+                validationToolTip.ToolTipTitle = "Lỗi";
+                validationToolTip.Show("Vui lòng chọn loại lỗi!", cboErrorType, 0, cboErrorType.Height, 5000);
+                return;
+            }
+            //Kiểm tra xem đã chọn model chưa
+            if (!rdoI251.Checked && !rdoI252.Checked)
+            {
+                validationToolTip.ToolTipIcon = ToolTipIcon.Warning;
+                validationToolTip.ToolTipTitle = "Lỗi";
+                validationToolTip.Show("Vui lòng chọn model (I251 hoặc I252)!", rdoI251, 0, rdoI251.Height, 5000);
+                return;
+            }
+
+            // Kiểm tra dữ liệu sAPN trước khi lưu
             if (!IsDataValid())
             {
                 validationToolTip.ToolTipIcon = ToolTipIcon.Warning;
@@ -384,11 +408,16 @@ namespace IT_CONFIRM
                 bool fileExists = File.Exists(filePath);
                 if (!fileExists)
                 {
-                    string header = "sAPN,Sx1,Sy1,Ex1,Ey1,Sx2,Sy2,Ex2,Ey2,Sx3,Sy3,Ex3,Ey3,X1,Y1,X2,Y2,X3,Y3,EVENT_TIME";
+                    string header = "MODEL,sAPN,DESCRIPTION,Sx1,Sy1,Ex1,Ey1,Sx2,Sy2,Ex2,Ey2,Sx3,Sy3,Ex3,Ey3,X1,Y1,X2,Y2,X3,Y3,EVENT_TIME";
                     File.AppendAllText(filePath, header + Environment.NewLine, System.Text.Encoding.UTF8);
                 }
 
-                string csvData = $"{txtSAPN.Text},{txtSx1.Text},{txtSy1.Text},{txtEx1.Text},{txtEy1.Text}," +
+                // Lấy model đã chọn
+                string selectedModel = rdoI251.Checked ? "I251" : "I252";
+                // Lấy loại lỗi đã chọn từ ComboBox
+                string selectedErrorType = cboErrorType.SelectedItem.ToString();
+
+                string csvData = $"{selectedModel},{txtSAPN.Text},{selectedErrorType},{txtSx1.Text},{txtSy1.Text},{txtEx1.Text},{txtEy1.Text}," +
                                  $"{txtSx2.Text},{txtSy2.Text},{txtEx2.Text},{txtEy2.Text}," +
                                  $"{txtSx3.Text},{txtSy3.Text},{txtEx3.Text},{txtEy3.Text}," +
                                  $"{txtX1.Text},{txtY1.Text},{txtX2.Text},{txtY2.Text},{txtX3.Text},{txtY3.Text},{timestamp}";
@@ -422,6 +451,7 @@ namespace IT_CONFIRM
                 txtY2.Clear();
                 txtX3.Clear();
                 txtY3.Clear();
+                //cboErrorType.SelectedIndex = 0; // Mặc định chọn "ĐỐM" =-1 KHÔNG CHỌN GÌ
 
                 // Đặt focus lại cho ô đầu tiên
                 txtSAPN.Focus();
@@ -469,6 +499,7 @@ namespace IT_CONFIRM
             txtY2.Clear();
             txtX3.Clear();
             txtY3.Clear();
+            cboErrorType.SelectedIndex = -1; // Mặc định chọn "ĐỐM" =0 CHỌN DÒNG ĐẦU TIÊN
 
             // Cập nhật thông báo
             lblStatus.ForeColor = System.Drawing.Color.DarkOrange;
