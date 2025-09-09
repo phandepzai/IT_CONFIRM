@@ -8,3 +8,4 @@ D:\DEV\IT CONFIRM\IT CONFIRM\obj\Release\IT CONFIRM.csproj.GenerateResource.cach
 D:\DEV\IT CONFIRM\IT CONFIRM\obj\Release\IT CONFIRM.csproj.CoreCompileInputs.cache
 D:\DEV\IT CONFIRM\IT CONFIRM\obj\Release\IT CONFIRM.exe
 D:\DEV\IT CONFIRM\IT CONFIRM\obj\Release\IT CONFIRM.pdb
+D:\DEV\IT CONFIRM\IT CONFIRM\obj\Release\IT CONFIRM.exe.config

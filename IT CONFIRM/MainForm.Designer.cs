@@ -558,7 +558,7 @@
             // btnAll
             // 
             this.btnAll.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(151)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.btnAll.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAll.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAll.Location = new System.Drawing.Point(15, 205);
             this.btnAll.Margin = new System.Windows.Forms.Padding(4);
             this.btnAll.Name = "btnAll";
@@ -570,8 +570,8 @@
             // 
             // btn0
             // 
-            this.btn0.Font = new System.Drawing.Font("Segoe UI", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn0.ForeColor = System.Drawing.Color.SaddleBrown;
+            this.btn0.Font = new System.Drawing.Font("Arial", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn0.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.btn0.Location = new System.Drawing.Point(95, 205);
             this.btn0.Margin = new System.Windows.Forms.Padding(4);
             this.btn0.Name = "btn0";
@@ -583,8 +583,8 @@
             // 
             // btn3
             // 
-            this.btn3.Font = new System.Drawing.Font("Segoe UI", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn3.ForeColor = System.Drawing.Color.SaddleBrown;
+            this.btn3.Font = new System.Drawing.Font("Arial", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn3.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.btn3.Location = new System.Drawing.Point(175, 140);
             this.btn3.Margin = new System.Windows.Forms.Padding(4);
             this.btn3.Name = "btn3";
@@ -596,8 +596,8 @@
             // 
             // btn2
             // 
-            this.btn2.Font = new System.Drawing.Font("Segoe UI", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn2.ForeColor = System.Drawing.Color.SaddleBrown;
+            this.btn2.Font = new System.Drawing.Font("Arial", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn2.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.btn2.Location = new System.Drawing.Point(95, 140);
             this.btn2.Margin = new System.Windows.Forms.Padding(4);
             this.btn2.Name = "btn2";
@@ -609,8 +609,8 @@
             // 
             // btn1
             // 
-            this.btn1.Font = new System.Drawing.Font("Segoe UI", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn1.ForeColor = System.Drawing.Color.SaddleBrown;
+            this.btn1.Font = new System.Drawing.Font("Arial", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.btn1.Location = new System.Drawing.Point(15, 140);
             this.btn1.Margin = new System.Windows.Forms.Padding(4);
             this.btn1.Name = "btn1";
@@ -622,8 +622,8 @@
             // 
             // btn6
             // 
-            this.btn6.Font = new System.Drawing.Font("Segoe UI", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn6.ForeColor = System.Drawing.Color.SaddleBrown;
+            this.btn6.Font = new System.Drawing.Font("Arial", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn6.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.btn6.Location = new System.Drawing.Point(175, 75);
             this.btn6.Margin = new System.Windows.Forms.Padding(4);
             this.btn6.Name = "btn6";
@@ -635,8 +635,8 @@
             // 
             // btn5
             // 
-            this.btn5.Font = new System.Drawing.Font("Segoe UI", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn5.ForeColor = System.Drawing.Color.SaddleBrown;
+            this.btn5.Font = new System.Drawing.Font("Arial", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn5.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.btn5.Location = new System.Drawing.Point(95, 75);
             this.btn5.Margin = new System.Windows.Forms.Padding(4);
             this.btn5.Name = "btn5";
@@ -648,8 +648,8 @@
             // 
             // btn4
             // 
-            this.btn4.Font = new System.Drawing.Font("Segoe UI", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn4.ForeColor = System.Drawing.Color.SaddleBrown;
+            this.btn4.Font = new System.Drawing.Font("Arial", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn4.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.btn4.Location = new System.Drawing.Point(15, 75);
             this.btn4.Margin = new System.Windows.Forms.Padding(4);
             this.btn4.Name = "btn4";
@@ -661,8 +661,8 @@
             // 
             // btn9
             // 
-            this.btn9.Font = new System.Drawing.Font("Segoe UI", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn9.ForeColor = System.Drawing.Color.SaddleBrown;
+            this.btn9.Font = new System.Drawing.Font("Arial", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn9.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.btn9.Location = new System.Drawing.Point(175, 10);
             this.btn9.Margin = new System.Windows.Forms.Padding(4);
             this.btn9.Name = "btn9";
@@ -674,8 +674,8 @@
             // 
             // btn8
             // 
-            this.btn8.Font = new System.Drawing.Font("Segoe UI", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn8.ForeColor = System.Drawing.Color.SaddleBrown;
+            this.btn8.Font = new System.Drawing.Font("Arial", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn8.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.btn8.Location = new System.Drawing.Point(95, 10);
             this.btn8.Margin = new System.Windows.Forms.Padding(4);
             this.btn8.Name = "btn8";
@@ -687,8 +687,8 @@
             // 
             // btn7
             // 
-            this.btn7.Font = new System.Drawing.Font("Segoe UI", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn7.ForeColor = System.Drawing.Color.SaddleBrown;
+            this.btn7.Font = new System.Drawing.Font("Arial", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn7.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.btn7.Location = new System.Drawing.Point(15, 10);
             this.btn7.Margin = new System.Windows.Forms.Padding(4);
             this.btn7.Name = "btn7";
@@ -761,7 +761,7 @@
             // 
             this.labelErrorType.AutoSize = true;
             this.labelErrorType.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelErrorType.Location = new System.Drawing.Point(297, 374);
+            this.labelErrorType.Location = new System.Drawing.Point(295, 374);
             this.labelErrorType.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelErrorType.Name = "labelErrorType";
             this.labelErrorType.Size = new System.Drawing.Size(98, 17);
@@ -781,11 +781,11 @@
             // rdoI251
             // 
             this.rdoI251.AutoSize = true;
-            this.rdoI251.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rdoI251.Location = new System.Drawing.Point(457, 66);
+            this.rdoI251.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rdoI251.Location = new System.Drawing.Point(431, 61);
             this.rdoI251.Margin = new System.Windows.Forms.Padding(4);
             this.rdoI251.Name = "rdoI251";
-            this.rdoI251.Size = new System.Drawing.Size(60, 25);
+            this.rdoI251.Size = new System.Drawing.Size(74, 34);
             this.rdoI251.TabIndex = 61;
             this.rdoI251.Text = "I251";
             this.rdoI251.UseVisualStyleBackColor = true;
@@ -793,11 +793,11 @@
             // rdoI252
             // 
             this.rdoI252.AutoSize = true;
-            this.rdoI252.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rdoI252.Location = new System.Drawing.Point(537, 66);
+            this.rdoI252.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rdoI252.Location = new System.Drawing.Point(528, 61);
             this.rdoI252.Margin = new System.Windows.Forms.Padding(4);
             this.rdoI252.Name = "rdoI252";
-            this.rdoI252.Size = new System.Drawing.Size(60, 25);
+            this.rdoI252.Size = new System.Drawing.Size(74, 34);
             this.rdoI252.TabIndex = 62;
             this.rdoI252.Text = "I252";
             this.rdoI252.UseVisualStyleBackColor = true;
