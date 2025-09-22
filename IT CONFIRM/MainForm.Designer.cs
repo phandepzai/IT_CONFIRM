@@ -70,23 +70,23 @@
             this.labelY3 = new System.Windows.Forms.Label();
             this.txtY3 = new System.Windows.Forms.TextBox();
             this.panelKeyboard = new System.Windows.Forms.Panel();
-            this.btnBack = new System.Windows.Forms.Button();
-            this.btnAll = new System.Windows.Forms.Button();
-            this.btn0 = new System.Windows.Forms.Button();
-            this.btn3 = new System.Windows.Forms.Button();
-            this.btn2 = new System.Windows.Forms.Button();
-            this.btn1 = new System.Windows.Forms.Button();
-            this.btn6 = new System.Windows.Forms.Button();
-            this.btn5 = new System.Windows.Forms.Button();
-            this.btn4 = new System.Windows.Forms.Button();
-            this.btn9 = new System.Windows.Forms.Button();
-            this.btn8 = new System.Windows.Forms.Button();
-            this.btn7 = new System.Windows.Forms.Button();
-            this.btnSave = new System.Windows.Forms.Button();
-            this.btnReset = new System.Windows.Forms.Button();
-            this.lblStatus = new System.Windows.Forms.Label();
-            this.lblSAPNCount = new System.Windows.Forms.Label();
-            this.lblCopyright = new System.Windows.Forms.Label();
+            this.BtnBack = new System.Windows.Forms.Button();
+            this.BtnAll = new System.Windows.Forms.Button();
+            this.Btn0 = new System.Windows.Forms.Button();
+            this.Btn3 = new System.Windows.Forms.Button();
+            this.Btn2 = new System.Windows.Forms.Button();
+            this.Btn1 = new System.Windows.Forms.Button();
+            this.Btn6 = new System.Windows.Forms.Button();
+            this.Btn5 = new System.Windows.Forms.Button();
+            this.Btn4 = new System.Windows.Forms.Button();
+            this.Btn9 = new System.Windows.Forms.Button();
+            this.Btn8 = new System.Windows.Forms.Button();
+            this.Btn7 = new System.Windows.Forms.Button();
+            this.BtnSave = new System.Windows.Forms.Button();
+            this.BtnReset = new System.Windows.Forms.Button();
+            this.LblStatus = new System.Windows.Forms.Label();
+            this.LblSAPNCount = new System.Windows.Forms.Label();
+            this.LblCopyright = new System.Windows.Forms.Label();
             this.labelErrorType = new System.Windows.Forms.Label();
             this.cboErrorType = new System.Windows.Forms.ComboBox();
             this.rdoI251 = new System.Windows.Forms.RadioButton();
@@ -525,238 +525,238 @@
             // 
             // panelKeyboard
             // 
-            this.panelKeyboard.Controls.Add(this.btnBack);
-            this.panelKeyboard.Controls.Add(this.btnAll);
-            this.panelKeyboard.Controls.Add(this.btn0);
-            this.panelKeyboard.Controls.Add(this.btn3);
-            this.panelKeyboard.Controls.Add(this.btn2);
-            this.panelKeyboard.Controls.Add(this.btn1);
-            this.panelKeyboard.Controls.Add(this.btn6);
-            this.panelKeyboard.Controls.Add(this.btn5);
-            this.panelKeyboard.Controls.Add(this.btn4);
-            this.panelKeyboard.Controls.Add(this.btn9);
-            this.panelKeyboard.Controls.Add(this.btn8);
-            this.panelKeyboard.Controls.Add(this.btn7);
+            this.panelKeyboard.Controls.Add(this.BtnBack);
+            this.panelKeyboard.Controls.Add(this.BtnAll);
+            this.panelKeyboard.Controls.Add(this.Btn0);
+            this.panelKeyboard.Controls.Add(this.Btn3);
+            this.panelKeyboard.Controls.Add(this.Btn2);
+            this.panelKeyboard.Controls.Add(this.Btn1);
+            this.panelKeyboard.Controls.Add(this.Btn6);
+            this.panelKeyboard.Controls.Add(this.Btn5);
+            this.panelKeyboard.Controls.Add(this.Btn4);
+            this.panelKeyboard.Controls.Add(this.Btn9);
+            this.panelKeyboard.Controls.Add(this.Btn8);
+            this.panelKeyboard.Controls.Add(this.Btn7);
             this.panelKeyboard.Location = new System.Drawing.Point(393, 105);
             this.panelKeyboard.Margin = new System.Windows.Forms.Padding(4);
             this.panelKeyboard.Name = "panelKeyboard";
             this.panelKeyboard.Size = new System.Drawing.Size(250, 265);
             this.panelKeyboard.TabIndex = 40;
             // 
-            // btnBack
+            // BtnBack
             // 
-            this.btnBack.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
-            this.btnBack.Font = new System.Drawing.Font("Segoe UI", 8.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnBack.Location = new System.Drawing.Point(175, 205);
-            this.btnBack.Margin = new System.Windows.Forms.Padding(4);
-            this.btnBack.Name = "btnBack";
-            this.btnBack.Size = new System.Drawing.Size(60, 54);
-            this.btnBack.TabIndex = 11;
-            this.btnBack.Text = "⫷ XÓA";
-            this.btnBack.UseVisualStyleBackColor = false;
-            this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
+            this.BtnBack.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
+            this.BtnBack.Font = new System.Drawing.Font("Segoe UI", 8.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnBack.Location = new System.Drawing.Point(175, 205);
+            this.BtnBack.Margin = new System.Windows.Forms.Padding(4);
+            this.BtnBack.Name = "BtnBack";
+            this.BtnBack.Size = new System.Drawing.Size(60, 54);
+            this.BtnBack.TabIndex = 11;
+            this.BtnBack.Text = "⫷ XÓA";
+            this.BtnBack.UseVisualStyleBackColor = false;
+            this.BtnBack.Click += new System.EventHandler(this.BtnBack_Click);
             // 
-            // btnAll
+            // BtnAll
             // 
-            this.btnAll.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(151)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.btnAll.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAll.Location = new System.Drawing.Point(15, 205);
-            this.btnAll.Margin = new System.Windows.Forms.Padding(4);
-            this.btnAll.Name = "btnAll";
-            this.btnAll.Size = new System.Drawing.Size(60, 54);
-            this.btnAll.TabIndex = 10;
-            this.btnAll.Text = "All";
-            this.btnAll.UseVisualStyleBackColor = true;
-            this.btnAll.Click += new System.EventHandler(this.btnNumber_Click);
+            this.BtnAll.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(151)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.BtnAll.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnAll.Location = new System.Drawing.Point(15, 205);
+            this.BtnAll.Margin = new System.Windows.Forms.Padding(4);
+            this.BtnAll.Name = "BtnAll";
+            this.BtnAll.Size = new System.Drawing.Size(60, 54);
+            this.BtnAll.TabIndex = 10;
+            this.BtnAll.Text = "All";
+            this.BtnAll.UseVisualStyleBackColor = true;
+            this.BtnAll.Click += new System.EventHandler(this.BtnNumber_Click);
             // 
-            // btn0
+            // Btn0
             // 
-            this.btn0.Font = new System.Drawing.Font("Arial", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn0.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.btn0.Location = new System.Drawing.Point(95, 205);
-            this.btn0.Margin = new System.Windows.Forms.Padding(4);
-            this.btn0.Name = "btn0";
-            this.btn0.Size = new System.Drawing.Size(60, 54);
-            this.btn0.TabIndex = 9;
-            this.btn0.Text = "0";
-            this.btn0.UseVisualStyleBackColor = true;
-            this.btn0.Click += new System.EventHandler(this.btnNumber_Click);
+            this.Btn0.Font = new System.Drawing.Font("Arial", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Btn0.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.Btn0.Location = new System.Drawing.Point(95, 205);
+            this.Btn0.Margin = new System.Windows.Forms.Padding(4);
+            this.Btn0.Name = "Btn0";
+            this.Btn0.Size = new System.Drawing.Size(60, 54);
+            this.Btn0.TabIndex = 9;
+            this.Btn0.Text = "0";
+            this.Btn0.UseVisualStyleBackColor = true;
+            this.Btn0.Click += new System.EventHandler(this.BtnNumber_Click);
             // 
-            // btn3
+            // Btn3
             // 
-            this.btn3.Font = new System.Drawing.Font("Arial", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn3.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.btn3.Location = new System.Drawing.Point(175, 140);
-            this.btn3.Margin = new System.Windows.Forms.Padding(4);
-            this.btn3.Name = "btn3";
-            this.btn3.Size = new System.Drawing.Size(60, 57);
-            this.btn3.TabIndex = 8;
-            this.btn3.Text = "3";
-            this.btn3.UseVisualStyleBackColor = true;
-            this.btn3.Click += new System.EventHandler(this.btnNumber_Click);
+            this.Btn3.Font = new System.Drawing.Font("Arial", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Btn3.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.Btn3.Location = new System.Drawing.Point(175, 140);
+            this.Btn3.Margin = new System.Windows.Forms.Padding(4);
+            this.Btn3.Name = "Btn3";
+            this.Btn3.Size = new System.Drawing.Size(60, 57);
+            this.Btn3.TabIndex = 8;
+            this.Btn3.Text = "3";
+            this.Btn3.UseVisualStyleBackColor = true;
+            this.Btn3.Click += new System.EventHandler(this.BtnNumber_Click);
             // 
-            // btn2
+            // Btn2
             // 
-            this.btn2.Font = new System.Drawing.Font("Arial", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn2.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.btn2.Location = new System.Drawing.Point(95, 140);
-            this.btn2.Margin = new System.Windows.Forms.Padding(4);
-            this.btn2.Name = "btn2";
-            this.btn2.Size = new System.Drawing.Size(60, 57);
-            this.btn2.TabIndex = 7;
-            this.btn2.Text = "2";
-            this.btn2.UseVisualStyleBackColor = true;
-            this.btn2.Click += new System.EventHandler(this.btnNumber_Click);
+            this.Btn2.Font = new System.Drawing.Font("Arial", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Btn2.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.Btn2.Location = new System.Drawing.Point(95, 140);
+            this.Btn2.Margin = new System.Windows.Forms.Padding(4);
+            this.Btn2.Name = "Btn2";
+            this.Btn2.Size = new System.Drawing.Size(60, 57);
+            this.Btn2.TabIndex = 7;
+            this.Btn2.Text = "2";
+            this.Btn2.UseVisualStyleBackColor = true;
+            this.Btn2.Click += new System.EventHandler(this.BtnNumber_Click);
             // 
-            // btn1
+            // Btn1
             // 
-            this.btn1.Font = new System.Drawing.Font("Arial", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.btn1.Location = new System.Drawing.Point(15, 140);
-            this.btn1.Margin = new System.Windows.Forms.Padding(4);
-            this.btn1.Name = "btn1";
-            this.btn1.Size = new System.Drawing.Size(60, 57);
-            this.btn1.TabIndex = 6;
-            this.btn1.Text = "1";
-            this.btn1.UseVisualStyleBackColor = true;
-            this.btn1.Click += new System.EventHandler(this.btnNumber_Click);
+            this.Btn1.Font = new System.Drawing.Font("Arial", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Btn1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.Btn1.Location = new System.Drawing.Point(15, 140);
+            this.Btn1.Margin = new System.Windows.Forms.Padding(4);
+            this.Btn1.Name = "Btn1";
+            this.Btn1.Size = new System.Drawing.Size(60, 57);
+            this.Btn1.TabIndex = 6;
+            this.Btn1.Text = "1";
+            this.Btn1.UseVisualStyleBackColor = true;
+            this.Btn1.Click += new System.EventHandler(this.BtnNumber_Click);
             // 
-            // btn6
+            // Btn6
             // 
-            this.btn6.Font = new System.Drawing.Font("Arial", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn6.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.btn6.Location = new System.Drawing.Point(175, 75);
-            this.btn6.Margin = new System.Windows.Forms.Padding(4);
-            this.btn6.Name = "btn6";
-            this.btn6.Size = new System.Drawing.Size(60, 57);
-            this.btn6.TabIndex = 5;
-            this.btn6.Text = "6";
-            this.btn6.UseVisualStyleBackColor = true;
-            this.btn6.Click += new System.EventHandler(this.btnNumber_Click);
+            this.Btn6.Font = new System.Drawing.Font("Arial", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Btn6.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.Btn6.Location = new System.Drawing.Point(175, 75);
+            this.Btn6.Margin = new System.Windows.Forms.Padding(4);
+            this.Btn6.Name = "Btn6";
+            this.Btn6.Size = new System.Drawing.Size(60, 57);
+            this.Btn6.TabIndex = 5;
+            this.Btn6.Text = "6";
+            this.Btn6.UseVisualStyleBackColor = true;
+            this.Btn6.Click += new System.EventHandler(this.BtnNumber_Click);
             // 
-            // btn5
+            // Btn5
             // 
-            this.btn5.Font = new System.Drawing.Font("Arial", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn5.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.btn5.Location = new System.Drawing.Point(95, 75);
-            this.btn5.Margin = new System.Windows.Forms.Padding(4);
-            this.btn5.Name = "btn5";
-            this.btn5.Size = new System.Drawing.Size(60, 57);
-            this.btn5.TabIndex = 4;
-            this.btn5.Text = "5";
-            this.btn5.UseVisualStyleBackColor = true;
-            this.btn5.Click += new System.EventHandler(this.btnNumber_Click);
+            this.Btn5.Font = new System.Drawing.Font("Arial", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Btn5.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.Btn5.Location = new System.Drawing.Point(95, 75);
+            this.Btn5.Margin = new System.Windows.Forms.Padding(4);
+            this.Btn5.Name = "Btn5";
+            this.Btn5.Size = new System.Drawing.Size(60, 57);
+            this.Btn5.TabIndex = 4;
+            this.Btn5.Text = "5";
+            this.Btn5.UseVisualStyleBackColor = true;
+            this.Btn5.Click += new System.EventHandler(this.BtnNumber_Click);
             // 
-            // btn4
+            // Btn4
             // 
-            this.btn4.Font = new System.Drawing.Font("Arial", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn4.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.btn4.Location = new System.Drawing.Point(15, 75);
-            this.btn4.Margin = new System.Windows.Forms.Padding(4);
-            this.btn4.Name = "btn4";
-            this.btn4.Size = new System.Drawing.Size(60, 57);
-            this.btn4.TabIndex = 3;
-            this.btn4.Text = "4";
-            this.btn4.UseVisualStyleBackColor = true;
-            this.btn4.Click += new System.EventHandler(this.btnNumber_Click);
+            this.Btn4.Font = new System.Drawing.Font("Arial", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Btn4.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.Btn4.Location = new System.Drawing.Point(15, 75);
+            this.Btn4.Margin = new System.Windows.Forms.Padding(4);
+            this.Btn4.Name = "Btn4";
+            this.Btn4.Size = new System.Drawing.Size(60, 57);
+            this.Btn4.TabIndex = 3;
+            this.Btn4.Text = "4";
+            this.Btn4.UseVisualStyleBackColor = true;
+            this.Btn4.Click += new System.EventHandler(this.BtnNumber_Click);
             // 
-            // btn9
+            // Btn9
             // 
-            this.btn9.Font = new System.Drawing.Font("Arial", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn9.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.btn9.Location = new System.Drawing.Point(175, 10);
-            this.btn9.Margin = new System.Windows.Forms.Padding(4);
-            this.btn9.Name = "btn9";
-            this.btn9.Size = new System.Drawing.Size(60, 57);
-            this.btn9.TabIndex = 2;
-            this.btn9.Text = "9";
-            this.btn9.UseVisualStyleBackColor = true;
-            this.btn9.Click += new System.EventHandler(this.btnNumber_Click);
+            this.Btn9.Font = new System.Drawing.Font("Arial", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Btn9.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.Btn9.Location = new System.Drawing.Point(175, 10);
+            this.Btn9.Margin = new System.Windows.Forms.Padding(4);
+            this.Btn9.Name = "Btn9";
+            this.Btn9.Size = new System.Drawing.Size(60, 57);
+            this.Btn9.TabIndex = 2;
+            this.Btn9.Text = "9";
+            this.Btn9.UseVisualStyleBackColor = true;
+            this.Btn9.Click += new System.EventHandler(this.BtnNumber_Click);
             // 
-            // btn8
+            // Btn8
             // 
-            this.btn8.Font = new System.Drawing.Font("Arial", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn8.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.btn8.Location = new System.Drawing.Point(95, 10);
-            this.btn8.Margin = new System.Windows.Forms.Padding(4);
-            this.btn8.Name = "btn8";
-            this.btn8.Size = new System.Drawing.Size(60, 57);
-            this.btn8.TabIndex = 1;
-            this.btn8.Text = "8";
-            this.btn8.UseVisualStyleBackColor = true;
-            this.btn8.Click += new System.EventHandler(this.btnNumber_Click);
+            this.Btn8.Font = new System.Drawing.Font("Arial", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Btn8.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.Btn8.Location = new System.Drawing.Point(95, 10);
+            this.Btn8.Margin = new System.Windows.Forms.Padding(4);
+            this.Btn8.Name = "Btn8";
+            this.Btn8.Size = new System.Drawing.Size(60, 57);
+            this.Btn8.TabIndex = 1;
+            this.Btn8.Text = "8";
+            this.Btn8.UseVisualStyleBackColor = true;
+            this.Btn8.Click += new System.EventHandler(this.BtnNumber_Click);
             // 
-            // btn7
+            // Btn7
             // 
-            this.btn7.Font = new System.Drawing.Font("Arial", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn7.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.btn7.Location = new System.Drawing.Point(15, 10);
-            this.btn7.Margin = new System.Windows.Forms.Padding(4);
-            this.btn7.Name = "btn7";
-            this.btn7.Size = new System.Drawing.Size(60, 57);
-            this.btn7.TabIndex = 0;
-            this.btn7.Text = "7";
-            this.btn7.UseVisualStyleBackColor = true;
-            this.btn7.Click += new System.EventHandler(this.btnNumber_Click);
+            this.Btn7.Font = new System.Drawing.Font("Arial", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Btn7.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.Btn7.Location = new System.Drawing.Point(15, 10);
+            this.Btn7.Margin = new System.Windows.Forms.Padding(4);
+            this.Btn7.Name = "Btn7";
+            this.Btn7.Size = new System.Drawing.Size(60, 57);
+            this.Btn7.TabIndex = 0;
+            this.Btn7.Text = "7";
+            this.Btn7.UseVisualStyleBackColor = true;
+            this.Btn7.Click += new System.EventHandler(this.BtnNumber_Click);
             // 
-            // btnSave
+            // BtnSave
             // 
-            this.btnSave.BackColor = System.Drawing.Color.MediumSeaGreen;
-            this.btnSave.Location = new System.Drawing.Point(450, 393);
-            this.btnSave.Margin = new System.Windows.Forms.Padding(4);
-            this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(80, 45);
-            this.btnSave.TabIndex = 41;
-            this.btnSave.Text = "SAVE";
-            this.btnSave.UseVisualStyleBackColor = false;
-            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            this.BtnSave.BackColor = System.Drawing.Color.MediumSeaGreen;
+            this.BtnSave.Location = new System.Drawing.Point(450, 393);
+            this.BtnSave.Margin = new System.Windows.Forms.Padding(4);
+            this.BtnSave.Name = "BtnSave";
+            this.BtnSave.Size = new System.Drawing.Size(80, 45);
+            this.BtnSave.TabIndex = 41;
+            this.BtnSave.Text = "SAVE";
+            this.BtnSave.UseVisualStyleBackColor = false;
+            this.BtnSave.Click += new System.EventHandler(this.BtnSave_Click);
             // 
-            // btnReset
+            // BtnReset
             // 
-            this.btnReset.BackColor = System.Drawing.Color.Orange;
-            this.btnReset.Location = new System.Drawing.Point(555, 393);
-            this.btnReset.Margin = new System.Windows.Forms.Padding(4);
-            this.btnReset.Name = "btnReset";
-            this.btnReset.Size = new System.Drawing.Size(80, 45);
-            this.btnReset.TabIndex = 42;
-            this.btnReset.Text = "RESET";
-            this.btnReset.UseVisualStyleBackColor = false;
-            this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
+            this.BtnReset.BackColor = System.Drawing.Color.Orange;
+            this.BtnReset.Location = new System.Drawing.Point(555, 393);
+            this.BtnReset.Margin = new System.Windows.Forms.Padding(4);
+            this.BtnReset.Name = "BtnReset";
+            this.BtnReset.Size = new System.Drawing.Size(80, 45);
+            this.BtnReset.TabIndex = 42;
+            this.BtnReset.Text = "RESET";
+            this.BtnReset.UseVisualStyleBackColor = false;
+            this.BtnReset.Click += new System.EventHandler(this.BtnReset_Click);
             // 
-            // lblStatus
+            // LblStatus
             // 
-            this.lblStatus.AutoSize = true;
-            this.lblStatus.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblStatus.ForeColor = System.Drawing.Color.Green;
-            this.lblStatus.Location = new System.Drawing.Point(13, 514);
-            this.lblStatus.Name = "lblStatus";
-            this.lblStatus.Size = new System.Drawing.Size(64, 15);
-            this.lblStatus.TabIndex = 43;
-            this.lblStatus.Text = "Trạng thái";
+            this.LblStatus.AutoSize = true;
+            this.LblStatus.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LblStatus.ForeColor = System.Drawing.Color.Green;
+            this.LblStatus.Location = new System.Drawing.Point(13, 514);
+            this.LblStatus.Name = "LblStatus";
+            this.LblStatus.Size = new System.Drawing.Size(64, 15);
+            this.LblStatus.TabIndex = 43;
+            this.LblStatus.Text = "Trạng thái";
             // 
-            // lblSAPNCount
+            // LblSAPNCount
             // 
-            this.lblSAPNCount.AutoSize = true;
-            this.lblSAPNCount.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSAPNCount.ForeColor = System.Drawing.Color.Blue;
-            this.lblSAPNCount.Location = new System.Drawing.Point(472, 462);
-            this.lblSAPNCount.Name = "lblSAPNCount";
-            this.lblSAPNCount.Size = new System.Drawing.Size(123, 15);
-            this.lblSAPNCount.TabIndex = 59;
-            this.lblSAPNCount.Text = "Số lượng APN đã lưu: ";
+            this.LblSAPNCount.AutoSize = true;
+            this.LblSAPNCount.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LblSAPNCount.ForeColor = System.Drawing.Color.Blue;
+            this.LblSAPNCount.Location = new System.Drawing.Point(472, 462);
+            this.LblSAPNCount.Name = "LblSAPNCount";
+            this.LblSAPNCount.Size = new System.Drawing.Size(123, 15);
+            this.LblSAPNCount.TabIndex = 59;
+            this.LblSAPNCount.Text = "Số lượng APN đã lưu: ";
             // 
-            // lblCopyright
+            // LblCopyright
             // 
-            this.lblCopyright.AutoSize = true;
-            this.lblCopyright.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCopyright.ForeColor = System.Drawing.SystemColors.AppWorkspace;
-            this.lblCopyright.Location = new System.Drawing.Point(558, 545);
-            this.lblCopyright.Name = "lblCopyright";
-            this.lblCopyright.Size = new System.Drawing.Size(94, 13);
-            this.lblCopyright.TabIndex = 60;
-            this.lblCopyright.Text = "Ⓒ Nông Văn Phấn";
-            this.lblCopyright.MouseEnter += new System.EventHandler(this.LblCopyright_MouseEnter);
-            this.lblCopyright.MouseLeave += new System.EventHandler(this.LblCopyright_MouseEnter);
+            this.LblCopyright.AutoSize = true;
+            this.LblCopyright.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LblCopyright.ForeColor = System.Drawing.SystemColors.AppWorkspace;
+            this.LblCopyright.Location = new System.Drawing.Point(558, 545);
+            this.LblCopyright.Name = "LblCopyright";
+            this.LblCopyright.Size = new System.Drawing.Size(94, 13);
+            this.LblCopyright.TabIndex = 60;
+            this.LblCopyright.Text = "Ⓒ Nông Văn Phấn";
+            this.LblCopyright.MouseEnter += new System.EventHandler(this.LblCopyright_MouseEnter);
+            this.LblCopyright.MouseLeave += new System.EventHandler(this.LblCopyright_MouseEnter);
             // 
             // labelErrorType
             // 
@@ -813,7 +813,7 @@
             this.linkLabel1.TabStop = true;
             this.linkLabel1.Text = "HƯỚNG DẪN ĐO";
             this.linkLabel1.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
-            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
+            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabel1_LinkClicked);
             // 
             // MainForm
             // 
@@ -825,9 +825,9 @@
             this.Controls.Add(this.rdoI251);
             this.Controls.Add(this.cboErrorType);
             this.Controls.Add(this.labelErrorType);
-            this.Controls.Add(this.lblStatus);
-            this.Controls.Add(this.btnReset);
-            this.Controls.Add(this.btnSave);
+            this.Controls.Add(this.LblStatus);
+            this.Controls.Add(this.BtnReset);
+            this.Controls.Add(this.BtnSave);
             this.Controls.Add(this.panelKeyboard);
             this.Controls.Add(this.labelY3);
             this.Controls.Add(this.txtY3);
@@ -869,8 +869,8 @@
             this.Controls.Add(this.labelCoordSE);
             this.Controls.Add(this.txtSAPN);
             this.Controls.Add(this.labelSAPN);
-            this.Controls.Add(this.lblSAPNCount);
-            this.Controls.Add(this.lblCopyright);
+            this.Controls.Add(this.LblSAPNCount);
+            this.Controls.Add(this.LblCopyright);
             this.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -878,7 +878,7 @@
             this.MaximizeBox = false;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "NHẬP TỌA ĐỘ - IT";
+            this.Text = "IT CONFIRM";
             this.panelKeyboard.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -888,8 +888,8 @@
         #endregion
 
         #region KHAI BÁO BIẾN VÀ ĐỐI TƯỢNG
-        private System.Windows.Forms.Label lblCopyright;
-        private System.Windows.Forms.Label lblSAPNCount;
+        private System.Windows.Forms.Label LblCopyright;
+        private System.Windows.Forms.Label LblSAPNCount;
         private System.Windows.Forms.Label labelSAPN;
         private System.Windows.Forms.TextBox txtSAPN;
         private System.Windows.Forms.Label labelCoordSE;
@@ -931,28 +931,27 @@
         private System.Windows.Forms.Label labelY3;
         private System.Windows.Forms.TextBox txtY3;
         private System.Windows.Forms.Panel panelKeyboard;
-        private System.Windows.Forms.Button btnSave;
-        private System.Windows.Forms.Button btnReset;
-        private System.Windows.Forms.Button btn9;
-        private System.Windows.Forms.Button btn8;
-        private System.Windows.Forms.Button btn7;
-        private System.Windows.Forms.Button btn6;
-        private System.Windows.Forms.Button btn5;
-        private System.Windows.Forms.Button btn4;
-        private System.Windows.Forms.Button btn3;
-        private System.Windows.Forms.Button btn2;
-        private System.Windows.Forms.Button btn1;
-        private System.Windows.Forms.Button btnAll;
-        private System.Windows.Forms.Button btn0;
-        private System.Windows.Forms.Button btnBack;
-        private System.Windows.Forms.Label lblStatus;
+        private System.Windows.Forms.Button BtnSave;
+        private System.Windows.Forms.Button BtnReset;
+        private System.Windows.Forms.Button Btn9;
+        private System.Windows.Forms.Button Btn8;
+        private System.Windows.Forms.Button Btn7;
+        private System.Windows.Forms.Button Btn6;
+        private System.Windows.Forms.Button Btn5;
+        private System.Windows.Forms.Button Btn4;
+        private System.Windows.Forms.Button Btn3;
+        private System.Windows.Forms.Button Btn2;
+        private System.Windows.Forms.Button Btn1;
+        private System.Windows.Forms.Button BtnAll;
+        private System.Windows.Forms.Button Btn0;
+        private System.Windows.Forms.Button BtnBack;
+        private System.Windows.Forms.Label LblStatus;
         private System.Windows.Forms.Label labelErrorType;
         private System.Windows.Forms.ComboBox cboErrorType;
         private System.Windows.Forms.RadioButton rdoI251;
         private System.Windows.Forms.RadioButton rdoI252;
         private System.Windows.Forms.LinkLabel linkLabel1;
         #endregion
-
     }
 
 }

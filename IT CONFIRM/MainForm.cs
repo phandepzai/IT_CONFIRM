@@ -12,25 +12,27 @@ namespace IT_CONFIRM
     {
         #region KHAI BÁO CÁC BIẾN
         private TextBox currentTextBox;
-        private ToolTip validationToolTip;
+        private readonly ToolTip validationToolTip;
         private string _lastSavedFilePath; // Biến mới để lưu đường dẫn file        
-        private ToolTip statusToolTip;// Biến mới cho ToolTip của thông báo trạng thái     
-        private Timer rainbowTimer;// Các biến cho hiệu ứng chuyển màu cầu vồng mượt mà
+        private readonly ToolTip statusToolTip;// Biến mới cho ToolTip của thông báo trạng thái     
+        private readonly Timer rainbowTimer;// Các biến cho hiệu ứng chuyển màu cầu vồng mượt mà
         private bool isRainbowActive = false;
         private Color originalCopyrightColor;
         private double rainbowPhase = 0;       
-        private Dictionary<string, Color> originalColors = new Dictionary<string, Color>();// Sử dụng Dictionary để lưu màu gốc của tất cả các nút
+        private readonly Dictionary<string, Color> originalColors = new Dictionary<string, Color>();// Sử dụng Dictionary để lưu màu gốc của tất cả các nút
         #endregion
 
         #region FORM KHỞI TẠO UI
         public MainForm()
         {
             InitializeComponent();
+            string eqpid = ReadEQPIDFromIniFile();
+            this.Text = "IT CONFIRM" + (string.IsNullOrEmpty(eqpid) ? "" : "_" + eqpid + "");
             InitializeKeyboardEvents();
             txtSAPN.MaxLength = 300;
             validationToolTip = new ToolTip();//Thông báo yêu cầu nhập dữ liệu
             statusToolTip = new ToolTip();//Gợi ý bấm vào để mở thư mục
-            this.lblStatus.Text = "Sẵn sàng nhập dữ liệu...";
+            this.LblStatus.Text = "Sẵn sàng nhập dữ liệu...";
             UpdateSavedSAPNCount();
 
             // Khởi tạo ComboBox với danh sách lỗi
@@ -38,17 +40,19 @@ namespace IT_CONFIRM
             cboErrorType.SelectedIndex = -1; // Mặc định chọn "ĐỐM" =-1 KHÔNG CHỌN GÌ
 
             // Khởi tạo timer cho hiệu ứng cầu vồng
-            this.rainbowTimer = new Timer();
-            this.rainbowTimer.Interval = 20; // Cập nhật màu mỗi 20ms để mượt hơn
+            this.rainbowTimer = new Timer
+            {
+                Interval = 20 // Cập nhật màu mỗi 20ms để mượt hơn
+            };
             this.rainbowTimer.Tick += new EventHandler(this.RainbowTimer_Tick);
 
-            // Gắn sự kiện cho lblCopyright
-            lblCopyright.MouseEnter += LblCopyright_MouseEnter;
-            lblCopyright.MouseLeave += LblCopyright_MouseLeave;
+            // Gắn sự kiện cho LblCopyright
+            LblCopyright.MouseEnter += LblCopyright_MouseEnter;
+            LblCopyright.MouseLeave += LblCopyright_MouseLeave;
 
-            // Gán sự kiện Click và thay đổi con trỏ chuột cho lblStatus
-            this.lblStatus.Click += new EventHandler(this.lblStatus_Click);
-            this.lblStatus.Cursor = Cursors.Hand;
+            // Gán sự kiện Click và thay đổi con trỏ chuột cho LblStatus
+            this.LblStatus.Click += new EventHandler(this.LblStatus_Click);
+            this.LblStatus.Cursor = Cursors.Hand;
 
             // Khởi tạo hiệu ứng cho các nút
             InitializeButtonEffects();
@@ -61,115 +65,111 @@ namespace IT_CONFIRM
             Color keyboardBaseColor = System.Drawing.ColorTranslator.FromHtml("#FFF");
 
             // Xử lý nút SAVE (giữ nguyên màu ban đầu)
-            originalColors.Add("btnSave", btnSave.BackColor);
-            btnSave.MouseEnter += Button_MouseEnter;
-            btnSave.MouseLeave += Button_MouseLeave;
-            btnSave.MouseDown += Button_MouseDown;
-            btnSave.MouseUp += Button_MouseUp;
+            originalColors.Add("BtnSave", BtnSave.BackColor);
+            BtnSave.MouseEnter += Button_MouseEnter;
+            BtnSave.MouseLeave += Button_MouseLeave;
+            BtnSave.MouseDown += Button_MouseDown;
+            BtnSave.MouseUp += Button_MouseUp;
 
             // Xử lý nút RESET (giữ nguyên màu ban đầu)
-            originalColors.Add("btnReset", btnReset.BackColor);
-            btnReset.MouseEnter += Button_MouseEnter;
-            btnReset.MouseLeave += Button_MouseLeave;
-            btnReset.MouseDown += Button_MouseDown;
-            btnReset.MouseUp += Button_MouseUp;
+            originalColors.Add("BtnReset", BtnReset.BackColor);
+            BtnReset.MouseEnter += Button_MouseEnter;
+            BtnReset.MouseLeave += Button_MouseLeave;
+            BtnReset.MouseDown += Button_MouseDown;
+            BtnReset.MouseUp += Button_MouseUp;
 
             // Đặt lại màu cho nút ALL và xử lý riêng biệt
-            btnAll.BackColor = System.Drawing.ColorTranslator.FromHtml("#97FFFF");
-            originalColors.Add("btnAll", btnAll.BackColor);
-            btnAll.MouseEnter += Button_MouseEnter;
-            btnAll.MouseLeave += Button_MouseLeave;
-            btnAll.MouseDown += Button_MouseDown;
-            btnAll.MouseUp += Button_MouseUp;
+            BtnAll.BackColor = System.Drawing.ColorTranslator.FromHtml("#97FFFF");
+            originalColors.Add("BtnAll", BtnAll.BackColor);
+            BtnAll.MouseEnter += Button_MouseEnter;
+            BtnAll.MouseLeave += Button_MouseLeave;
+            BtnAll.MouseDown += Button_MouseDown;
+            BtnAll.MouseUp += Button_MouseUp;
 
-            // Áp dụng màu nền mới cho các nút trên bàn phím ảo (trừ nút ALL và btnBack)
-            Button[] keyboardButtons = { btn0, btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btnBack };
-            foreach (Button btn in keyboardButtons)
+            // Áp dụng màu nền mới cho các nút trên bàn phím ảo (trừ nút ALL và BtnBack)
+            Button[] keyboardButtons = { Btn0, Btn1, Btn2, Btn3, Btn4, Btn5, Btn6, Btn7, Btn8, Btn9, BtnBack };
+            foreach (Button Btn in keyboardButtons)
             {
                 // Chỉ áp dụng màu nền mới cho các nút số
-                if (btn.Name != "btnBack")
+                if (Btn.Name != "BtnBack")
                 {
-                    btn.BackColor = keyboardBaseColor;
+                    Btn.BackColor = keyboardBaseColor;
                 }
 
                 // Lưu màu nền hiện tại (đã được đổi) vào từ điển
-                originalColors.Add(btn.Name, btn.BackColor);
+                originalColors.Add(Btn.Name, Btn.BackColor);
 
-                btn.MouseEnter += Button_MouseEnter;
-                btn.MouseLeave += Button_MouseLeave;
-                btn.MouseDown += Button_MouseDown;
-                btn.MouseUp += Button_MouseUp;
+                Btn.MouseEnter += Button_MouseEnter;
+                Btn.MouseLeave += Button_MouseLeave;
+                Btn.MouseDown += Button_MouseDown;
+                Btn.MouseUp += Button_MouseUp;
             }
         }
 
         // Hiệu ứng khi di chuột vào nút
         private void Button_MouseEnter(object sender, EventArgs e)
         {
-            Button btn = sender as Button;
-            if (btn != null)
+            if (sender is Button Btn)
             {
                 // Áp dụng hiệu ứng di chuột cho TẤT CẢ các nút
-                if (originalColors.ContainsKey(btn.Name))
+                if (originalColors.ContainsKey(Btn.Name))
                 {
-                    Color originalColor = originalColors[btn.Name];
+                    Color originalColor = originalColors[Btn.Name];
                     int r = Math.Min(255, originalColor.R + 30);
                     int g = Math.Min(255, originalColor.G + 30);
                     int b = Math.Min(255, originalColor.B + 30);
-                    btn.BackColor = Color.FromArgb(r, g, b);
+                    Btn.BackColor = Color.FromArgb(r, g, b);
                 }
             }
         }
 
         private void Button_MouseLeave(object sender, EventArgs e)
         {
-            Button btn = sender as Button;
-            if (btn != null && originalColors.ContainsKey(btn.Name))
+            if (sender is Button Btn && originalColors.ContainsKey(Btn.Name))
             {
                 // Khôi phục màu nền ban đầu
-                btn.BackColor = originalColors[btn.Name];
+                Btn.BackColor = originalColors[Btn.Name];
             }
         }
 
         private void Button_MouseDown(object sender, EventArgs e)
         {
-            Button btn = sender as Button;
-            if (btn != null)
+            if (sender is Button Btn)
             {
                 // Áp dụng hiệu ứng khi nhấn chuột xuống cho TẤT CẢ các nút
-                if (originalColors.ContainsKey(btn.Name))
+                if (originalColors.ContainsKey(Btn.Name))
                 {
-                    Color originalColor = originalColors[btn.Name];
+                    Color originalColor = originalColors[Btn.Name];
                     int r = Math.Max(0, originalColor.R - 30);
                     int g = Math.Max(0, originalColor.G - 30);
                     int b = Math.Max(0, originalColor.B - 30);
-                    btn.BackColor = Color.FromArgb(r, g, b);
+                    Btn.BackColor = Color.FromArgb(r, g, b);
                 }
             }
         }
 
         private void Button_MouseUp(object sender, EventArgs e)
         {
-            Button btn = sender as Button;
-            if (btn != null)
+            if (sender is Button Btn)
             {
-                if (btn.ClientRectangle.Contains(btn.PointToClient(Cursor.Position)))
+                if (Btn.ClientRectangle.Contains(Btn.PointToClient(Cursor.Position)))
                 {
                     // Nếu nhả chuột trong vùng nút, khôi phục hiệu ứng di chuột vào
-                    if (originalColors.ContainsKey(btn.Name))
+                    if (originalColors.ContainsKey(Btn.Name))
                     {
-                        Color originalColor = originalColors[btn.Name];
+                        Color originalColor = originalColors[Btn.Name];
                         int r = Math.Min(255, originalColor.R + 30);
                         int g = Math.Min(255, originalColor.G + 30);
                         int b = Math.Min(255, originalColor.B + 30);
-                        btn.BackColor = Color.FromArgb(r, g, b);
+                        Btn.BackColor = Color.FromArgb(r, g, b);
                     }
                 }
                 else
                 {
                     // Nếu nhả chuột ngoài vùng nút, khôi phục màu ban đầu
-                    if (originalColors.ContainsKey(btn.Name))
+                    if (originalColors.ContainsKey(Btn.Name))
                     {
-                        btn.BackColor = originalColors[btn.Name];
+                        Btn.BackColor = originalColors[Btn.Name];
                     }
                 }
             }
@@ -202,10 +202,10 @@ namespace IT_CONFIRM
             txtY3.Click += TextBox_Click;
 
             // Gán sự kiện KeyDown cho txtSAPN
-            txtSAPN.KeyDown += txtSAPN_KeyDown;
+            txtSAPN.KeyDown += TxtSAPN_KeyDown;
 
             // Gán sự kiện KeyPress riêng cho txtSx1 (cho phép ALL)
-            txtSx1.KeyPress += txtSx1_KeyPress;
+            txtSx1.KeyPress += TxtSx1_KeyPress;
 
             // Gán sự kiện KeyPress chung cho các ô tọa độ còn lại
             txtSy1.KeyPress += CoordinateTextBox_KeyPress;
@@ -233,7 +233,7 @@ namespace IT_CONFIRM
             if (!isRainbowActive)
             {
                 isRainbowActive = true;
-                originalCopyrightColor = lblCopyright.ForeColor;
+                originalCopyrightColor = LblCopyright.ForeColor;
                 rainbowTimer.Start();
             }
         }
@@ -245,7 +245,7 @@ namespace IT_CONFIRM
             {
                 isRainbowActive = false;
                 rainbowTimer.Stop();
-                lblCopyright.ForeColor = originalCopyrightColor;
+                LblCopyright.ForeColor = originalCopyrightColor;
             }
         }
         #endregion
@@ -257,7 +257,7 @@ namespace IT_CONFIRM
             rainbowPhase += 0.05; // Giảm tốc độ thay đổi để màu chuyển từ từ hơn
 
             Color newColor = CalculateRainbowColor(rainbowPhase);
-            lblCopyright.ForeColor = newColor;
+            LblCopyright.ForeColor = newColor;
         }
 
         // Tính toán màu sắc cầu vồng dựa trên giai đoạn
@@ -281,8 +281,8 @@ namespace IT_CONFIRM
         #endregion
 
         #region KIỂM TRA ĐÃ NHẬP DỮ LIÊU HAY CHƯA
-        // Phương thức xử lý sự kiện Click cho lblStatus
-        private void lblStatus_Click(object sender, EventArgs e)
+        // Phương thức xử lý sự kiện Click cho LblStatus
+        private void LblStatus_Click(object sender, EventArgs e)
         {
             // Kiểm tra xem đã có đường dẫn file được lưu chưa
             if (!string.IsNullOrEmpty(_lastSavedFilePath))
@@ -303,7 +303,7 @@ namespace IT_CONFIRM
         }
 
         // Phương thức xử lý sự kiện KeyDown của txtSAPN
-        private void txtSAPN_KeyDown(object sender, KeyEventArgs e)
+        private void TxtSAPN_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
@@ -314,12 +314,12 @@ namespace IT_CONFIRM
         }
 
         // Xử lý các nút số trên bàn phím ảo
-        private void btnNumber_Click(object sender, EventArgs e)
+        private void BtnNumber_Click(object sender, EventArgs e)
         {
             if (currentTextBox != null)
             {
-                Button btn = (Button)sender;
-                string buttonText = btn.Text;
+                Button Btn = (Button)sender;
+                string buttonText = Btn.Text;
 
                 // Kiểm tra nếu ô nhập đã đạt giới hạn 3 ký tự
                 if (currentTextBox.Text.Length >= 3 && !buttonText.Equals("All", StringComparison.OrdinalIgnoreCase))
@@ -354,7 +354,7 @@ namespace IT_CONFIRM
         }
 
         // Xử lý nút xóa (Back)
-        private void btnBack_Click(object sender, EventArgs e)
+        private void BtnBack_Click(object sender, EventArgs e)
         {
             if (currentTextBox != null && currentTextBox.Text.Length > 0)
             {
@@ -386,7 +386,7 @@ namespace IT_CONFIRM
 
         #region SƯ KIỆN BẤM NÚT SAVE VÀ RESET
         // Xử lý nút SAVE
-        private void btnSave_Click(object sender, EventArgs e)
+        private void BtnSave_Click(object sender, EventArgs e)
         {
             // Kiểm tra xem đã chọn loại lỗi chưa
             if (cboErrorType.SelectedIndex == -1)
@@ -414,9 +414,39 @@ namespace IT_CONFIRM
                 return;
             }
 
+            // Lấy múi giờ GMT+7
+            TimeZoneInfo vietnamZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
+            DateTime vietnamTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamZone);
+
+            // Xác định ngày và ca làm việc
+            string dateString;
+            string shift;
+
+            // Nếu thời gian từ 20:00 hôm nay đến trước 08:00 hôm sau, sử dụng ngày bắt đầu ca đêm
+            if (vietnamTime.Hour >= 20 || vietnamTime.Hour < 8)
+            {
+                // Nếu thời gian từ 00:00 đến 07:59:59, sử dụng ngày hôm trước
+                if (vietnamTime.Hour < 8)
+                {
+                    dateString = vietnamTime.AddDays(-1).ToString("yyyyMMdd");
+                }
+                else
+                {
+                    dateString = vietnamTime.ToString("yyyyMMdd");
+                }
+                shift = "NIGHT";
+            }
+            // Nếu thời gian từ 08:00 đến trước 20:00, sử dụng ngày hiện tại và ca ngày
+            else
+            {
+                dateString = vietnamTime.ToString("yyyyMMdd");
+                shift = "DAY";
+            }
+
+            string eqpid = ReadEQPIDFromIniFile(); // Lấy EQPID từ file ini
             string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             string appFolderPath = Path.Combine(desktopPath, "IT_CONFIRM");
-            string fileName = $"TOA DO_{DateTime.Now:yyyyMMdd}.csv";
+            string fileName = string.IsNullOrEmpty(eqpid) ? $"IT_{dateString}_{shift}.csv" : $"IT_{eqpid}_{dateString}_{shift}.csv";
             string filePath = Path.Combine(appFolderPath, fileName);
             string timestamp = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
 
@@ -448,10 +478,10 @@ namespace IT_CONFIRM
                 // Cập nhật thông báo thành công
                 _lastSavedFilePath = filePath; // Lưu đường dẫn file vào biến toàn cục
                 // Cập nhật thông báo thành công
-                lblStatus.ForeColor = System.Drawing.Color.Green;
-                lblStatus.Text = $"Lưu thành công! Dữ liệu đã được ghi lại lúc: {timestamp}\nDữ liệu được lưu tại: {filePath}";
-                // Thiết lập tooltip cho lblStatus
-                statusToolTip.SetToolTip(lblStatus, "Bấm vào đây để mở thư mục lưu file");
+                LblStatus.ForeColor = System.Drawing.Color.Green;
+                LblStatus.Text = $"Lưu thành công! \nDữ liệu đã được ghi lại lúc: {timestamp}\nVị trí lưu: {filePath}";
+                // Thiết lập tooltip cho LblStatus
+                statusToolTip.SetToolTip(LblStatus, "BẤM VÀO ĐÂY ĐỂ MỞ VỊ TRÍ LƯU FILE");
 
                 // Xóa nội dung của tất cả các TextBox sau khi lưu thành công
                 txtSAPN.Clear();
@@ -483,23 +513,23 @@ namespace IT_CONFIRM
             catch (IOException)
             {
                 // Cập nhật thông báo lỗi cụ thể khi file đang được mở
-                lblStatus.ForeColor = System.Drawing.Color.Red;
-                lblStatus.Text = "File đang được mở bởi ứng dụng khác hoặc không thể ghi dữ liệu.\nHãy đóng file đang mở trước khi bấm Save";
+                LblStatus.ForeColor = System.Drawing.Color.Red;
+                LblStatus.Text = "File đang được mở bởi ứng dụng khác hoặc không thể ghi dữ liệu.\nHãy đóng file đang mở trước khi bấm Save";
                 // Xóa tooltip khi có lỗi
-                statusToolTip.SetToolTip(lblStatus, "");
+                statusToolTip.SetToolTip(LblStatus, "");
             }
             catch (Exception ex)
             {
                 // Báo lỗi chung nếu có lỗi khác
-                lblStatus.ForeColor = System.Drawing.Color.Red;
-                lblStatus.Text = $"Đã xảy ra lỗi: {ex.Message}";
+                LblStatus.ForeColor = System.Drawing.Color.Red;
+                LblStatus.Text = $"Đã xảy ra lỗi: {ex.Message}";
                 // Xóa tooltip khi có lỗi
-                statusToolTip.SetToolTip(lblStatus, "");
+                statusToolTip.SetToolTip(LblStatus, "");
             }
         }
 
         // Xử lý nút RESET
-        private void btnReset_Click(object sender, EventArgs e)
+        private void BtnReset_Click(object sender, EventArgs e)
         {
             // Xóa nội dung của tất cả các TextBox
             txtSAPN.Clear();
@@ -524,10 +554,10 @@ namespace IT_CONFIRM
             cboErrorType.SelectedIndex = -1; // Mặc định chọn "ĐỐM" =0 CHỌN DÒNG ĐẦU TIÊN
 
             // Cập nhật thông báo
-            lblStatus.ForeColor = System.Drawing.Color.DarkOrange;
-            lblStatus.Text = "Đã khởi tạo lại ứng dụng.";
+            LblStatus.ForeColor = System.Drawing.Color.DarkOrange;
+            LblStatus.Text = "Đã khởi tạo lại ứng dụng.";
             // Xóa tooltip khi reset ứng dụng
-            statusToolTip.SetToolTip(lblStatus, "");
+            statusToolTip.SetToolTip(LblStatus, "");
             // Đặt focus lại cho ô đầu tiên
             txtSAPN.Focus();
         }       
@@ -541,7 +571,7 @@ namespace IT_CONFIRM
             {
                 e.Handled = true;
                 validationToolTip.ToolTipTitle = "Lỗi nhập liệu";
-                validationToolTip.Show("Chỉ cho phép nhập tối đa 3 số", currentTextBox, 0, currentTextBox.Height, 2000);
+                validationToolTip.Show("Chỉ cho phép nhập tối đa 3 số", currentTextBox, 0, currentTextBox.Height, 3000);
                 return;
             }
 
@@ -551,11 +581,11 @@ namespace IT_CONFIRM
             {
                 e.Handled = true;
                 validationToolTip.ToolTipTitle = "Lỗi nhập liệu";
-                validationToolTip.Show("Chỉ cho phép nhập số!", currentTextBox, 0, currentTextBox.Height, 2000);
+                validationToolTip.Show("Chỉ cho phép nhập số!", currentTextBox, 0, currentTextBox.Height, 3000);
             }
         }
 
-        private void txtSx1_KeyPress(object sender, KeyPressEventArgs e)
+        private void TxtSx1_KeyPress(object sender, KeyPressEventArgs e)
         {
             TextBox currentTextBox = (TextBox)sender;
             string currentText = currentTextBox.Text;
@@ -594,9 +624,39 @@ namespace IT_CONFIRM
         // Phương thức mới để đếm và cập nhật số lượng sAPN đã lưu
         private void UpdateSavedSAPNCount()
         {
+            // Lấy múi giờ GMT+7
+            TimeZoneInfo vietnamZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
+            DateTime vietnamTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamZone);
+
+            // Xác định ngày và ca làm việc
+            string dateString;
+            string shift;
+
+            // Nếu thời gian từ 20:00 hôm nay đến trước 08:00 hôm sau, sử dụng ngày bắt đầu ca đêm
+            if (vietnamTime.Hour >= 20 || vietnamTime.Hour < 8)
+            {
+                // Nếu thời gian từ 00:00 đến 07:59:59, sử dụng ngày hôm trước
+                if (vietnamTime.Hour < 8)
+                {
+                    dateString = vietnamTime.AddDays(-1).ToString("yyyyMMdd");
+                }
+                else
+                {
+                    dateString = vietnamTime.ToString("yyyyMMdd");
+                }
+                shift = "NIGHT";
+            }
+            // Nếu thời gian từ 08:00 đến trước 20:00, sử dụng ngày hiện tại và ca ngày
+            else
+            {
+                dateString = vietnamTime.ToString("yyyyMMdd");
+                shift = "DAY";
+            }
+
+            string eqpid = ReadEQPIDFromIniFile(); // Lấy EQPID từ file ini
             string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             string appFolderPath = Path.Combine(desktopPath, "IT_CONFIRM");
-            string fileName = $"TOA DO_{DateTime.Now:yyyyMMdd}.csv";
+            string fileName = string.IsNullOrEmpty(eqpid) ? $"IT_{dateString}_{shift}.csv" : $"IT_{eqpid}_{dateString}_{shift}.csv";           
             string filePath = Path.Combine(appFolderPath, fileName);
 
             int count = 0;
@@ -609,7 +669,7 @@ namespace IT_CONFIRM
                     for (int i = 1; i < lines.Length; i++)
                     {
                         var parts = lines[i].Split(',');
-                        if (parts.Length > 1 && !string.IsNullOrWhiteSpace(parts[0]))
+                        if (parts.Length > 1 && !string.IsNullOrWhiteSpace(parts[1]))
                         {
                             // Kiểm tra xem có ít nhất một tọa độ không rỗng
                             bool hasCoordinates = false;
@@ -636,17 +696,48 @@ namespace IT_CONFIRM
                 catch (Exception ex)
                 {
                     // Xử lý các lỗi khác nếu có
-                    lblStatus.ForeColor = System.Drawing.Color.Red;
-                    lblStatus.Text = $"Lỗi khi đọc file đếm số lượng: {ex.Message}";
+                    LblStatus.ForeColor = System.Drawing.Color.Red;
+                    LblStatus.Text = $"Lỗi khi đọc file đếm số lượng: {ex.Message}";
                     return;
                 }
             }
-            lblSAPNCount.Text = $"Số lượng APN đã lưu: {count}";
+            LblSAPNCount.Text = $"Số lượng APN đã lưu: {count}";
+        }
+        #endregion
+
+        #region ĐỌC THÔNG TIN TỪ FILE INI
+        /// <summary>
+        /// Đọc giá trị EQPID từ file MachineParam.ini
+        /// </summary>
+        /// <returns>Giá trị EQPID hoặc chuỗi rỗng nếu không tìm thấy.</returns>
+        private string ReadEQPIDFromIniFile()
+        {
+            string filePath = @"C:\samsung\Debug\Config\MachineParam.ini";
+            if (File.Exists(filePath))
+            {
+                try
+                {
+                    string[] lines = File.ReadAllLines(filePath);
+                    foreach (string line in lines)
+                    {
+                        if (line.StartsWith("EQPID="))
+                        {
+                            return line.Substring("EQPID=".Length);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Xử lý lỗi khi đọc file, ví dụ: không có quyền truy cập
+                    MessageBox.Show("Lỗi khi đọc file MachineParam.ini: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            return "";
         }
         #endregion
 
         #region TIP HƯỚNG DẪN
-        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void LinkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             // Tạo form hướng dẫn mới
             MAP mapForm = new MAP();
