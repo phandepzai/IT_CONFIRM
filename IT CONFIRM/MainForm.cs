@@ -9,6 +9,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Security.Principal;
 
 namespace IT_CONFIRM
 {
@@ -533,10 +534,19 @@ namespace IT_CONFIRM
                         NetworkCredential nasCredentials = ReadNASCredentialsFromIniFile();
                         using (var connection = new NetworkConnection(nasDirectoryPath, nasCredentials))
                         {
-                            // Đảm bảo thư mục NAS tồn tại
+                            string nasSubDirectory = string.IsNullOrEmpty(ReadEQPIDFromIniFile()) ? "NoEQPID" : ReadEQPIDFromIniFile();
+                            string nasSubDirectoryPath = Path.Combine(nasDirectoryPath, nasSubDirectory);
+
+                            // Đảm bảo thư mục NAS chính tồn tại
                             if (!Directory.Exists(nasDirectoryPath))
                             {
                                 Directory.CreateDirectory(nasDirectoryPath);
+                            }
+
+                            // Đảm bảo thư mục con EQPID tồn tại
+                            if (!Directory.Exists(nasSubDirectoryPath))
+                            {
+                                Directory.CreateDirectory(nasSubDirectoryPath);
                             }
 
                             if (!File.Exists(nasFilePath))
@@ -558,7 +568,6 @@ namespace IT_CONFIRM
                         nasError = ex.Message;
                     }
 
-                    // Update UI sau khi NAS hoàn thành (dùng Invoke để an toàn)
                     this.Invoke(new Action(() =>
                     {
                         if (nasSaved)
@@ -781,10 +790,8 @@ namespace IT_CONFIRM
             string dateString;
             string shift;
 
-            // Nếu thời gian từ 20:00 hôm nay đến trước 08:00 hôm sau, sử dụng ngày bắt đầu ca đêm
             if (vietnamTime.Hour >= 20 || vietnamTime.Hour < 8)
             {
-                // Nếu thời gian từ 00:00 đến 07:59:59, sử dụng ngày hôm trước
                 if (vietnamTime.Hour < 8)
                 {
                     dateString = vietnamTime.AddDays(-1).ToString("yyyyMMdd");
@@ -795,24 +802,23 @@ namespace IT_CONFIRM
                 }
                 shift = "NIGHT";
             }
-            // Nếu thời gian từ 08:00 đến trước 20:00, sử dụng ngày hiện tại và ca ngày
             else
             {
                 dateString = vietnamTime.ToString("yyyyMMdd");
                 shift = "DAY";
             }
 
-            string eqpid = ReadEQPIDFromIniFile(); // Lấy EQPID từ file ini
+            string eqpid = ReadEQPIDFromIniFile();
             string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             string directoryPath = Path.Combine(desktopPath, "IT_CONFIRM");
-            // Tạo tên file với EQPID (nếu có)
             string fileName = string.IsNullOrEmpty(eqpid) ? $"IT_{dateString}_{shift}.csv" : $"IT_{eqpid}_{dateString}_{shift}.csv";
             _lastSavedFilePath = Path.Combine(directoryPath, fileName);
 
-            // Tạo đường dẫn NAS tương tự
-            nasFilePath = Path.Combine(nasDirectoryPath, fileName); // ĐÚNG
+            // Tạo đường dẫn NAS với thư mục con EQPID
+            string nasSubDirectory = string.IsNullOrEmpty(eqpid) ? "NoEQPID" : eqpid;
+            nasFilePath = Path.Combine(nasDirectoryPath, nasSubDirectory, fileName);
 
-            // Đảm bảo thư mục tồn tại
+            // Đảm bảo thư mục cục bộ tồn tại
             try
             {
                 if (!Directory.Exists(directoryPath))
@@ -823,7 +829,35 @@ namespace IT_CONFIRM
             catch (Exception ex)
             {
                 LblStatus.ForeColor = System.Drawing.Color.Red;
-                LblStatus.Text = $"Lỗi tạo thư mục: {ex.Message}";
+                LblStatus.Text = $"Lỗi tạo thư mục cục bộ: {ex.Message}";
+            }
+
+            // Kiểm tra kết nối NAS trước khi tạo thư mục
+            try
+            {
+                using (var connection = new NetworkConnection(nasDirectoryPath, ReadNASCredentialsFromIniFile()))
+                {
+                    if (!Directory.Exists(nasDirectoryPath))
+                    {
+                        Directory.CreateDirectory(nasDirectoryPath);
+                    }
+
+                    string nasSubDirectoryPath = Path.Combine(nasDirectoryPath, nasSubDirectory);
+                    if (!Directory.Exists(nasSubDirectoryPath))
+                    {
+                        Directory.CreateDirectory(nasSubDirectoryPath);
+                    }
+                }
+            }
+            catch (Win32Exception winEx)
+            {
+                LblStatus.ForeColor = System.Drawing.Color.Red;
+                LblStatus.Text = $"Lỗi kết nối NAS ({winEx.NativeErrorCode}): {winEx.Message}";
+            }
+            catch (Exception ex)
+            {
+                LblStatus.ForeColor = System.Drawing.Color.Red;
+                LblStatus.Text = $"Lỗi tạo thư mục NAS {nasSubDirectory}: {ex.Message}";
             }
         }
         #endregion
