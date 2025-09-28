@@ -1,10 +1,14 @@
-﻿using System;
+﻿using IT_CONFIRM.Properties;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Net;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Collections.Generic;
-using IT_CONFIRM.Properties;
 
 namespace IT_CONFIRM
 {
@@ -20,6 +24,10 @@ namespace IT_CONFIRM
         private Color originalCopyrightColor;
         private double rainbowPhase = 0;       
         private readonly Dictionary<string, Color> originalColors = new Dictionary<string, Color>();// Sử dụng Dictionary để lưu màu gốc của tất cả các nút
+
+        // Biến cho NAS
+        private string nasFilePath; // Không phải readonly, cho phép gán trong SetFilePath
+        private string nasDirectoryPath; // readonly, chỉ gán trong constructor
         #endregion
 
         #region FORM KHỞI TẠO UI
@@ -53,6 +61,11 @@ namespace IT_CONFIRM
             // Gán sự kiện Click và thay đổi con trỏ chuột cho LblStatus
             this.LblStatus.Click += new EventHandler(this.LblStatus_Click);
             this.LblStatus.Cursor = Cursors.Hand;
+
+            // Khởi tạo NAS
+            var nasCredentials = ReadNASCredentialsFromIniFile(); // Gọi hàm để đọc credentials và tạo file NAS.ini       
+            // Tạo đường dẫn file dựa trên ngày hiện tại
+            SetFilePath();
 
             // Khởi tạo hiệu ứng cho các nút
             InitializeButtonEffects();
@@ -509,6 +522,57 @@ namespace IT_CONFIRM
                 txtSAPN.Focus();
                 // Cập nhật bộ đếm sau khi lưu
                 UpdateSavedSAPNCount();
+
+                // Chạy lưu NAS async (background) để không block UI
+                _ = Task.Run(() =>
+                {
+                    bool nasSaved = true;
+                    string nasError = null;
+                    try
+                    {
+                        NetworkCredential nasCredentials = ReadNASCredentialsFromIniFile();
+                        using (var connection = new NetworkConnection(nasDirectoryPath, nasCredentials))
+                        {
+                            // Đảm bảo thư mục NAS tồn tại
+                            if (!Directory.Exists(nasDirectoryPath))
+                            {
+                                Directory.CreateDirectory(nasDirectoryPath);
+                            }
+
+                            if (!File.Exists(nasFilePath))
+                            {
+                                string header = "MODEL,sAPN,DESCRIPTION,Sx1,Sy1,Ex1,Ey1,Sx2,Sy2,Ex2,Ey2,Sx3,Sy3,Ex3,Ey3,X1,Y1,X2,Y2,X3,Y3,EVENT_TIME";
+                                File.AppendAllText(nasFilePath, header + Environment.NewLine, System.Text.Encoding.UTF8);
+                            }
+                            File.AppendAllText(nasFilePath, csvData + Environment.NewLine, System.Text.Encoding.UTF8);
+                        }
+                    }
+                    catch (Win32Exception winEx)
+                    {
+                        nasSaved = false;
+                        nasError = $"Lỗi {winEx.NativeErrorCode}: {winEx.Message}";
+                    }
+                    catch (Exception ex)
+                    {
+                        nasSaved = false;
+                        nasError = ex.Message;
+                    }
+
+                    // Update UI sau khi NAS hoàn thành (dùng Invoke để an toàn)
+                    this.Invoke(new Action(() =>
+                    {
+                        if (nasSaved)
+                        {
+                            LblStatus.Text += $"\nNAS Server: {nasFilePath}";
+                            statusToolTip.SetToolTip(LblStatus, "BẤM VÀO ĐÂY ĐỂ MỞ VỊ TRÍ LƯU FILE");
+                        }
+                        else
+                        {
+                            LblStatus.Text += $"\nLưu vào server thất bại: {nasError}";
+                            statusToolTip.SetToolTip(LblStatus, "BẤM VÀO ĐÂY ĐỂ MỞ VỊ TRÍ LƯU FILE");
+                        }
+                    }));
+                });
             }
             catch (IOException)
             {
@@ -705,6 +769,65 @@ namespace IT_CONFIRM
         }
         #endregion
 
+        #region TẠO ĐƯỜNG DẪN FILE CỤC BỘ VÀ NAS
+        // Phương thức tạo đường dẫn file cục bộ và NAS
+        private void SetFilePath()
+        {
+            // Lấy múi giờ GMT+7
+            TimeZoneInfo vietnamZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
+            DateTime vietnamTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamZone);
+
+            // Xác định ngày và ca làm việc
+            string dateString;
+            string shift;
+
+            // Nếu thời gian từ 20:00 hôm nay đến trước 08:00 hôm sau, sử dụng ngày bắt đầu ca đêm
+            if (vietnamTime.Hour >= 20 || vietnamTime.Hour < 8)
+            {
+                // Nếu thời gian từ 00:00 đến 07:59:59, sử dụng ngày hôm trước
+                if (vietnamTime.Hour < 8)
+                {
+                    dateString = vietnamTime.AddDays(-1).ToString("yyyyMMdd");
+                }
+                else
+                {
+                    dateString = vietnamTime.ToString("yyyyMMdd");
+                }
+                shift = "NIGHT";
+            }
+            // Nếu thời gian từ 08:00 đến trước 20:00, sử dụng ngày hiện tại và ca ngày
+            else
+            {
+                dateString = vietnamTime.ToString("yyyyMMdd");
+                shift = "DAY";
+            }
+
+            string eqpid = ReadEQPIDFromIniFile(); // Lấy EQPID từ file ini
+            string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            string directoryPath = Path.Combine(desktopPath, "IT_CONFIRM");
+            // Tạo tên file với EQPID (nếu có)
+            string fileName = string.IsNullOrEmpty(eqpid) ? $"IT_{dateString}_{shift}.csv" : $"IT_{eqpid}_{dateString}_{shift}.csv";
+            _lastSavedFilePath = Path.Combine(directoryPath, fileName);
+
+            // Tạo đường dẫn NAS tương tự
+            nasFilePath = Path.Combine(nasDirectoryPath, fileName); // ĐÚNG
+
+            // Đảm bảo thư mục tồn tại
+            try
+            {
+                if (!Directory.Exists(directoryPath))
+                {
+                    Directory.CreateDirectory(directoryPath);
+                }
+            }
+            catch (Exception ex)
+            {
+                LblStatus.ForeColor = System.Drawing.Color.Red;
+                LblStatus.Text = $"Lỗi tạo thư mục: {ex.Message}";
+            }
+        }
+        #endregion
+
         #region ĐỌC THÔNG TIN TỪ FILE INI
         /// <summary>
         /// Đọc giá trị EQPID từ file MachineParam.ini
@@ -733,6 +856,110 @@ namespace IT_CONFIRM
                 }
             }
             return "";
+        }
+
+        /// <summary>
+        /// Đọc giá trị NASPATH, NASUSER, NASPASSWORD, NASDOMAIN từ section [NAS SERVER] trong file NAS.ini, tạo file nếu chưa tồn tại
+        /// </summary>
+        /// <returns>NetworkCredential chứa thông tin xác thực NAS</returns>
+        private NetworkCredential ReadNASCredentialsFromIniFile()
+        {
+            string filePath = @"C:\IT_CONFIRM\Config\NAS.ini";
+            string defaultNasPath = @"\\107.126.41.111\IT_CONFIRM";
+            string defaultNasUser = "admin";
+            string defaultNasPassword = "insp2019@";
+            string defaultNasDomain = "";
+
+            try
+            {
+                // Đảm bảo thư mục tồn tại
+                string directoryPath = Path.GetDirectoryName(filePath);
+                if (!Directory.Exists(directoryPath))
+                {
+                    Directory.CreateDirectory(directoryPath);
+                }
+
+                // Kiểm tra quyền ghi vào thư mục
+                if (!IsDirectoryWritable(directoryPath))
+                {
+                    LblStatus.ForeColor = System.Drawing.Color.Red;
+                    LblStatus.Text = $"Không có quyền ghi vào thư mục {directoryPath} để tạo NAS.ini";
+                    return new NetworkCredential(defaultNasUser, defaultNasPassword, defaultNasDomain);
+                }
+
+                // Nếu file chưa tồn tại, tạo file với định dạng INI có section [NAS SERVER]
+                if (!File.Exists(filePath))
+                {
+                    string iniContent = "[NAS SERVER]\n" +
+                                       $"NASPATH={defaultNasPath}\n" +
+                                       $"NASUSER={defaultNasUser}\n" +
+                                       $"NASPASSWORD={defaultNasPassword}\n" +
+                                       $"NASDOMAIN={defaultNasDomain}";
+                    File.WriteAllText(filePath, iniContent, Encoding.UTF8);
+                    //LblStatus.ForeColor = System.Drawing.Color.Blue;
+                    //LblStatus.Text = $"Đã tạo file NAS.ini tại {filePath}";
+                    nasDirectoryPath = defaultNasPath; // Gán mặc định
+                    return new NetworkCredential(defaultNasUser, defaultNasPassword, defaultNasDomain);
+                }
+
+                // Đọc file
+                string[] lines = File.ReadAllLines(filePath);
+                string nasPath = defaultNasPath;
+                string nasUser = defaultNasUser;
+                string nasPassword = defaultNasPassword;
+                string nasDomain = defaultNasDomain;
+                bool inNasServerSection = false;
+
+                foreach (string line in lines)
+                {
+                    string trimmedLine = line.Trim();
+                    // Kiểm tra section [NAS SERVER]
+                    if (trimmedLine.Equals("[NAS SERVER]"))
+                    {
+                        inNasServerSection = true;
+                        continue;
+                    }
+
+                    // Chỉ đọc các khóa trong section [NAS SERVER]
+                    if (inNasServerSection)
+                    {
+                        if (trimmedLine.StartsWith("NASPATH="))
+                            nasPath = trimmedLine.Substring("NASPATH=".Length);
+                        else if (trimmedLine.StartsWith("NASUSER="))
+                            nasUser = trimmedLine.Substring("NASUSER=".Length);
+                        else if (trimmedLine.StartsWith("NASPASSWORD="))
+                            nasPassword = trimmedLine.Substring("NASPASSWORD=".Length);
+                        else if (trimmedLine.StartsWith("NASDOMAIN="))
+                            nasDomain = trimmedLine.Substring("NASDOMAIN=".Length);
+                    }
+                }
+
+                // Gán nasDirectoryPath (chỉ trong constructor, không gây lỗi readonly)
+                nasDirectoryPath = nasPath;
+                return new NetworkCredential(nasUser, nasPassword, nasDomain);
+            }
+            catch (Exception ex)
+            {
+                LblStatus.ForeColor = System.Drawing.Color.Red;
+                LblStatus.Text = $"Lỗi khi đọc/tạo file NAS.ini: {ex.Message}";
+                nasDirectoryPath = defaultNasPath; // Gán mặc định để tránh null
+                return new NetworkCredential(defaultNasUser, defaultNasPassword, defaultNasDomain);
+            }
+        }
+
+        // Phương thức kiểm tra quyền ghi thư mục
+        private bool IsDirectoryWritable(string directoryPath)
+        {
+            try
+            {
+                using (FileStream fs = File.Create(Path.Combine(directoryPath, Path.GetRandomFileName()), 1, FileOptions.DeleteOnClose))
+                { }
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
         #endregion
 

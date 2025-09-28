@@ -61,6 +61,7 @@
     <Compile Include="MAP.Designer.cs">
       <DependentUpon>MAP.cs</DependentUpon>
     </Compile>
+    <Compile Include="NetworkConnection.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="MainForm.resx">

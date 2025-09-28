@@ -726,11 +726,11 @@
             // LblStatus
             // 
             this.LblStatus.AutoSize = true;
-            this.LblStatus.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LblStatus.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LblStatus.ForeColor = System.Drawing.Color.Green;
             this.LblStatus.Location = new System.Drawing.Point(13, 514);
             this.LblStatus.Name = "LblStatus";
-            this.LblStatus.Size = new System.Drawing.Size(64, 15);
+            this.LblStatus.Size = new System.Drawing.Size(60, 15);
             this.LblStatus.TabIndex = 43;
             this.LblStatus.Text = "Trạng thái";
             // 
@@ -748,11 +748,11 @@
             // LblCopyright
             // 
             this.LblCopyright.AutoSize = true;
-            this.LblCopyright.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LblCopyright.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LblCopyright.ForeColor = System.Drawing.SystemColors.AppWorkspace;
-            this.LblCopyright.Location = new System.Drawing.Point(558, 545);
+            this.LblCopyright.Location = new System.Drawing.Point(550, 565);
             this.LblCopyright.Name = "LblCopyright";
-            this.LblCopyright.Size = new System.Drawing.Size(94, 13);
+            this.LblCopyright.Size = new System.Drawing.Size(99, 13);
             this.LblCopyright.TabIndex = 60;
             this.LblCopyright.Text = "Ⓒ Nông Văn Phấn";
             this.LblCopyright.MouseEnter += new System.EventHandler(this.LblCopyright_MouseEnter);
@@ -806,20 +806,20 @@
             // linkLabel1
             // 
             this.linkLabel1.AutoSize = true;
+            this.linkLabel1.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
             this.linkLabel1.Location = new System.Drawing.Point(288, 460);
             this.linkLabel1.Name = "linkLabel1";
             this.linkLabel1.Size = new System.Drawing.Size(114, 17);
             this.linkLabel1.TabIndex = 63;
             this.linkLabel1.TabStop = true;
             this.linkLabel1.Text = "HƯỚNG DẪN ĐO";
-            this.linkLabel1.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabel1_LinkClicked);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(656, 562);
+            this.ClientSize = new System.Drawing.Size(654, 586);
             this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.rdoI252);
             this.Controls.Add(this.rdoI251);
