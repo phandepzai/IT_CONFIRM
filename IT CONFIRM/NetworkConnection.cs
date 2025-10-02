@@ -3,6 +3,8 @@ using System.ComponentModel;
 using System.Net;
 using System.Runtime.InteropServices;
 
+
+
 namespace IT_CONFIRM
 {
     public class NetworkConnection : IDisposable
@@ -23,7 +25,10 @@ namespace IT_CONFIRM
 
             var userName = string.IsNullOrEmpty(credentials.Domain)
                 ? credentials.UserName
-                : string.Format(@"{0}\{1}", credentials.Domain, credentials.UserName);
+                : string.Format(@"{0}\\{1}", credentials.Domain, credentials.UserName);
+
+            // Hủy kết nối cũ nếu tồn tại để tránh lỗi 1219/1327
+            WNetCancelConnection2(networkName, 0, true);
 
             var result = WNetAddConnection2(
                 netResource,
@@ -34,7 +39,7 @@ namespace IT_CONFIRM
             if (result != 0)
             {
                 string errorMessage = GetWin32ErrorMessage(result);
-                throw new Win32Exception(result, $"Lỗi: {errorMessage}");
+                throw new Win32Exception(result, $"Lỗi khi kết nối tới {networkName}: {errorMessage} (Mã {result})");
             }
         }
 

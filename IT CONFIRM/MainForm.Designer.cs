@@ -92,6 +92,7 @@
             this.rdoI251 = new System.Windows.Forms.RadioButton();
             this.rdoI252 = new System.Windows.Forms.RadioButton();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.LblStatusNas = new System.Windows.Forms.Label();
             this.panelKeyboard.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -815,11 +816,25 @@
             this.linkLabel1.Text = "HƯỚNG DẪN ĐO";
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabel1_LinkClicked);
             // 
+            // LblStatusNas
+            // 
+            this.LblStatusNas.AutoSize = true;
+            this.LblStatusNas.BackColor = System.Drawing.Color.Transparent;
+            this.LblStatusNas.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LblStatusNas.ForeColor = System.Drawing.Color.Green;
+            this.LblStatusNas.Location = new System.Drawing.Point(12, 560);
+            this.LblStatusNas.Name = "LblStatusNas";
+            this.LblStatusNas.Size = new System.Drawing.Size(96, 15);
+            this.LblStatusNas.TabIndex = 0;
+            this.LblStatusNas.Text = "Trạng thái NAS...";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(654, 586);
+            this.Controls.Add(this.LblCopyright);
+            this.Controls.Add(this.LblStatusNas);
             this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.rdoI252);
             this.Controls.Add(this.rdoI251);
@@ -870,7 +885,6 @@
             this.Controls.Add(this.txtSAPN);
             this.Controls.Add(this.labelSAPN);
             this.Controls.Add(this.LblSAPNCount);
-            this.Controls.Add(this.LblCopyright);
             this.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -888,6 +902,7 @@
         #endregion
 
         #region KHAI BÁO BIẾN VÀ ĐỐI TƯỢNG
+        private System.Windows.Forms.Label LblStatusNas;
         private System.Windows.Forms.Label LblCopyright;
         private System.Windows.Forms.Label LblSAPNCount;
         private System.Windows.Forms.Label labelSAPN;
