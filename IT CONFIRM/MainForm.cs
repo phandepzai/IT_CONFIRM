@@ -875,10 +875,7 @@ namespace IT_CONFIRM
         #endregion
 
         #region ĐỌC THÔNG TIN TỪ FILE INI
-        /// <summary>
         /// Đọc giá trị EQPID từ file MachineParam.ini
-        /// </summary>
-        /// <returns>Giá trị EQPID hoặc chuỗi rỗng nếu không tìm thấy.</returns>
         private string ReadEQPIDFromIniFile()
         {
             string filePath = @"C:\samsung\Debug\Config\MachineParam.ini";
@@ -903,11 +900,7 @@ namespace IT_CONFIRM
             }
             return "";
         }
-
-        /// <summary>
-        /// Đọc danh sách thông tin xác thực NAS từ file NAS.ini, tạo file với ba khối [NAS SERVER] nếu chưa tồn tại
-        /// </summary>
-        /// <returns>Danh sách các tuple chứa NASPATH và NetworkCredential</returns>
+        //Đọc thông tin NAS từ file NAS.ini
         private List<(string NasPath, NetworkCredential Credentials)> ReadNASCredentialsFromIniFile()
         {
             string filePath = @"C:\IT_CONFIRM\Config\NAS.ini";
@@ -916,29 +909,28 @@ namespace IT_CONFIRM
             // Mặc định cho ba khối NAS SERVER
             var defaultNasServers = new[]
             {
-        new
-        {
-            NasPath = @"\\107.126.41.111\IT_CONFIRM",
-            NasUser = "admin",
-            NasPassword = "insp2019@",
-            NasDomain = ""
-        },
-        new
-        {
-            NasPath = @"\\107.126.41.112\IT_CONFIRM",
-            NasUser = "admin2",
-            NasPassword = "password2",
-            NasDomain = ""
-        },
-        new
-        {
-            NasPath = @"\\107.126.41.113\IT_CONFIRM",
-            NasUser = "admin3",
-            NasPassword = "password3",
-            NasDomain = ""
-        }
-        };
-
+                new
+                {
+                    NasPath = @"\\107.126.41.111\IT_CONFIRM",
+                    NasUser = "admin",
+                    NasPassword = "insp2019@",
+                    NasDomain = ""
+                },
+                new
+                {
+                    NasPath = @"\\107.126.41.112\IT_CONFIRM",
+                    NasUser = "admin2",
+                    NasPassword = "password2",
+                    NasDomain = ""
+                },
+                new
+                {
+                    NasPath = @"\\107.126.41.113\IT_CONFIRM",
+                    NasUser = "admin3",
+                    NasPassword = "password3",
+                    NasDomain = ""
+                }
+            };
             try
             {
                 // Đảm bảo thư mục tồn tại

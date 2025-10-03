@@ -21,11 +21,6 @@
         }
 
         #region PHẦN TẠO GIAO DIỆN ỨNG DỤNG
-
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
@@ -826,7 +821,7 @@
             this.LblStatusNas.Name = "LblStatusNas";
             this.LblStatusNas.Size = new System.Drawing.Size(96, 15);
             this.LblStatusNas.TabIndex = 0;
-            this.LblStatusNas.Text = "Trạng thái NAS...";
+            this.LblStatusNas.Text = "";
             // 
             // MainForm
             // 
