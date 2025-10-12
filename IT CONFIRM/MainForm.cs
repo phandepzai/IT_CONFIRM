@@ -38,8 +38,14 @@ namespace IT_CONFIRM
             string eqpid = ReadEQPIDFromIniFile();
             this.Text = "IT CONFIRM" + (string.IsNullOrEmpty(eqpid) ? "" : "_" + eqpid + "");
             InitializeKeyboardEvents();
-            txtSAPN.MaxLength = 300;
-            validationToolTip = new ToolTip();//Thông báo yêu cầu nhập dữ liệu
+            txtSAPN.MaxLength = 89;
+            validationToolTip = new ToolTip
+            {
+                AutoPopDelay = 3000,
+                InitialDelay = 500,
+                ReshowDelay = 500,
+                ShowAlways = true
+            };
             statusToolTip = new ToolTip();//Gợi ý bấm vào để mở thư mục
             this.LblStatus.Text = "Sẵn sàng nhập dữ liệu...";
             UpdateSavedSAPNCount();
@@ -219,10 +225,13 @@ namespace IT_CONFIRM
             txtX3.Click += TextBox_Click;
             txtY3.Click += TextBox_Click;
 
-            // Gán sự kiện KeyDown cho txtSAPN
+            // Gán sự kiện KeyDown cho TxtSAPN
             txtSAPN.KeyDown += TxtSAPN_KeyDown;
-
-            // Gán sự kiện KeyPress riêng cho txtSx1 (cho phép ALL)
+            // Gán sự kiện KeyPress cho TxtSAPN
+            txtSAPN.KeyPress += TxtSAPN_KeyPress;
+            // Gán sự kiện TextChanged để cảnh báo sớm
+            txtSAPN.TextChanged += TxtSAPN_TextChanged;
+            // Gán sự kiện KeyPress riêng cho TxtSx1 (cho phép ALL)
             txtSx1.KeyPress += TxtSx1_KeyPress;
 
             // Gán sự kiện KeyPress chung cho các ô tọa độ còn lại
@@ -243,6 +252,29 @@ namespace IT_CONFIRM
             txtY2.KeyPress += CoordinateTextBox_KeyPress;
             txtX3.KeyPress += CoordinateTextBox_KeyPress;
             txtY3.KeyPress += CoordinateTextBox_KeyPress;
+        }
+
+        private void TxtSAPN_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            TextBox currentTextBox = (TextBox)sender;
+
+            // Kiểm tra nếu độ dài văn bản >= 89 và không phải phím điều khiển
+            if (!char.IsControl(e.KeyChar) && currentTextBox.Text.Length >= 89)
+            {
+                e.Handled = true; // Ngăn nhập thêm ký tự
+                validationToolTip.ToolTipTitle = "Lỗi nhập liệu";
+                validationToolTip.Show("Chỉ cho phép nhập tối đa 89 ký tự", currentTextBox, 0, currentTextBox.Height, 3000);
+                return;
+            }
+        }
+
+        private void TxtSAPN_TextChanged(object sender, EventArgs e)
+        {
+            int remaining = 89 - txtSAPN.Text.Length;
+            if (remaining <= 5 && remaining >= 0)
+            {
+                validationToolTip.Show($"Còn {remaining} ký tự", txtSAPN, 0, txtSAPN.Height, 1000);
+            }
         }
 
         // Khi chuột di vào nhãn, kích hoạt hiệu ứng cầu vồng
@@ -358,6 +390,14 @@ namespace IT_CONFIRM
             {
                 Button Btn = (Button)sender;
                 string buttonText = Btn.Text;
+
+                // Kiểm tra nếu ô nhập là TxtSAPN và đã đạt giới hạn 89 ký tự
+                if (currentTextBox == txtSAPN && currentTextBox.Text.Length >= 89)
+                {
+                    validationToolTip.ToolTipTitle = "Lỗi nhập liệu";
+                    validationToolTip.Show("Chỉ cho phép nhập tối đa 89 ký tự", currentTextBox, 0, currentTextBox.Height, 3000);
+                    return;
+                }
 
                 // Kiểm tra nếu ô nhập đã đạt giới hạn 3 ký tự
                 if (currentTextBox.Text.Length >= 3 && !buttonText.Equals("All", StringComparison.OrdinalIgnoreCase))
@@ -749,10 +789,8 @@ namespace IT_CONFIRM
             string dateString;
             string shift;
 
-            // Nếu thời gian từ 20:00 hôm nay đến trước 08:00 hôm sau, sử dụng ngày bắt đầu ca đêm
             if (vietnamTime.Hour >= 20 || vietnamTime.Hour < 8)
             {
-                // Nếu thời gian từ 00:00 đến 07:59:59, sử dụng ngày hôm trước
                 if (vietnamTime.Hour < 8)
                 {
                     dateString = vietnamTime.AddDays(-1).ToString("yyyyMMdd");
@@ -763,7 +801,6 @@ namespace IT_CONFIRM
                 }
                 shift = "NIGHT";
             }
-            // Nếu thời gian từ 08:00 đến trước 20:00, sử dụng ngày hiện tại và ca ngày
             else
             {
                 dateString = vietnamTime.ToString("yyyyMMdd");
@@ -773,24 +810,50 @@ namespace IT_CONFIRM
             string eqpid = ReadEQPIDFromIniFile(); // Lấy EQPID từ file ini
             string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             string appFolderPath = Path.Combine(desktopPath, "IT_CONFIRM");
-            string fileName = string.IsNullOrEmpty(eqpid) ? $"IT_{dateString}_{shift}.csv" : $"IT_{eqpid}_{dateString}_{shift}.csv";           
+            string fileName = string.IsNullOrEmpty(eqpid) ? $"IT_{dateString}_{shift}.csv" : $"IT_{eqpid}_{dateString}_{shift}.csv";
             string filePath = Path.Combine(appFolderPath, fileName);
 
             int count = 0;
-            if (File.Exists(filePath))
+
+            try
             {
-                try
+                // Kiểm tra quyền đọc file
+                if (!CanReadFile(filePath))
                 {
-                    var lines = File.ReadAllLines(filePath, System.Text.Encoding.UTF8);
+                    LblStatus.ForeColor = System.Drawing.Color.Red;
+                    LblStatus.Text = $"File CSV chưa tồn tại hoặc không có quyền đọc file CSV: {filePath}";
+                    LblSAPNCount.Text = "Số lượng APN đã lưu: 0";
+                    return;
+                }
+
+                // Kiểm tra file tồn tại
+                if (!File.Exists(filePath))
+                {
+                    LblSAPNCount.Text = "Số lượng APN đã lưu: 0";
+                    return;
+                }
+
+                // Đọc file bằng StreamReader để tối ưu hiệu suất
+                using (var reader = new StreamReader(filePath, System.Text.Encoding.UTF8))
+                {
                     // Bỏ qua dòng tiêu đề
-                    for (int i = 1; i < lines.Length; i++)
+                    string header = reader.ReadLine();
+                    if (header == null)
                     {
-                        var parts = lines[i].Split(',');
-                        if (parts.Length > 1 && !string.IsNullOrWhiteSpace(parts[1]))
+                        LblSAPNCount.Text = "Số lượng APN đã lưu: 0";
+                        return;
+                    }
+
+                    string line;
+                    while ((line = reader.ReadLine()) != null)
+                    {
+                        var parts = line.Split(',');
+                        // Kiểm tra dòng có đủ cột (ít nhất 22 cột: MODEL, sAPN, DESCRIPTION, ..., EVENT_TIME)
+                        if (parts.Length >= 22 && !string.IsNullOrWhiteSpace(parts[1]))
                         {
-                            // Kiểm tra xem có ít nhất một tọa độ không rỗng
+                            // Kiểm tra có ít nhất một tọa độ không rỗng (từ cột Sx1 đến Y3)
                             bool hasCoordinates = false;
-                            for (int j = 1; j < parts.Length - 1; j++)
+                            for (int j = 3; j < parts.Length - 1 && j <= 20; j++)
                             {
                                 if (!string.IsNullOrWhiteSpace(parts[j]))
                                 {
@@ -805,20 +868,40 @@ namespace IT_CONFIRM
                         }
                     }
                 }
-                catch (IOException)
+
+                // Cập nhật số lượng lên nhãn
+                LblSAPNCount.Text = $"Số lượng APN đã lưu: {count}";
+            }
+            catch (IOException ex)
+            {
+                // File đang bị khóa hoặc không thể truy cập
+                LblStatus.ForeColor = System.Drawing.Color.Red;
+                LblStatus.Text = $"Lỗi khi đọc file CSV (có thể đang mở): {ex.Message}";
+                LblSAPNCount.Text = "Số lượng APN đã lưu: 0";
+            }
+            catch (Exception ex)
+            {
+                // Xử lý các lỗi khác
+                LblStatus.ForeColor = System.Drawing.Color.Red;
+                LblStatus.Text = $"Lỗi khi đọc file CSV ({filePath}): {ex.Message}";
+                LblSAPNCount.Text = "Số lượng APN đã lưu: 0";
+            }
+        }
+
+        // Phương thức kiểm tra quyền đọc file
+        private bool CanReadFile(string filePath)
+        {
+            try
+            {
+                using (FileStream fs = File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
                 {
-                    // Bỏ qua lỗi nếu file đang được mở, không cập nhật bộ đếm
-                    return;
-                }
-                catch (Exception ex)
-                {
-                    // Xử lý các lỗi khác nếu có
-                    LblStatus.ForeColor = System.Drawing.Color.Red;
-                    LblStatus.Text = $"Lỗi khi đọc file đếm số lượng: {ex.Message}";
-                    return;
+                    return true;
                 }
             }
-            LblSAPNCount.Text = $"Số lượng APN đã lưu: {count}";
+            catch
+            {
+                return false;
+            }
         }
         #endregion
 
