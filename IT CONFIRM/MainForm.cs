@@ -80,6 +80,14 @@ namespace IT_CONFIRM
 
             // Khởi tạo hiệu ứng cho các nút
             InitializeButtonEffects();
+
+            //Kiểm tra bản cập nhật mới ứng dụng khi chạy
+            UpdateManager.CheckForUpdates("IT CONFIRM.exe", new[]
+            {
+                //"http://107.125.221.79:8888/update/ITCONF/",
+                //"http://107.126.41.111:8888/update/ITCONF/",
+                "http://192.168.111.101:8888/update/ITCONF/"
+            });
         }
         #endregion
 
