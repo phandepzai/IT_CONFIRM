@@ -51,7 +51,7 @@ public static class UpdateManager
     // 🔹 Hiển thị form mini có bo tròn + đổ bóng
     private static void ShowUpdatePrompt(string latestVersion, string changelog, string workingServer, string exeName)
     {
-        int cornerRadius = 20;
+        int cornerRadius = 10;
 
         var updateForm = new Form
         {
@@ -108,7 +108,7 @@ public static class UpdateManager
             Width = updateForm.Width - 90,
             Height = 110,
             TextAlign = ContentAlignment.TopLeft,
-            Font = new Font("Segoe UI", 9)
+            Font = new Font("Segoe UI", 9, FontStyle.Bold)
         };
 
         // Panel chứa nút
@@ -125,7 +125,7 @@ public static class UpdateManager
             Width = 90,
             Height = 38,
             FlatStyle = FlatStyle.Flat,
-            Font = new Font("Segoe UI", 10),
+            Font = new Font("Segoe UI", 10, FontStyle.Bold),
             BackColor = Color.FromArgb(0, 120, 0),
             ForeColor = Color.White,
             Cursor = Cursors.Hand
@@ -140,7 +140,7 @@ public static class UpdateManager
             Width = 90,
             Height = 38,
             FlatStyle = FlatStyle.Flat,
-            Font = new Font("Segoe UI", 10),
+            Font = new Font("Segoe UI", 10, FontStyle.Bold),
             BackColor = Color.FromArgb(240, 240, 240),
             ForeColor = Color.Black,
             Cursor = Cursors.Hand
@@ -217,11 +217,23 @@ public static class UpdateManager
                     timeout /t 1 > nul
                     goto loop
                 )
+
+                :: Xóa file .old cũ (nếu có) trước khi tạo file .old mới
                 if exist ""{oldExePath}"" del /f /q ""{oldExePath}""
-                rename ""{newExePath}"" ""{Path.GetFileName(oldExePath)}""
-                copy /y ""{tempFile}"" ""{newExePath}""
+
+                :: Đổi tên file EXE cũ thành .old
+                rename ""{currentExe}"" ""{Path.GetFileName(oldExePath)}""
+
+                :: Copy file EXE mới (từ tempFile) vào vị trí file chạy chính
+                copy /y ""{tempFile}"" ""{currentExe}""
                 del /f /q ""{tempFile}""
-                start """" ""{newExePath}""
+
+                :: Khởi động ứng dụng mới
+                start """" ""{currentExe}""
+
+                :: 🚨 THÊM: Xoá TẤT CẢ các file có đuôi .old trong thư mục hiện tại
+                DEL /f /q ""*.old""
+
                 exit
                 ";
 
