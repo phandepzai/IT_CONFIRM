@@ -90,6 +90,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="Scripts\IncrementVersion.ps1" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -101,4 +102,11 @@
     <EmbeddedResource Include="MAP.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="IncrementBuildVersion" BeforeTargets="BeforeBuild">
+    <PropertyGroup>
+      <AssemblyFile>$(ProjectDir)Properties\AssemblyInfo.cs</AssemblyFile>
+      <ScriptPath>$(ProjectDir)Scripts\IncrementVersion.ps1</ScriptPath>
+    </PropertyGroup>
+    <Exec Command="powershell.exe -ExecutionPolicy Bypass -File &quot;$(ScriptPath)&quot; &quot;$(AssemblyFile)&quot;" Condition="Exists('$(ScriptPath)') And Exists('$(AssemblyFile)')" />
+  </Target>
 </Project>
