@@ -846,8 +846,8 @@ namespace ITCONFIRM
             string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             string appFolderPath = Path.Combine(desktopPath, "IT_CONFIRM");
             string fileName = string.IsNullOrEmpty(eqpid) ? $"IT_{dateString}_{shift}.csv" : $"IT_{eqpid}_{dateString}_{shift}.csv";
-            string filePath = Path.Combine(appFolderPath, fileName);
-
+            string filePath = Path.Combine(appFolderPath);
+            string tenfile = Path.Combine(fileName);
             int count = 0;
 
             try
@@ -855,7 +855,8 @@ namespace ITCONFIRM
                 // Kiểm tra quyền đọc file
                 if (!CanReadFile(filePath))
                 {
-                    LblStatus.ForeColor = System.Drawing.Color.ForestGreen;                   
+                    LblStatus.ForeColor = System.Drawing.Color.ForestGreen;
+                    LblStatus.Text = $"Đã tạo thư mục chứa file log CSV: \n\n{filePath}";
                     LblSAPNCount.Text = "Số lượng APN đã lưu: 0";
                     return;
                 }
