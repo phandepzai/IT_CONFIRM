@@ -19,6 +19,7 @@ namespace ITCONFIRM
     public partial class MainForm : Form
     {
         #region KHAI BÁO CÁC BIẾN
+        private readonly System.Windows.Forms.Timer timer;
         private TextBox currentTextBox;
         private readonly ToolTip validationToolTip;
         private string _lastSavedFilePath; // Biến mới để lưu đường dẫn file        
@@ -65,6 +66,10 @@ namespace ITCONFIRM
             };
             this.rainbowTimer.Tick += new EventHandler(this.RainbowTimer_Tick);
 
+            timer = new System.Windows.Forms.Timer { Interval = 500 };
+            timer.Tick += Timer_Tick;
+            timer.Start();
+
             // Gắn sự kiện cho LblCopyright
             LblCopyright.MouseEnter += LblCopyright_MouseEnter;
             LblCopyright.MouseLeave += LblCopyright_MouseLeave;
@@ -78,7 +83,9 @@ namespace ITCONFIRM
             this.LblSAPNCount.Cursor = Cursors.Hand;
 
             // Khởi tạo NAS
-            var nasCredentials = ReadNASCredentialsFromIniFile(); // Gọi hàm để đọc credentials và tạo file NASConfig.ini       
+            var nasCredentials = ReadNASCredentialsFromIniFile(); // Gọi hàm để đọc credentials và tạo file NASConfig.ini
+            AppendToLog($"Cấu hình NAS đã được đọc thành công. Path: {@"C:\IT_CONFIRM\Config\NASConfig.ini"}", System.Drawing.Color.Green);
+
             // Tạo đường dẫn file dựa trên ngày hiện tại
             SetFilePath();
 
@@ -144,7 +151,7 @@ namespace ITCONFIRM
         }
         #endregion
 
-        #region TỰ ĐỘNG CHUYỂN Ô KHI NHẬP ĐỦ 3 KÝ TỰ & MÀU NỀN KHI FOCUS
+        #region AUTO FOCUS KHI NHẬP ĐỦ 3 KÝ TỰ & MÀU NỀN KHI FOCUS
         private void CoordinateTextBox_TextChanged(object sender, EventArgs e)
         {
             TextBox currentTextBox = (TextBox)sender;
@@ -251,7 +258,7 @@ namespace ITCONFIRM
             }
 
             // Lấy thời gian hiện tại theo định dạng mong muốn (ví dụ: [HH:mm:ss])
-            string timestamp = $"[{DateTime.Now:HH:mm:ss}] ";
+            string timestamp = $"[{DateTime.Now:dd/MM/yyyy | HH:mm:ss}] ";
 
             // Di chuyển con trỏ đến cuối văn bản
             txtLog.SelectionStart = txtLog.Text.Length;
@@ -274,6 +281,38 @@ namespace ITCONFIRM
 
             // Cuộn xuống cuối cùng
             txtLog.ScrollToCaret();
+        }
+        #endregion
+
+        #region ĐỒNG HỒ CHẠY THEO GMT +7
+        // Sự kiện cho đồng hồ
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            try
+            {
+                // Lấy múi giờ GMT+7
+                TimeZoneInfo vietnamZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
+                // Lấy thời gian hiện tại theo UTC (GMT+0)
+                DateTime utcTime = DateTime.UtcNow;
+                // Chuyển đổi thời gian UTC sang thời gian Việt Nam (GMT+7)
+                DateTime vietnamTime = TimeZoneInfo.ConvertTimeFromUtc(utcTime, vietnamZone);
+
+                // Hiển thị thời gian đã chuyển đổi
+                LabelTime.Text = vietnamTime.ToString("HH:mm:ss");
+                LabelDate.Text = vietnamTime.ToString("dd/MM/yyyy");
+            }
+            catch (TimeZoneNotFoundException ex)
+            {
+                // Xử lý ngoại lệ nếu không tìm thấy múi giờ "SE Asia Standard Time"
+                LblStatus.ForeColor = System.Drawing.Color.DarkRed;
+                LblStatus.Text = $"Lỗi múi giờ: {ex.Message}";
+            }
+            catch (Exception ex)
+            {
+                // Xử lý các lỗi khác
+                LblStatus.ForeColor = System.Drawing.Color.DarkRed;
+                LblStatus.Text = $"Lỗi cập nhật đồng hồ: {ex.Message}";
+            }
         }
         #endregion
 
@@ -1310,8 +1349,7 @@ namespace ITCONFIRM
                 }
 
                 // Gán nasDirectoryPath cho server đầu tiên trong danh sách
-                nasDirectoryPath = nasCredentialsList[0].NasPath;
-                AppendToLog($"Cấu hình NAS đã được đọc thành công.\nPath: {filePath}", System.Drawing.Color.Green);
+                nasDirectoryPath = nasCredentialsList[0].NasPath;               
                 return nasCredentialsList;
             }
             catch (Exception ex)
@@ -1438,7 +1476,7 @@ WHITE SPOT
             //     // LblStatus.ForeColor = System.Drawing.Color.Green;
             //     // LblStatus.Text = "Cấu hình loại lỗi đã được đọc thành công.";
             // }
-            AppendToLog($"Cấu hình tên lỗi đã được đọc thành công.\nPath: {filePath}", System.Drawing.Color.Green);
+            AppendToLog($"Cấu hình tên lỗi đã được đọc thành công. Path: {filePath}", System.Drawing.Color.Green);
             return errorTypes;
         }
         #endregion

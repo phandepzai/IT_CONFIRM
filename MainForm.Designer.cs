@@ -81,6 +81,8 @@
             this.BtnReset = new System.Windows.Forms.Button();
             this.LblStatus = new System.Windows.Forms.Label();
             this.LblSAPNCount = new System.Windows.Forms.Label();
+            this.LabelTime = new System.Windows.Forms.Label();
+            this.LabelDate = new System.Windows.Forms.Label();
             this.LblCopyright = new System.Windows.Forms.Label();
             this.cboModel = new System.Windows.Forms.ComboBox();
             this.labelErrorType = new System.Windows.Forms.Label();
@@ -742,13 +744,43 @@
             this.LblSAPNCount.TabIndex = 59;
             this.LblSAPNCount.Text = "Số lượng APN đã lưu: ";
             // 
+            // LabelTime
+            // 
+            this.LabelTime.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.LabelTime.AutoSize = true;
+            this.LabelTime.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LabelTime.ForeColor = System.Drawing.Color.Red;
+            this.LabelTime.Location = new System.Drawing.Point(503, 493);
+            this.LabelTime.Name = "LabelTime";
+            this.LabelTime.Size = new System.Drawing.Size(56, 17);
+            this.LabelTime.TabIndex = 1;
+            this.LabelTime.Text = "00:00:00";
+            this.LabelTime.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // LabelDate
+            // 
+            this.LabelDate.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.LabelDate.AutoSize = true;
+            this.LabelDate.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LabelDate.ForeColor = System.Drawing.Color.Red;
+            this.LabelDate.Location = new System.Drawing.Point(496, 517);
+            this.LabelDate.Name = "LabelDate";
+            this.LabelDate.Size = new System.Drawing.Size(70, 17);
+            this.LabelDate.TabIndex = 46;
+            this.LabelDate.Text = "01/01/2025";
+            this.LabelDate.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // LblCopyright
             // 
             this.LblCopyright.AutoSize = true;
             this.LblCopyright.BackColor = System.Drawing.Color.Transparent;
             this.LblCopyright.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LblCopyright.ForeColor = System.Drawing.SystemColors.AppWorkspace;
-            this.LblCopyright.Location = new System.Drawing.Point(527, 669);
+            this.LblCopyright.Location = new System.Drawing.Point(531, 669);
             this.LblCopyright.Name = "LblCopyright";
             this.LblCopyright.Size = new System.Drawing.Size(99, 13);
             this.LblCopyright.TabIndex = 60;
@@ -895,6 +927,8 @@
             this.Controls.Add(this.TxtSAPN);
             this.Controls.Add(this.labelSAPN);
             this.Controls.Add(this.LblSAPNCount);
+            this.Controls.Add(this.LabelDate);
+            this.Controls.Add(this.LabelTime);
             this.Controls.Add(this.txtLog);
             this.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -912,6 +946,8 @@
         #endregion
 
         #region KHAI BÁO BIẾN VÀ ĐỐI TƯỢNG
+        private System.Windows.Forms.Label LabelTime;
+        private System.Windows.Forms.Label LabelDate;
         private System.Windows.Forms.Label LblStatusNas;
         private System.Windows.Forms.Label LblCopyright;
         private System.Windows.Forms.Label LblSAPNCount;
