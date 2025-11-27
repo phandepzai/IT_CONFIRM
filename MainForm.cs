@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Security.Principal;
 using System.Text;
@@ -27,19 +28,21 @@ namespace ITCONFIRM
         private Color originalCopyrightColor;
         private double rainbowPhase = 0;
         private readonly Dictionary<string, Color> originalColors = new Dictionary<string, Color>();// Sử dụng Dictionary để lưu màu gốc của tất cả các nút
-
+        private System.Windows.Forms.ComboBox cboModel;
         // Biến cho NAS       
         private string nasDirectoryPath; // readonly, chỉ gán trong constructor
+        private Color defaultTextBoxBackColor; // Biến lưu trữ màu nền mặc định
         #endregion
 
         #region FORM KHỞI TẠO UI
         public MainForm()
         {
             InitializeComponent();
+            InitializeFocusColor(); // Gọi hàm khởi tạo màu nền khi focus
             string eqpid = ReadEQPIDFromIniFile();
             this.Text = "IT CONFIRM" + (string.IsNullOrEmpty(eqpid) ? "" : "_" + eqpid + "");
             InitializeKeyboardEvents();
-            txtSAPN.MaxLength = 89;
+            TxtSAPN.MaxLength = 89;
             validationToolTip = new ToolTip
             {
                 AutoPopDelay = 3000,
@@ -75,7 +78,7 @@ namespace ITCONFIRM
             this.LblSAPNCount.Cursor = Cursors.Hand;
 
             // Khởi tạo NAS
-            var nasCredentials = ReadNASCredentialsFromIniFile(); // Gọi hàm để đọc credentials và tạo file NAS.ini       
+            var nasCredentials = ReadNASCredentialsFromIniFile(); // Gọi hàm để đọc credentials và tạo file NASConfig.ini       
             // Tạo đường dẫn file dựa trên ngày hiện tại
             SetFilePath();
 
@@ -94,6 +97,183 @@ namespace ITCONFIRM
                 enableEpsUnlock: false,
                 unlockBatBaseUrl: "http://107.126.41.111:8888/unlock/"
             );
+            // --- Đọc config cho loại lỗi ---
+            try
+            {
+                List<string> errorTypesList = ReadErrorTypesFromIniFile(); // Gọi phương thức mới
+
+                // Cập nhật danh sách trong ComboBox loại lỗi dựa trên file config INI
+                if (errorTypesList != null && errorTypesList.Count > 0)
+                {
+                    cboErrorType.Items.Clear(); // Xóa các mục cũ (nếu có)
+                    cboErrorType.Items.AddRange(errorTypesList.ToArray());
+                    // Không chọn mục nào mặc định, để người dùng chọn
+                }
+                else
+                {
+                    // Nếu không đọc được config hoặc config rỗng, có thể thêm các mục mặc định
+                    // hoặc để ComboBox trống. Ở đây, để trống.
+                    // Đảm bảo không null nếu cần thiết ở nơi khác, nhưng List<string> rỗng cũng ổn
+                }
+            }
+            catch (Exception ex)
+            {
+                // LblStatus.ForeColor = System.Drawing.Color.Red; // Xóa
+                // LblStatus.Text = $"Lỗi không mong đợi khi đọc cấu hình loại lỗi: {ex.Message}"; // Xóa
+                AppendToLog($"Lỗi không mong đợi khi đọc cấu hình loại lỗi: {ex.Message}", System.Drawing.Color.Red);
+            }
+            // Gán sự kiện TextChanged cho các TextBox tọa độ
+            TxtSx1.TextChanged += CoordinateTextBox_TextChanged;
+            TxtSy1.TextChanged += CoordinateTextBox_TextChanged;
+            TxtEx1.TextChanged += CoordinateTextBox_TextChanged;
+            TxtEy1.TextChanged += CoordinateTextBox_TextChanged;
+            TxtSx2.TextChanged += CoordinateTextBox_TextChanged;
+            TxtSy2.TextChanged += CoordinateTextBox_TextChanged;
+            TxtEx2.TextChanged += CoordinateTextBox_TextChanged;
+            TxtEy2.TextChanged += CoordinateTextBox_TextChanged;
+            TxtSx3.TextChanged += CoordinateTextBox_TextChanged;
+            TxtSy3.TextChanged += CoordinateTextBox_TextChanged;
+            TxtEx3.TextChanged += CoordinateTextBox_TextChanged;
+            TxtEy3.TextChanged += CoordinateTextBox_TextChanged;
+            TxtX1.TextChanged += CoordinateTextBox_TextChanged;
+            TxtY1.TextChanged += CoordinateTextBox_TextChanged;
+            TxtX2.TextChanged += CoordinateTextBox_TextChanged;
+            TxtY2.TextChanged += CoordinateTextBox_TextChanged;
+            TxtX3.TextChanged += CoordinateTextBox_TextChanged;
+            TxtY3.TextChanged += CoordinateTextBox_TextChanged;
+        }
+        #endregion
+
+        #region TỰ ĐỘNG CHUYỂN Ô KHI NHẬP ĐỦ 3 KÝ TỰ & MÀU NỀN KHI FOCUS
+        private void CoordinateTextBox_TextChanged(object sender, EventArgs e)
+        {
+            TextBox currentTextBox = (TextBox)sender;
+
+            // Kiểm tra xem TextBox hiện tại có phải là một trong các ô tọa độ không
+            // và có phải là ô có giới hạn 3 ký tự (loại trừ ô sAPN có 89 ký tự)
+            // Danh sách các TextBox tọa độ có giới hạn 3 ký tự
+            var coordinateTextBoxes = new TextBox[] {
+                TxtSx1, TxtSy1, TxtEx1, TxtEy1,
+                TxtSx2, TxtSy2, TxtEx2, TxtEy2,
+                TxtSx3, TxtSy3, TxtEx3, TxtEy3,
+                TxtX1, TxtY1, TxtX2, TxtY2, TxtX3
+            };
+
+            if (coordinateTextBoxes.Contains(currentTextBox))
+            {
+                // Kiểm tra độ dài và đảm bảo đủ 3 ký tự
+                if (currentTextBox.Text.Length == 3)
+                {
+                    // Chuyển sang ô tiếp theo trong danh sách
+                    // SelectNextControl sẽ chọn ô tiếp theo theo thứ tự tab index
+                    // Nếu bạn muốn thứ tự cụ thể, bạn cần tự quản lý danh sách và logic chuyển tiếp
+                    this.SelectNextControl(currentTextBox, true, true, true, true);
+                }
+            }        
+        }
+
+        private void InitializeFocusColor()
+        {
+            // Lưu màu nền mặc định của một TextBox bất kỳ, hoặc sử dụng SystemColors.Window
+            // Nếu bạn không thay đổi màu nền mặc định trong Designer, SystemColors.Window là an toàn.
+            defaultTextBoxBackColor = SystemColors.Window; // Hoặc Color.FromKnownColor(KnownColor.Window);
+
+            // Gán sự kiện Enter và Leave cho các TextBox tọa độ
+            // Bạn có thể thêm TxtSAPN vào đây nếu muốn áp dụng cho cả ô sAPN
+            TxtSx1.Enter += TextBox_Enter;
+            TxtSx1.Leave += TextBox_Leave;
+            TxtSy1.Enter += TextBox_Enter;
+            TxtSy1.Leave += TextBox_Leave;
+            TxtEx1.Enter += TextBox_Enter;
+            TxtEx1.Leave += TextBox_Leave;
+            TxtEy1.Enter += TextBox_Enter;
+            TxtEy1.Leave += TextBox_Leave;
+            TxtSx2.Enter += TextBox_Enter;
+            TxtSx2.Leave += TextBox_Leave;
+            TxtSy2.Enter += TextBox_Enter;
+            TxtSy2.Leave += TextBox_Leave;
+            TxtEx2.Enter += TextBox_Enter;
+            TxtEx2.Leave += TextBox_Leave;
+            TxtEy2.Enter += TextBox_Enter;
+            TxtEy2.Leave += TextBox_Leave;
+            TxtSx3.Enter += TextBox_Enter;
+            TxtSx3.Leave += TextBox_Leave;
+            TxtSy3.Enter += TextBox_Enter;
+            TxtSy3.Leave += TextBox_Leave;
+            TxtEx3.Enter += TextBox_Enter;
+            TxtEx3.Leave += TextBox_Leave;
+            TxtEy3.Enter += TextBox_Enter;
+            TxtEy3.Leave += TextBox_Leave;
+            TxtX1.Enter += TextBox_Enter;
+            TxtX1.Leave += TextBox_Leave;
+            TxtY1.Enter += TextBox_Enter;
+            TxtY1.Leave += TextBox_Leave;
+            TxtX2.Enter += TextBox_Enter;
+            TxtX2.Leave += TextBox_Leave;
+            TxtY2.Enter += TextBox_Enter;
+            TxtY2.Leave += TextBox_Leave;
+            TxtX3.Enter += TextBox_Enter;
+            TxtX3.Leave += TextBox_Leave;
+            TxtY3.Enter += TextBox_Enter;
+            TxtY3.Leave += TextBox_Leave;
+
+            // Nếu muốn áp dụng cho TxtSAPN:
+             TxtSAPN.Enter += TextBox_Enter;
+             TxtSAPN.Leave += TextBox_Leave;
+        }
+        private void TextBox_Enter(object sender, EventArgs e)
+        {
+            if (sender is TextBox textBox)
+            {
+                // Đặt màu nền khi nhận focus (ví dụ: màu vàng nhạt)
+                textBox.BackColor = Color.PaleGoldenrod;
+            }
+        }
+
+        private void TextBox_Leave(object sender, EventArgs e)
+        {
+            if (sender is TextBox textBox)
+            {
+                // Khôi phục màu nền mặc định khi mất focus
+                textBox.BackColor = defaultTextBoxBackColor;
+            }
+        }
+        #endregion
+
+        #region CẬP NHẬT LOG STATUS
+        // Thêm phương thức này vào class MainForm
+        private void AppendToLog(string message, System.Drawing.Color color)
+        {
+            if (txtLog.InvokeRequired)
+            {
+                txtLog.Invoke(new Action(() => AppendToLog(message, color)));
+                return;
+            }
+
+            // Lấy thời gian hiện tại theo định dạng mong muốn (ví dụ: [HH:mm:ss])
+            string timestamp = $"[{DateTime.Now:HH:mm:ss}] ";
+
+            // Di chuyển con trỏ đến cuối văn bản
+            txtLog.SelectionStart = txtLog.Text.Length;
+            txtLog.SelectionLength = 0; // Không chọn gì
+
+            // --- Thêm phần thời gian với màu mặc định ---
+            // (Màu mặc định là màu hiện tại của ForeColor, thường là đen hoặc màu bạn thiết lập)
+            // Vì SelectionColor đang là màu mặc định (hoặc màu từ lần trước nếu không reset), nên ta có thể append luôn
+            // Nhưng để chắc chắn, ta reset về màu ForeColor trước khi thêm timestamp
+            txtLog.SelectionColor = txtLog.ForeColor; // Đặt màu về mặc định
+            txtLog.AppendText(timestamp);
+
+            // --- Thêm phần nội dung log với màu được chỉ định ---
+            txtLog.SelectionColor = color; // Đặt màu theo tham số truyền vào
+            txtLog.AppendText(message);
+
+            // --- Thêm dấu ngắt dòng ---
+            txtLog.SelectionColor = txtLog.ForeColor; // Dấu ngắt dòng cũng nên là màu mặc định
+            txtLog.AppendText("\n"); // hoặc Environment.NewLine
+
+            // Cuộn xuống cuối cùng
+            txtLog.ScrollToCaret();
         }
         #endregion
 
@@ -174,9 +354,9 @@ namespace ITCONFIRM
                 if (originalColors.ContainsKey(Btn.Name))
                 {
                     Color originalColor = originalColors[Btn.Name];
-                    int r = Math.Min(255, originalColor.R + 30);
-                    int g = Math.Min(255, originalColor.G + 30);
-                    int b = Math.Min(255, originalColor.B + 30);
+                    int r = Math.Min(255, originalColor.R + 50);
+                    int g = Math.Min(255, originalColor.G + 50);
+                    int b = Math.Min(255, originalColor.B + 50);
                     Btn.BackColor = Color.FromArgb(r, g, b);
                 }
             }
@@ -199,9 +379,9 @@ namespace ITCONFIRM
                 if (originalColors.ContainsKey(Btn.Name))
                 {
                     Color originalColor = originalColors[Btn.Name];
-                    int r = Math.Max(0, originalColor.R - 30);
-                    int g = Math.Max(0, originalColor.G - 30);
-                    int b = Math.Max(0, originalColor.B - 30);
+                    int r = Math.Max(0, originalColor.R - 100);
+                    int g = Math.Max(0, originalColor.G - 100);
+                    int b = Math.Max(0, originalColor.B - 100);
                     Btn.BackColor = Color.FromArgb(r, g, b);
                 }
             }
@@ -240,53 +420,53 @@ namespace ITCONFIRM
         private void InitializeKeyboardEvents()
         {
             // Gán sự kiện Click để xác định TextBox hiện tại
-            txtSAPN.Click += TextBox_Click;
-            txtSx1.Click += TextBox_Click;
-            txtSy1.Click += TextBox_Click;
-            txtEx1.Click += TextBox_Click;
-            txtEy1.Click += TextBox_Click;
-            txtSx2.Click += TextBox_Click;
-            txtSy2.Click += TextBox_Click;
-            txtEx2.Click += TextBox_Click;
-            txtEy2.Click += TextBox_Click;
-            txtSx3.Click += TextBox_Click;
-            txtSy3.Click += TextBox_Click;
-            txtEx3.Click += TextBox_Click;
-            txtEy3.Click += TextBox_Click;
-            txtX1.Click += TextBox_Click;
-            txtY1.Click += TextBox_Click;
-            txtX2.Click += TextBox_Click;
-            txtY2.Click += TextBox_Click;
-            txtX3.Click += TextBox_Click;
-            txtY3.Click += TextBox_Click;
+            TxtSAPN.Click += TextBox_Click;
+            TxtSx1.Click += TextBox_Click;
+            TxtSy1.Click += TextBox_Click;
+            TxtEx1.Click += TextBox_Click;
+            TxtEy1.Click += TextBox_Click;
+            TxtSx2.Click += TextBox_Click;
+            TxtSy2.Click += TextBox_Click;
+            TxtEx2.Click += TextBox_Click;
+            TxtEy2.Click += TextBox_Click;
+            TxtSx3.Click += TextBox_Click;
+            TxtSy3.Click += TextBox_Click;
+            TxtEx3.Click += TextBox_Click;
+            TxtEy3.Click += TextBox_Click;
+            TxtX1.Click += TextBox_Click;
+            TxtY1.Click += TextBox_Click;
+            TxtX2.Click += TextBox_Click;
+            TxtY2.Click += TextBox_Click;
+            TxtX3.Click += TextBox_Click;
+            TxtY3.Click += TextBox_Click;
 
             // Gán sự kiện KeyDown cho TxtSAPN
-            txtSAPN.KeyDown += TxtSAPN_KeyDown;
+            TxtSAPN.KeyDown += TxtSAPN_KeyDown;
             // Gán sự kiện KeyPress cho TxtSAPN
-            txtSAPN.KeyPress += TxtSAPN_KeyPress;
+            TxtSAPN.KeyPress += TxtSAPN_KeyPress;
             // Gán sự kiện TextChanged để cảnh báo sớm
-            txtSAPN.TextChanged += TxtSAPN_TextChanged;
+            TxtSAPN.TextChanged += TxtSAPN_TextChanged;
             // Gán sự kiện KeyPress riêng cho TxtSx1 (cho phép ALL)
-            txtSx1.KeyPress += TxtSx1_KeyPress;
+            TxtSx1.KeyPress += TxtSx1_KeyPress;
 
             // Gán sự kiện KeyPress chung cho các ô tọa độ còn lại
-            txtSy1.KeyPress += CoordinateTextBox_KeyPress;
-            txtEx1.KeyPress += CoordinateTextBox_KeyPress;
-            txtEy1.KeyPress += CoordinateTextBox_KeyPress;
-            txtSx2.KeyPress += CoordinateTextBox_KeyPress;
-            txtSy2.KeyPress += CoordinateTextBox_KeyPress;
-            txtEx2.KeyPress += CoordinateTextBox_KeyPress;
-            txtEy2.KeyPress += CoordinateTextBox_KeyPress;
-            txtSx3.KeyPress += CoordinateTextBox_KeyPress;
-            txtSy3.KeyPress += CoordinateTextBox_KeyPress;
-            txtEx3.KeyPress += CoordinateTextBox_KeyPress;
-            txtEy3.KeyPress += CoordinateTextBox_KeyPress;
-            txtX1.KeyPress += CoordinateTextBox_KeyPress;
-            txtY1.KeyPress += CoordinateTextBox_KeyPress;
-            txtX2.KeyPress += CoordinateTextBox_KeyPress;
-            txtY2.KeyPress += CoordinateTextBox_KeyPress;
-            txtX3.KeyPress += CoordinateTextBox_KeyPress;
-            txtY3.KeyPress += CoordinateTextBox_KeyPress;
+            TxtSy1.KeyPress += CoordinateTextBox_KeyPress;
+            TxtEx1.KeyPress += CoordinateTextBox_KeyPress;
+            TxtEy1.KeyPress += CoordinateTextBox_KeyPress;
+            TxtSx2.KeyPress += CoordinateTextBox_KeyPress;
+            TxtSy2.KeyPress += CoordinateTextBox_KeyPress;
+            TxtEx2.KeyPress += CoordinateTextBox_KeyPress;
+            TxtEy2.KeyPress += CoordinateTextBox_KeyPress;
+            TxtSx3.KeyPress += CoordinateTextBox_KeyPress;
+            TxtSy3.KeyPress += CoordinateTextBox_KeyPress;
+            TxtEx3.KeyPress += CoordinateTextBox_KeyPress;
+            TxtEy3.KeyPress += CoordinateTextBox_KeyPress;
+            TxtX1.KeyPress += CoordinateTextBox_KeyPress;
+            TxtY1.KeyPress += CoordinateTextBox_KeyPress;
+            TxtX2.KeyPress += CoordinateTextBox_KeyPress;
+            TxtY2.KeyPress += CoordinateTextBox_KeyPress;
+            TxtX3.KeyPress += CoordinateTextBox_KeyPress;
+            TxtY3.KeyPress += CoordinateTextBox_KeyPress;
         }
 
         private void TxtSAPN_KeyPress(object sender, KeyPressEventArgs e)
@@ -305,10 +485,18 @@ namespace ITCONFIRM
 
         private void TxtSAPN_TextChanged(object sender, EventArgs e)
         {
-            int remaining = 89 - txtSAPN.Text.Length;
+            int remaining = 89 - TxtSAPN.Text.Length;
             if (remaining <= 5 && remaining >= 0)
             {
-                validationToolTip.Show($"Còn {remaining} ký tự", txtSAPN, 0, txtSAPN.Height, 1000);
+                validationToolTip.Show($"Còn {remaining} ký tự", TxtSAPN, 0, TxtSAPN.Height, 1000);
+            }
+            // Kiểm tra nếu độ dài văn bản đạt 89 ký tự
+            if (TxtSAPN.Text.Length == 89)
+            {
+                // Chuyển focus sang TxtSx1
+                TxtSx1.Focus();
+                // (Tùy chọn) Nếu bạn cũng muốn chọn (select) toàn bộ văn bản trong TxtSx1 khi focus,
+                // bạn có thể thêm: TxtSx1.SelectAll();
             }
         }
 
@@ -407,13 +595,13 @@ namespace ITCONFIRM
             }
         }
 
-        // Phương thức xử lý sự kiện KeyDown của txtSAPN
+        // Phương thức xử lý sự kiện KeyDown của TxtSAPN
         private void TxtSAPN_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
-                txtSx1.Focus();
-                currentTextBox = txtSx1; // Cập nhật currentTextBox để bàn phím ảo tương tác với txtSx1
+                TxtSx1.Focus();
+                currentTextBox = TxtSx1; // Cập nhật currentTextBox để bàn phím ảo tương tác với TxtSx1
                 e.SuppressKeyPress = true;
             }
         }
@@ -427,7 +615,7 @@ namespace ITCONFIRM
                 string buttonText = Btn.Text;
 
                 // Kiểm tra nếu ô nhập là TxtSAPN và đã đạt giới hạn 89 ký tự
-                if (currentTextBox == txtSAPN && currentTextBox.Text.Length >= 89)
+                if (currentTextBox == TxtSAPN && currentTextBox.Text.Length >= 89)
                 {
                     validationToolTip.ToolTipTitle = "Lỗi nhập liệu";
                     validationToolTip.Show("Chỉ cho phép nhập tối đa 89 ký tự", currentTextBox, 0, currentTextBox.Height, 3000);
@@ -443,18 +631,18 @@ namespace ITCONFIRM
                     return;
                 }
 
-                // Chỉ cho phép nhập "All" vào txtSx1
+                // Chỉ cho phép nhập "All" vào TxtSx1
                 if (buttonText.Equals("All", StringComparison.OrdinalIgnoreCase))
                 {
-                    if (currentTextBox != txtSx1 || !string.IsNullOrWhiteSpace(currentTextBox.Text))
+                    if (currentTextBox != TxtSx1 || !string.IsNullOrWhiteSpace(currentTextBox.Text))
                     {
                         // Hiển thị tooltip nếu cố gắng nhập "ALL" vào ô khác
-                        if (currentTextBox != txtSx1)
+                        if (currentTextBox != TxtSx1)
                         {
                             validationToolTip.ToolTipTitle = "Lỗi nhập liệu";
                             validationToolTip.Show("Chỉ cho phép nhập ALL vào ô Sx1", currentTextBox, 0, currentTextBox.Height, 2000);
                         }
-                        return; // Không làm gì nếu không phải txtSx1 hoặc ô đã có nội dung
+                        return; // Không làm gì nếu không phải TxtSx1 hoặc ô đã có nội dung
                     }
                     currentTextBox.Text = buttonText;
                 }
@@ -478,17 +666,17 @@ namespace ITCONFIRM
         // Kiểm tra dữ liệu sAPN và ít nhất một trường tọa độ
         private bool IsDataValid()
         {
-            if (string.IsNullOrWhiteSpace(txtSAPN.Text))
+            if (string.IsNullOrWhiteSpace(TxtSAPN.Text))
             {
                 return false;
             }
 
             // Kiểm tra xem ít nhất một trong các ô tọa độ có dữ liệu không
-            if (string.IsNullOrWhiteSpace(txtSx1.Text) && string.IsNullOrWhiteSpace(txtSy1.Text) && string.IsNullOrWhiteSpace(txtEx1.Text) && string.IsNullOrWhiteSpace(txtEy1.Text) &&
-                string.IsNullOrWhiteSpace(txtSx2.Text) && string.IsNullOrWhiteSpace(txtSy2.Text) && string.IsNullOrWhiteSpace(txtEx2.Text) && string.IsNullOrWhiteSpace(txtEy2.Text) &&
-                string.IsNullOrWhiteSpace(txtSx3.Text) && string.IsNullOrWhiteSpace(txtSy3.Text) && string.IsNullOrWhiteSpace(txtEx3.Text) && string.IsNullOrWhiteSpace(txtEy3.Text) &&
-                string.IsNullOrWhiteSpace(txtX1.Text) && string.IsNullOrWhiteSpace(txtY1.Text) && string.IsNullOrWhiteSpace(txtX2.Text) && string.IsNullOrWhiteSpace(txtY2.Text) &&
-                string.IsNullOrWhiteSpace(txtX3.Text) && string.IsNullOrWhiteSpace(txtY3.Text))
+            if (string.IsNullOrWhiteSpace(TxtSx1.Text) && string.IsNullOrWhiteSpace(TxtSy1.Text) && string.IsNullOrWhiteSpace(TxtEx1.Text) && string.IsNullOrWhiteSpace(TxtEy1.Text) &&
+                string.IsNullOrWhiteSpace(TxtSx2.Text) && string.IsNullOrWhiteSpace(TxtSy2.Text) && string.IsNullOrWhiteSpace(TxtEx2.Text) && string.IsNullOrWhiteSpace(TxtEy2.Text) &&
+                string.IsNullOrWhiteSpace(TxtSx3.Text) && string.IsNullOrWhiteSpace(TxtSy3.Text) && string.IsNullOrWhiteSpace(TxtEx3.Text) && string.IsNullOrWhiteSpace(TxtEy3.Text) &&
+                string.IsNullOrWhiteSpace(TxtX1.Text) && string.IsNullOrWhiteSpace(TxtY1.Text) && string.IsNullOrWhiteSpace(TxtX2.Text) && string.IsNullOrWhiteSpace(TxtY2.Text) &&
+                string.IsNullOrWhiteSpace(TxtX3.Text) && string.IsNullOrWhiteSpace(TxtY3.Text))
             {
                 return false;
             }
@@ -509,24 +697,24 @@ namespace ITCONFIRM
                 validationToolTip.Show("Vui lòng chọn loại lỗi!", cboErrorType, 0, cboErrorType.Height, 5000);
                 return;
             }
-            //Kiểm tra xem đã chọn model chưa
-            if (!rdoI251.Checked && !rdoI252.Checked)
+            // Kiểm tra xem có mục nào được chọn không
+            if (cboModel.SelectedIndex == -1 || cboModel.SelectedItem == null)
             {
+                AppendToLog("Lỗi: Chưa chọn model.", System.Drawing.Color.Red);
                 validationToolTip.ToolTipIcon = ToolTipIcon.Warning;
                 validationToolTip.ToolTipTitle = "Lỗi";
-                validationToolTip.Show("Vui lòng chọn model (I251 hoặc I252)!", rdoI251, 0, rdoI251.Height, 5000);
-                return;
+                validationToolTip.Show("Vui lòng chọn model!", cboModel, 0, cboModel.Height, 5000);
+                return; // Thoát nếu không có model nào được chọn
             }
-
             // Kiểm tra dữ liệu sAPN trước khi lưu
             if (!IsDataValid())
             {
                 validationToolTip.ToolTipIcon = ToolTipIcon.Warning;
                 validationToolTip.ToolTipTitle = "Lỗi";
-                validationToolTip.Show("Vui lòng nhập sAPN và ít nhất một trong số các ô tọa độ!", txtSAPN, 0, txtSAPN.Height, 5000);
+                validationToolTip.Show("Vui lòng nhập sAPN và ít nhất một trong số các ô tọa độ!", TxtSAPN, 0, TxtSAPN.Height, 5000);
                 return;
             }
-
+            
             // Lấy múi giờ GMT+7
             TimeZoneInfo vietnamZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
             DateTime vietnamTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamZone);
@@ -577,15 +765,15 @@ namespace ITCONFIRM
                     File.AppendAllText(filePath, header + Environment.NewLine, System.Text.Encoding.UTF8);
                 }
 
-                // Lấy model đã chọn từ button được chọn
-                string selectedModel = rdoI251.Checked ? "I251" : "I252";
+                // Lấy model đã chọn từ ComboBox
+                string selectedModel = cboModel.SelectedItem.ToString();
                 // Lấy loại lỗi đã chọn từ ComboBox
                 string selectedErrorType = cboErrorType.SelectedItem.ToString();
 
-                string csvData = $"{selectedModel},{txtSAPN.Text},{selectedErrorType},{txtSx1.Text},{txtSy1.Text},{txtEx1.Text},{txtEy1.Text}," +
-                                 $"{txtSx2.Text},{txtSy2.Text},{txtEx2.Text},{txtEy2.Text}," +
-                                 $"{txtSx3.Text},{txtSy3.Text},{txtEx3.Text},{txtEy3.Text}," +
-                                 $"{txtX1.Text},{txtY1.Text},{txtX2.Text},{txtY2.Text},{txtX3.Text},{txtY3.Text},{timestamp}";
+                string csvData = $"{selectedModel},{TxtSAPN.Text},{selectedErrorType},{TxtSx1.Text},{TxtSy1.Text},{TxtEx1.Text},{TxtEy1.Text}," +
+                                 $"{TxtSx2.Text},{TxtSy2.Text},{TxtEx2.Text},{TxtEy2.Text}," +
+                                 $"{TxtSx3.Text},{TxtSy3.Text},{TxtEx3.Text},{TxtEy3.Text}," +
+                                 $"{TxtX1.Text},{TxtY1.Text},{TxtX2.Text},{TxtY2.Text},{TxtX3.Text},{TxtY3.Text},{timestamp}";
 
                 File.AppendAllText(filePath, csvData + Environment.NewLine, System.Text.Encoding.UTF8);
                 // Cập nhật thông báo thành công
@@ -593,33 +781,34 @@ namespace ITCONFIRM
                 // Cập nhật thông báo thành công
                 LblStatus.ForeColor = System.Drawing.Color.Green;
                 LblStatus.Text = $"Lưu thành công! \nDữ liệu đã được ghi lại lúc: {timestamp}\nVị trí lưu: {filePath}";
+                AppendToLog($"Dữ liệu đã được ghi lại lúc: {timestamp} \nVị trí lưu: {filePath}", System.Drawing.Color.DarkGreen);
                 // Thiết lập tooltip cho LblStatus
                 statusToolTip.SetToolTip(LblStatus, "BẤM VÀO ĐÂY ĐỂ MỞ VỊ TRÍ LƯU FILE");
 
                 // Xóa nội dung của tất cả các TextBox sau khi lưu thành công
-                txtSAPN.Clear();
-                txtSx1.Clear();
-                txtSy1.Clear();
-                txtEx1.Clear();
-                txtEy1.Clear();
-                txtSx2.Clear();
-                txtSy2.Clear();
-                txtEx2.Clear();
-                txtEy2.Clear();
-                txtSx3.Clear();
-                txtSy3.Clear();
-                txtEx3.Clear();
-                txtEy3.Clear();
-                txtX1.Clear();
-                txtY1.Clear();
-                txtX2.Clear();
-                txtY2.Clear();
-                txtX3.Clear();
-                txtY3.Clear();
+                TxtSAPN.Clear();
+                TxtSx1.Clear();
+                TxtSy1.Clear();
+                TxtEx1.Clear();
+                TxtEy1.Clear();
+                TxtSx2.Clear();
+                TxtSy2.Clear();
+                TxtEx2.Clear();
+                TxtEy2.Clear();
+                TxtSx3.Clear();
+                TxtSy3.Clear();
+                TxtEx3.Clear();
+                TxtEy3.Clear();
+                TxtX1.Clear();
+                TxtY1.Clear();
+                TxtX2.Clear();
+                TxtY2.Clear();
+                TxtX3.Clear();
+                TxtY3.Clear();
                 //cboErrorType.SelectedIndex = 0; // Mặc định chọn "ĐỐM" =-1 KHÔNG CHỌN GÌ
 
                 // Đặt focus lại cho ô đầu tiên
-                txtSAPN.Focus();
+                TxtSAPN.Focus();
                 // Cập nhật bộ đếm sau khi lưu
                 UpdateSavedSAPNCount();
 
@@ -687,13 +876,15 @@ namespace ITCONFIRM
                         {
                             LblStatusNas.ForeColor = System.Drawing.Color.Green;
                             LblStatusNas.Text = $"NAS Server: {successfulNasPath}";
+                            AppendToLog($"NAS Server: {successfulNasPath}", System.Drawing.Color.DarkCyan);
                             statusToolTip.SetToolTip(LblStatusNas, "BẤM VÀO ĐÂY ĐỂ MỞ VỊ TRÍ LƯU FILE");
                         }
                         else
                         {
                             LblStatusNas.ForeColor = System.Drawing.Color.Red;
                             LblStatusNas.Text = $"NAS Server: {nasError}";
-                            statusToolTip.SetToolTip(LblStatusNas, "Kiểm tra lại NAS.ini hoặc tài khoản NAS");
+                            AppendToLog($"NAS Server: {nasError}", System.Drawing.Color.DarkOrchid);
+                            statusToolTip.SetToolTip(LblStatusNas, "Kiểm tra lại NASConfig.ini hoặc tài khoản NAS");
                         }
                     }));
                 });
@@ -703,6 +894,7 @@ namespace ITCONFIRM
                 // Cập nhật thông báo lỗi cụ thể khi file đang được mở
                 LblStatus.ForeColor = System.Drawing.Color.Red;
                 LblStatus.Text = "File đang được mở bởi ứng dụng khác hoặc không thể ghi dữ liệu.\nHãy đóng file đang mở trước khi bấm Save";
+                AppendToLog($"File đang được mở bởi ứng dụng khác hoặc không thể ghi dữ liệu.Hãy đóng file đang mở trước khi bấm Save", System.Drawing.Color.Green);
                 // Xóa tooltip khi có lỗi
                 statusToolTip.SetToolTip(LblStatus, "");
             }
@@ -711,6 +903,7 @@ namespace ITCONFIRM
                 // Báo lỗi chung nếu có lỗi khác
                 LblStatus.ForeColor = System.Drawing.Color.Red;
                 LblStatus.Text = $"Đã xảy ra lỗi: {ex.Message}";
+                AppendToLog($"Đã xảy ra lỗi: {ex.Message}", System.Drawing.Color.Red);
                 // Xóa tooltip khi có lỗi
                 statusToolTip.SetToolTip(LblStatus, "");
             }
@@ -720,30 +913,31 @@ namespace ITCONFIRM
         private void BtnReset_Click(object sender, EventArgs e)
         {
             // Xóa nội dung của tất cả các TextBox
-            txtSAPN.Clear();
-            txtSx1.Clear();
-            txtSy1.Clear();
-            txtEx1.Clear();
-            txtEy1.Clear();
-            txtSx2.Clear();
-            txtSy2.Clear();
-            txtEx2.Clear();
-            txtEy2.Clear();
-            txtSx3.Clear();
-            txtSy3.Clear();
-            txtEx3.Clear();
-            txtEy3.Clear();
-            txtX1.Clear();
-            txtY1.Clear();
-            txtX2.Clear();
-            txtY2.Clear();
-            txtX3.Clear();
-            txtY3.Clear();
-            cboErrorType.SelectedIndex = -1; // Mặc định chọn "ĐỐM" =0 CHỌN DÒNG ĐẦU TIÊN
+            TxtSAPN.Clear();
+            TxtSx1.Clear();
+            TxtSy1.Clear();
+            TxtEx1.Clear();
+            TxtEy1.Clear();
+            TxtSx2.Clear();
+            TxtSy2.Clear();
+            TxtEx2.Clear();
+            TxtEy2.Clear();
+            TxtSx3.Clear();
+            TxtSy3.Clear();
+            TxtEx3.Clear();
+            TxtEy3.Clear();
+            TxtX1.Clear();
+            TxtY1.Clear();
+            TxtX2.Clear();
+            TxtY2.Clear();
+            TxtX3.Clear();
+            TxtY3.Clear();
+            //cboErrorType.SelectedIndex = -1; // Mặc định chọn "ĐỐM" =0 CHỌN DÒNG ĐẦU TIÊN
 
             // Cập nhật thông báo
             LblStatus.ForeColor = System.Drawing.Color.DarkOrange;
             LblStatus.Text = "Đã khởi tạo lại ứng dụng.";
+            AppendToLog($"Đã khởi tạo lại ứng dụng.", System.Drawing.Color.Chocolate);
             // Xóa tooltip khi reset ứng dụng
             statusToolTip.SetToolTip(LblStatus, "");
             // Reset trạng thái NAS
@@ -751,7 +945,7 @@ namespace ITCONFIRM
             LblStatusNas.Text = "";
             statusToolTip.SetToolTip(LblStatusNas, "");
             // Đặt focus lại cho ô đầu tiên
-            txtSAPN.Focus();
+            TxtSAPN.Focus();
         }
 
         private void CoordinateTextBox_KeyPress(object sender, KeyPressEventArgs e)
@@ -816,110 +1010,74 @@ namespace ITCONFIRM
         // Phương thức mới để đếm và cập nhật số lượng sAPN đã lưu
         private void UpdateSavedSAPNCount()
         {
-            // Lấy múi giờ GMT+7
-            TimeZoneInfo vietnamZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
-            DateTime vietnamTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamZone);
+            // Sử dụng đường dẫn file cuối cùng được lưu
+            string filePath = _lastSavedFilePath;
 
-            // Xác định ngày và ca làm việc
-            string dateString;
-            string shift;
-
-            if (vietnamTime.Hour >= 20 || vietnamTime.Hour < 8)
+            // Nếu chưa có file nào được lưu (ví dụ: lần đầu chạy), thì thoát
+            if (string.IsNullOrEmpty(filePath))
             {
-                if (vietnamTime.Hour < 8)
-                {
-                    dateString = vietnamTime.AddDays(-1).ToString("yyyyMMdd");
-                }
-                else
-                {
-                    dateString = vietnamTime.ToString("yyyyMMdd");
-                }
-                shift = "NIGHT";
-            }
-            else
-            {
-                dateString = vietnamTime.ToString("yyyyMMdd");
-                shift = "DAY";
+                LblSAPNCount.Text = "Số lượng APN đã lưu: 0";
+                AppendToLog("Chưa có file nào được lưu, không thể đếm.", System.Drawing.Color.Gray);
+                return;
             }
 
-            string eqpid = ReadEQPIDFromIniFile(); // Lấy EQPID từ file ini
-            string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            string appFolderPath = Path.Combine(desktopPath, "IT_CONFIRM");
-            string fileName = string.IsNullOrEmpty(eqpid) ? $"IT_{dateString}_{shift}.csv" : $"IT_{eqpid}_{dateString}_{shift}.csv";
-            string filePath = Path.Combine(appFolderPath);
-            string tenfile = Path.Combine(fileName);
+            // Kiểm tra xem file có tồn tại không (tránh lỗi nếu file bị xóa)
+            if (!File.Exists(filePath))
+            {
+                LblSAPNCount.Text = "Số lượng APN đã lưu: 0";
+                AppendToLog($"File CSV không tồn tại, không thể đếm: {filePath}", System.Drawing.Color.Gray);
+                return;
+            }
+
+            // Kiểm tra xem file có bị khóa bởi tiến trình khác không
+            if (!CanReadFile(filePath)) // Giả sử bạn có hàm CanReadFile như trước
+            {
+                LblSAPNCount.Text = "Số lượng APN đã lưu: 0";
+                AppendToLog($"Không thể đọc file CSV (có thể đang mở): {filePath}", System.Drawing.Color.Sienna);
+                return;
+            }
+
             int count = 0;
-
             try
             {
-                // Kiểm tra quyền đọc file
-                if (!CanReadFile(filePath))
-                {
-                    LblStatus.ForeColor = System.Drawing.Color.ForestGreen;
-                    LblStatus.Text = $"Đã tạo thư mục chứa file log CSV: \n\n{filePath}";
-                    LblSAPNCount.Text = "Số lượng APN đã lưu: 0";
-                    return;
-                }
-
-                // Kiểm tra file tồn tại
-                if (!File.Exists(filePath))
-                {
-                    LblSAPNCount.Text = "Số lượng APN đã lưu: 0";
-                    return;
-                }
-
-                // Đọc file bằng StreamReader để tối ưu hiệu suất
                 using (var reader = new StreamReader(filePath, System.Text.Encoding.UTF8))
                 {
-                    // Bỏ qua dòng tiêu đề
-                    string header = reader.ReadLine();
-                    if (header == null)
+                    string headerLine = reader.ReadLine();
+                    if (headerLine == null)
                     {
                         LblSAPNCount.Text = "Số lượng APN đã lưu: 0";
-                        return;
+                        AppendToLog($"File CSV trống, không thể đếm: {filePath}", System.Drawing.Color.Gray);
+                        return; // Thoát nếu file rỗng
                     }
+
+                    // Xác định định dạng dựa trên tiêu đề (có thể vẫn cần nếu xử lý định dạng cũ/khác sau này)
+                    string[] headers = headerLine.Split(',');
+                    bool isNewFormat = headers.Any(h => h.Contains("\"X1,Y1\""));
 
                     string line;
                     while ((line = reader.ReadLine()) != null)
                     {
                         var parts = line.Split(',');
-                        // Kiểm tra dòng có đủ cột
-                        if (parts.Length >= 22 && !string.IsNullOrWhiteSpace(parts[1]))
+                        // --- CHỈ KIỂM TRA CỘT MODEL và sAPN ---
+                        if (parts.Length >= 2 && !string.IsNullOrWhiteSpace(parts[0]) && !string.IsNullOrWhiteSpace(parts[1]))
                         {
-                            // Kiểm tra có ít nhất một tọa độ không rỗng (từ cột Sx1 đến Y3)
-                            bool hasCoordinates = false;
-                            for (int j = 3; j < parts.Length - 1 && j <= 20; j++)
-                            {
-                                if (!string.IsNullOrWhiteSpace(parts[j]))
-                                {
-                                    hasCoordinates = true;
-                                    break;
-                                }
-                            }
-                            if (hasCoordinates)
-                            {
-                                count++;
-                            }
+                            count++; // Tăng bộ đếm nếu cả MODEL và sAPN đều có dữ liệu
                         }
+                        // Bỏ qua các dòng không đủ điều kiện trên
                     }
                 }
 
-                // Cập nhật số lượng lên nhãn
                 LblSAPNCount.Text = $"Số lượng APN đã lưu: {count}";
             }
-            catch (IOException ex)
+            catch (IOException ex) // Bắt lỗi cụ thể liên quan đến I/O
             {
-                // File đang bị khóa hoặc không thể truy cập
-                LblStatus.ForeColor = System.Drawing.Color.Red;
-                LblStatus.Text = $"Lỗi khi đọc file CSV (có thể đang mở): {ex.Message}";
                 LblSAPNCount.Text = "Số lượng APN đã lưu: 0";
+                AppendToLog($"Lỗi I/O khi đếm APN từ file {filePath}: {ex.Message}", System.Drawing.Color.Sienna);
             }
-            catch (Exception ex)
+            catch (Exception ex) // Bắt các lỗi khác
             {
-                // Xử lý các lỗi khác
-                LblStatus.ForeColor = System.Drawing.Color.Red;
-                LblStatus.Text = $"Lỗi khi đọc file CSV ({filePath}): {ex.Message}";
                 LblSAPNCount.Text = "Số lượng APN đã lưu: 0";
+                AppendToLog($"Lỗi không mong đợi khi đếm APN từ file {filePath}: {ex.Message}", System.Drawing.Color.Violet);
             }
         }
 
@@ -1013,15 +1171,16 @@ namespace ITCONFIRM
                 catch (Exception ex)
                 {
                     // Xử lý lỗi khi đọc file, ví dụ: không có quyền truy cập
-                    MessageBox.Show("Lỗi khi đọc file MachineParam.ini: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    //MessageBox.Show("Lỗi khi đọc file MachineParam.ini: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    AppendToLog($"Lỗi khi đọc file MachineParam.ini:   {ex.Message}", System.Drawing.Color.Green);
                 }
             }
             return "";
         }
-        //Đọc thông tin NAS từ file NAS.ini
+        //Đọc thông tin NAS từ file NASConfig.ini
         private List<(string NasPath, NetworkCredential Credentials)> ReadNASCredentialsFromIniFile()
         {
-            string filePath = @"C:\IT_CONFIRM\Config\NAS.ini";
+            string filePath = @"C:\IT_CONFIRM\Config\NASConfig.ini";
             List<(string NasPath, NetworkCredential Credentials)> nasCredentialsList = new List<(string, NetworkCredential)>();
 
             // Mặc định cho ba khối NAS SERVER
@@ -1036,16 +1195,16 @@ namespace ITCONFIRM
                 },
                 new
                 {
-                    NasPath = @"\\107.126.41.112\IT_CONFIRM",
-                    NasUser = "admin2",
-                    NasPassword = "password2",
+                    NasPath = @"",
+                    NasUser = "",
+                    NasPassword = "",
                     NasDomain = ""
                 },
                 new
                 {
-                    NasPath = @"\\107.126.41.113\IT_CONFIRM",
-                    NasUser = "admin3",
-                    NasPassword = "password3",
+                    NasPath = @"",
+                    NasUser = "",
+                    NasPassword = "",
                     NasDomain = ""
                 }
             };
@@ -1062,7 +1221,8 @@ namespace ITCONFIRM
                 if (!IsDirectoryWritable(directoryPath))
                 {
                     LblStatus.ForeColor = System.Drawing.Color.Red;
-                    LblStatus.Text = $"Không có quyền ghi vào thư mục {directoryPath} để tạo NAS.ini";
+                    LblStatus.Text = $"Không có quyền ghi vào thư mục {directoryPath} để tạo NASConfig.ini";
+                    AppendToLog($"Không có quyền ghi vào thư mục {directoryPath} để tạo NASConfig.ini", System.Drawing.Color.Red);
                     // Trả về danh sách mặc định nếu không thể tạo file
                     foreach (var server in defaultNasServers)
                     {
@@ -1087,6 +1247,7 @@ namespace ITCONFIRM
                         iniContent.AppendLine();
                     }
                     File.WriteAllText(filePath, iniContent.ToString(), Encoding.UTF8);
+                    AppendToLog($"File cấu hình NAS mặc định đã được tạo tại: {filePath}", System.Drawing.Color.Blue);
                 }
 
                 // Đọc file
@@ -1150,12 +1311,14 @@ namespace ITCONFIRM
 
                 // Gán nasDirectoryPath cho server đầu tiên trong danh sách
                 nasDirectoryPath = nasCredentialsList[0].NasPath;
+                AppendToLog($"Cấu hình NAS đã được đọc thành công.\nPath: {filePath}", System.Drawing.Color.Green);
                 return nasCredentialsList;
             }
             catch (Exception ex)
             {
                 LblStatus.ForeColor = System.Drawing.Color.Red;
-                LblStatus.Text = $"Lỗi khi đọc/tạo file NAS.ini: {ex.Message}";
+                LblStatus.Text = $"Lỗi khi đọc/tạo file NASConfig.ini: {ex.Message}";
+                AppendToLog($"Lỗi khi đọc/tạo file NASConfig.ini: {ex.Message}", System.Drawing.Color.Red);
                 // Trả về danh sách mặc định nếu có lỗi
                 foreach (var server in defaultNasServers)
                 {
@@ -1179,6 +1342,104 @@ namespace ITCONFIRM
             {
                 return false;
             }
+        }
+        #endregion
+
+        #region ĐỌC LOẠI LỖI TỪ FILE INI
+        // Thêm phương thức này vào class MainForm
+        private List<string> ReadErrorTypesFromIniFile()
+        {
+            string filePath = @"C:\IT_CONFIRM\Config\TENLOI.ini";
+            List<string> errorTypes = new List<string>();
+
+            // Kiểm tra xem file có tồn tại không
+            if (!File.Exists(filePath))
+            {
+                // Nếu không tồn tại, tạo thư mục nếu cần và tạo file với nội dung mặc định
+                string directoryPath = Path.GetDirectoryName(filePath);
+                if (!Directory.Exists(directoryPath))
+                {
+                    Directory.CreateDirectory(directoryPath); // Tạo thư mục nếu chưa có
+                }
+
+                // Nội dung mặc định
+                string defaultContent = @"[DEFECT_NAME]
+B-SPOT
+WHITE SPOT
+ĐỐM SPIN
+ĐỐM PANEL
+ĐỐM ĐƯỜNG DỌC";
+
+                try
+                {
+                    File.WriteAllText(filePath, defaultContent, System.Text.Encoding.UTF8);
+                    // LblStatus.ForeColor = System.Drawing.Color.Blue; // Xóa
+                    // LblStatus.Text = $"File cấu hình loại lỗi mặc định đã được tạo tại: {filePath}"; // Xóa
+                    AppendToLog($"File cấu hình loại lỗi mặc định đã được tạo tại: {filePath}", System.Drawing.Color.Blue);
+                }
+                catch (Exception ex)
+                {
+                    // LblStatus.ForeColor = System.Drawing.Color.Red; // Xóa
+                    // LblStatus.Text = $"Không thể tạo file cấu hình loại lỗi mặc định: {ex.Message}"; // Xóa
+                    AppendToLog($"Không thể tạo file cấu hình loại lỗi mặc định: {ex.Message}", System.Drawing.Color.Red);
+                    return new List<string> { "B-SPOT", "WHITE SPOT", "ĐỐM SPIN", "ĐỐM PANEL", "ĐỐM ĐƯỜNG DỌC" };
+                }
+            }
+
+            // Bây giờ file chắc chắn tồn tại, đọc nội dung
+            try
+            {
+                string[] lines = File.ReadAllLines(filePath);
+                bool inErrorTypesSection = false;
+
+                foreach (string line in lines)
+                {
+                    string trimmedLine = line.Trim();
+
+                    // Bỏ qua dòng trống và comment (bắt đầu bằng ; hoặc #)
+                    if (string.IsNullOrEmpty(trimmedLine) || trimmedLine.StartsWith(";") || trimmedLine.StartsWith("#"))
+                    {
+                        continue;
+                    }
+
+                    // Kiểm tra section [ERROR_TYPES]
+                    if (trimmedLine.StartsWith("[") && trimmedLine.EndsWith("]"))
+                    {
+                        inErrorTypesSection = trimmedLine.Equals("[DEFECT_NAME]", StringComparison.OrdinalIgnoreCase);
+                        continue;
+                    }
+
+                    // Nếu đang trong section [ERROR_TYPES], đọc key=value
+                    if (inErrorTypesSection)
+                    {
+                        int equalsIndex = trimmedLine.IndexOf('=');
+                        if (equalsIndex > 0) // Đảm bảo có dấu =
+                        {
+                            string valueStr = trimmedLine.Substring(equalsIndex + 1).Trim();
+                            if (!string.IsNullOrEmpty(valueStr))
+                            {
+                                errorTypes.Add(valueStr);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // LblStatus.ForeColor = System.Drawing.Color.Red; // Xóa
+                // LblStatus.Text = $"Lỗi khi đọc file cấu hình TENLOI.ini: {ex.Message}. Sử dụng giá trị mặc định."; // Xóa
+                AppendToLog($"Lỗi khi đọc file cấu hình TENLOI.ini: {ex.Message}. Sử dụng giá trị mặc định.", System.Drawing.Color.Red);
+                return new List<string> { "B-SPOT", "WHITE SPOT", "ĐỐM SPIN", "ĐỐM PANEL", "ĐỐM ĐƯỜNG DỌC" };
+            }
+
+            // Nếu đọc thành công và không có lỗi, cập nhật status (tuỳ chọn)
+            // if (errorTypes.Count > 0)
+            // {
+            //     // LblStatus.ForeColor = System.Drawing.Color.Green;
+            //     // LblStatus.Text = "Cấu hình loại lỗi đã được đọc thành công.";
+            // }
+            AppendToLog($"Cấu hình tên lỗi đã được đọc thành công.\nPath: {filePath}", System.Drawing.Color.Green);
+            return errorTypes;
         }
         #endregion
 

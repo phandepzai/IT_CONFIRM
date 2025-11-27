@@ -25,45 +25,45 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.labelSAPN = new System.Windows.Forms.Label();
-            this.txtSAPN = new System.Windows.Forms.TextBox();
+            this.TxtSAPN = new System.Windows.Forms.TextBox();
             this.labelCoordSE = new System.Windows.Forms.Label();
             this.labelSx1 = new System.Windows.Forms.Label();
-            this.txtSx1 = new System.Windows.Forms.TextBox();
+            this.TxtSx1 = new System.Windows.Forms.TextBox();
             this.labelSy1 = new System.Windows.Forms.Label();
-            this.txtSy1 = new System.Windows.Forms.TextBox();
+            this.TxtSy1 = new System.Windows.Forms.TextBox();
             this.labelEx1 = new System.Windows.Forms.Label();
-            this.txtEx1 = new System.Windows.Forms.TextBox();
+            this.TxtEx1 = new System.Windows.Forms.TextBox();
             this.labelEy1 = new System.Windows.Forms.Label();
-            this.txtEy1 = new System.Windows.Forms.TextBox();
+            this.TxtEy1 = new System.Windows.Forms.TextBox();
             this.labelSx2 = new System.Windows.Forms.Label();
-            this.txtSx2 = new System.Windows.Forms.TextBox();
+            this.TxtSx2 = new System.Windows.Forms.TextBox();
             this.labelSy2 = new System.Windows.Forms.Label();
-            this.txtSy2 = new System.Windows.Forms.TextBox();
+            this.TxtSy2 = new System.Windows.Forms.TextBox();
             this.labelEx2 = new System.Windows.Forms.Label();
-            this.txtEx2 = new System.Windows.Forms.TextBox();
+            this.TxtEx2 = new System.Windows.Forms.TextBox();
             this.labelEy2 = new System.Windows.Forms.Label();
-            this.txtEy2 = new System.Windows.Forms.TextBox();
+            this.TxtEy2 = new System.Windows.Forms.TextBox();
             this.labelSx3 = new System.Windows.Forms.Label();
-            this.txtSx3 = new System.Windows.Forms.TextBox();
+            this.TxtSx3 = new System.Windows.Forms.TextBox();
             this.labelSy3 = new System.Windows.Forms.Label();
-            this.txtSy3 = new System.Windows.Forms.TextBox();
+            this.TxtSy3 = new System.Windows.Forms.TextBox();
             this.labelEx3 = new System.Windows.Forms.Label();
-            this.txtEx3 = new System.Windows.Forms.TextBox();
+            this.TxtEx3 = new System.Windows.Forms.TextBox();
             this.labelEy3 = new System.Windows.Forms.Label();
-            this.txtEy3 = new System.Windows.Forms.TextBox();
+            this.TxtEy3 = new System.Windows.Forms.TextBox();
             this.labelCoordXY = new System.Windows.Forms.Label();
             this.labelX1 = new System.Windows.Forms.Label();
-            this.txtX1 = new System.Windows.Forms.TextBox();
+            this.TxtX1 = new System.Windows.Forms.TextBox();
             this.labelY1 = new System.Windows.Forms.Label();
-            this.txtY1 = new System.Windows.Forms.TextBox();
+            this.TxtY1 = new System.Windows.Forms.TextBox();
             this.labelX2 = new System.Windows.Forms.Label();
-            this.txtX2 = new System.Windows.Forms.TextBox();
+            this.TxtX2 = new System.Windows.Forms.TextBox();
             this.labelY2 = new System.Windows.Forms.Label();
-            this.txtY2 = new System.Windows.Forms.TextBox();
+            this.TxtY2 = new System.Windows.Forms.TextBox();
             this.labelX3 = new System.Windows.Forms.Label();
-            this.txtX3 = new System.Windows.Forms.TextBox();
+            this.TxtX3 = new System.Windows.Forms.TextBox();
             this.labelY3 = new System.Windows.Forms.Label();
-            this.txtY3 = new System.Windows.Forms.TextBox();
+            this.TxtY3 = new System.Windows.Forms.TextBox();
             this.panelKeyboard = new System.Windows.Forms.Panel();
             this.BtnBack = new System.Windows.Forms.Button();
             this.BtnAll = new System.Windows.Forms.Button();
@@ -82,12 +82,13 @@
             this.LblStatus = new System.Windows.Forms.Label();
             this.LblSAPNCount = new System.Windows.Forms.Label();
             this.LblCopyright = new System.Windows.Forms.Label();
+            this.cboModel = new System.Windows.Forms.ComboBox();
             this.labelErrorType = new System.Windows.Forms.Label();
             this.cboErrorType = new System.Windows.Forms.ComboBox();
-            this.rdoI251 = new System.Windows.Forms.RadioButton();
-            this.rdoI252 = new System.Windows.Forms.RadioButton();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.LblStatusNas = new System.Windows.Forms.Label();
+            this.txtLog = new System.Windows.Forms.RichTextBox();
+            this.LabelModel = new System.Windows.Forms.Label();
             this.panelKeyboard.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -102,16 +103,16 @@
             this.labelSAPN.TabIndex = 0;
             this.labelSAPN.Text = "sAPN:";
             // 
-            // txtSAPN
+            // TxtSAPN
             // 
-            this.txtSAPN.BackColor = System.Drawing.SystemColors.Window;
-            this.txtSAPN.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
-            this.txtSAPN.Font = new System.Drawing.Font("Segoe UI Semibold", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSAPN.Location = new System.Drawing.Point(65, 15);
-            this.txtSAPN.Margin = new System.Windows.Forms.Padding(4);
-            this.txtSAPN.Name = "txtSAPN";
-            this.txtSAPN.Size = new System.Drawing.Size(562, 35);
-            this.txtSAPN.TabIndex = 1;
+            this.TxtSAPN.BackColor = System.Drawing.SystemColors.Window;
+            this.TxtSAPN.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.TxtSAPN.Font = new System.Drawing.Font("Segoe UI Semibold", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TxtSAPN.Location = new System.Drawing.Point(65, 15);
+            this.TxtSAPN.Margin = new System.Windows.Forms.Padding(4);
+            this.TxtSAPN.Name = "TxtSAPN";
+            this.TxtSAPN.Size = new System.Drawing.Size(541, 35);
+            this.TxtSAPN.TabIndex = 1;
             // 
             // labelCoordSE
             // 
@@ -136,15 +137,15 @@
             this.labelSx1.TabIndex = 3;
             this.labelSx1.Text = "Sx1:";
             // 
-            // txtSx1
+            // TxtSx1
             // 
-            this.txtSx1.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSx1.Location = new System.Drawing.Point(30, 120);
-            this.txtSx1.Margin = new System.Windows.Forms.Padding(4);
-            this.txtSx1.Name = "txtSx1";
-            this.txtSx1.Size = new System.Drawing.Size(70, 39);
-            this.txtSx1.TabIndex = 4;
-            this.txtSx1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TxtSx1.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TxtSx1.Location = new System.Drawing.Point(30, 120);
+            this.TxtSx1.Margin = new System.Windows.Forms.Padding(4);
+            this.TxtSx1.Name = "TxtSx1";
+            this.TxtSx1.Size = new System.Drawing.Size(70, 39);
+            this.TxtSx1.TabIndex = 4;
+            this.TxtSx1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // labelSy1
             // 
@@ -158,15 +159,15 @@
             this.labelSy1.TabIndex = 5;
             this.labelSy1.Text = "Sy1:";
             // 
-            // txtSy1
+            // TxtSy1
             // 
-            this.txtSy1.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSy1.Location = new System.Drawing.Point(120, 120);
-            this.txtSy1.Margin = new System.Windows.Forms.Padding(4);
-            this.txtSy1.Name = "txtSy1";
-            this.txtSy1.Size = new System.Drawing.Size(70, 39);
-            this.txtSy1.TabIndex = 6;
-            this.txtSy1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TxtSy1.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TxtSy1.Location = new System.Drawing.Point(120, 120);
+            this.TxtSy1.Margin = new System.Windows.Forms.Padding(4);
+            this.TxtSy1.Name = "TxtSy1";
+            this.TxtSy1.Size = new System.Drawing.Size(70, 39);
+            this.TxtSy1.TabIndex = 6;
+            this.TxtSy1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // labelEx1
             // 
@@ -180,15 +181,15 @@
             this.labelEx1.TabIndex = 7;
             this.labelEx1.Text = "Ex1:";
             // 
-            // txtEx1
+            // TxtEx1
             // 
-            this.txtEx1.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtEx1.Location = new System.Drawing.Point(210, 120);
-            this.txtEx1.Margin = new System.Windows.Forms.Padding(4);
-            this.txtEx1.Name = "txtEx1";
-            this.txtEx1.Size = new System.Drawing.Size(70, 39);
-            this.txtEx1.TabIndex = 8;
-            this.txtEx1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TxtEx1.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TxtEx1.Location = new System.Drawing.Point(210, 120);
+            this.TxtEx1.Margin = new System.Windows.Forms.Padding(4);
+            this.TxtEx1.Name = "TxtEx1";
+            this.TxtEx1.Size = new System.Drawing.Size(70, 39);
+            this.TxtEx1.TabIndex = 8;
+            this.TxtEx1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // labelEy1
             // 
@@ -202,15 +203,15 @@
             this.labelEy1.TabIndex = 9;
             this.labelEy1.Text = "Ey1:";
             // 
-            // txtEy1
+            // TxtEy1
             // 
-            this.txtEy1.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtEy1.Location = new System.Drawing.Point(300, 120);
-            this.txtEy1.Margin = new System.Windows.Forms.Padding(4);
-            this.txtEy1.Name = "txtEy1";
-            this.txtEy1.Size = new System.Drawing.Size(70, 39);
-            this.txtEy1.TabIndex = 10;
-            this.txtEy1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TxtEy1.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TxtEy1.Location = new System.Drawing.Point(300, 120);
+            this.TxtEy1.Margin = new System.Windows.Forms.Padding(4);
+            this.TxtEy1.Name = "TxtEy1";
+            this.TxtEy1.Size = new System.Drawing.Size(70, 39);
+            this.TxtEy1.TabIndex = 10;
+            this.TxtEy1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // labelSx2
             // 
@@ -224,15 +225,15 @@
             this.labelSx2.TabIndex = 11;
             this.labelSx2.Text = "Sx2:";
             // 
-            // txtSx2
+            // TxtSx2
             // 
-            this.txtSx2.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSx2.Location = new System.Drawing.Point(30, 190);
-            this.txtSx2.Margin = new System.Windows.Forms.Padding(4);
-            this.txtSx2.Name = "txtSx2";
-            this.txtSx2.Size = new System.Drawing.Size(70, 39);
-            this.txtSx2.TabIndex = 12;
-            this.txtSx2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TxtSx2.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TxtSx2.Location = new System.Drawing.Point(30, 190);
+            this.TxtSx2.Margin = new System.Windows.Forms.Padding(4);
+            this.TxtSx2.Name = "TxtSx2";
+            this.TxtSx2.Size = new System.Drawing.Size(70, 39);
+            this.TxtSx2.TabIndex = 12;
+            this.TxtSx2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // labelSy2
             // 
@@ -246,15 +247,15 @@
             this.labelSy2.TabIndex = 13;
             this.labelSy2.Text = "Sy2:";
             // 
-            // txtSy2
+            // TxtSy2
             // 
-            this.txtSy2.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSy2.Location = new System.Drawing.Point(120, 190);
-            this.txtSy2.Margin = new System.Windows.Forms.Padding(4);
-            this.txtSy2.Name = "txtSy2";
-            this.txtSy2.Size = new System.Drawing.Size(70, 39);
-            this.txtSy2.TabIndex = 14;
-            this.txtSy2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TxtSy2.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TxtSy2.Location = new System.Drawing.Point(120, 190);
+            this.TxtSy2.Margin = new System.Windows.Forms.Padding(4);
+            this.TxtSy2.Name = "TxtSy2";
+            this.TxtSy2.Size = new System.Drawing.Size(70, 39);
+            this.TxtSy2.TabIndex = 14;
+            this.TxtSy2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // labelEx2
             // 
@@ -268,15 +269,15 @@
             this.labelEx2.TabIndex = 15;
             this.labelEx2.Text = "Ex2:";
             // 
-            // txtEx2
+            // TxtEx2
             // 
-            this.txtEx2.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtEx2.Location = new System.Drawing.Point(210, 190);
-            this.txtEx2.Margin = new System.Windows.Forms.Padding(4);
-            this.txtEx2.Name = "txtEx2";
-            this.txtEx2.Size = new System.Drawing.Size(70, 39);
-            this.txtEx2.TabIndex = 16;
-            this.txtEx2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TxtEx2.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TxtEx2.Location = new System.Drawing.Point(210, 190);
+            this.TxtEx2.Margin = new System.Windows.Forms.Padding(4);
+            this.TxtEx2.Name = "TxtEx2";
+            this.TxtEx2.Size = new System.Drawing.Size(70, 39);
+            this.TxtEx2.TabIndex = 16;
+            this.TxtEx2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // labelEy2
             // 
@@ -290,15 +291,15 @@
             this.labelEy2.TabIndex = 17;
             this.labelEy2.Text = "Ey2:";
             // 
-            // txtEy2
+            // TxtEy2
             // 
-            this.txtEy2.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtEy2.Location = new System.Drawing.Point(300, 190);
-            this.txtEy2.Margin = new System.Windows.Forms.Padding(4);
-            this.txtEy2.Name = "txtEy2";
-            this.txtEy2.Size = new System.Drawing.Size(70, 39);
-            this.txtEy2.TabIndex = 18;
-            this.txtEy2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TxtEy2.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TxtEy2.Location = new System.Drawing.Point(300, 190);
+            this.TxtEy2.Margin = new System.Windows.Forms.Padding(4);
+            this.TxtEy2.Name = "TxtEy2";
+            this.TxtEy2.Size = new System.Drawing.Size(70, 39);
+            this.TxtEy2.TabIndex = 18;
+            this.TxtEy2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // labelSx3
             // 
@@ -312,15 +313,15 @@
             this.labelSx3.TabIndex = 19;
             this.labelSx3.Text = "Sx3:";
             // 
-            // txtSx3
+            // TxtSx3
             // 
-            this.txtSx3.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSx3.Location = new System.Drawing.Point(30, 260);
-            this.txtSx3.Margin = new System.Windows.Forms.Padding(4);
-            this.txtSx3.Name = "txtSx3";
-            this.txtSx3.Size = new System.Drawing.Size(70, 39);
-            this.txtSx3.TabIndex = 20;
-            this.txtSx3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TxtSx3.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TxtSx3.Location = new System.Drawing.Point(30, 260);
+            this.TxtSx3.Margin = new System.Windows.Forms.Padding(4);
+            this.TxtSx3.Name = "TxtSx3";
+            this.TxtSx3.Size = new System.Drawing.Size(70, 39);
+            this.TxtSx3.TabIndex = 20;
+            this.TxtSx3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // labelSy3
             // 
@@ -334,15 +335,15 @@
             this.labelSy3.TabIndex = 21;
             this.labelSy3.Text = "Sy3:";
             // 
-            // txtSy3
+            // TxtSy3
             // 
-            this.txtSy3.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSy3.Location = new System.Drawing.Point(120, 260);
-            this.txtSy3.Margin = new System.Windows.Forms.Padding(4);
-            this.txtSy3.Name = "txtSy3";
-            this.txtSy3.Size = new System.Drawing.Size(70, 39);
-            this.txtSy3.TabIndex = 22;
-            this.txtSy3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TxtSy3.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TxtSy3.Location = new System.Drawing.Point(120, 260);
+            this.TxtSy3.Margin = new System.Windows.Forms.Padding(4);
+            this.TxtSy3.Name = "TxtSy3";
+            this.TxtSy3.Size = new System.Drawing.Size(70, 39);
+            this.TxtSy3.TabIndex = 22;
+            this.TxtSy3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // labelEx3
             // 
@@ -356,15 +357,15 @@
             this.labelEx3.TabIndex = 23;
             this.labelEx3.Text = "Ex3:";
             // 
-            // txtEx3
+            // TxtEx3
             // 
-            this.txtEx3.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtEx3.Location = new System.Drawing.Point(210, 260);
-            this.txtEx3.Margin = new System.Windows.Forms.Padding(4);
-            this.txtEx3.Name = "txtEx3";
-            this.txtEx3.Size = new System.Drawing.Size(70, 39);
-            this.txtEx3.TabIndex = 24;
-            this.txtEx3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TxtEx3.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TxtEx3.Location = new System.Drawing.Point(210, 260);
+            this.TxtEx3.Margin = new System.Windows.Forms.Padding(4);
+            this.TxtEx3.Name = "TxtEx3";
+            this.TxtEx3.Size = new System.Drawing.Size(70, 39);
+            this.TxtEx3.TabIndex = 24;
+            this.TxtEx3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // labelEy3
             // 
@@ -378,15 +379,15 @@
             this.labelEy3.TabIndex = 25;
             this.labelEy3.Text = "Ey3:";
             // 
-            // txtEy3
+            // TxtEy3
             // 
-            this.txtEy3.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtEy3.Location = new System.Drawing.Point(300, 260);
-            this.txtEy3.Margin = new System.Windows.Forms.Padding(4);
-            this.txtEy3.Name = "txtEy3";
-            this.txtEy3.Size = new System.Drawing.Size(70, 39);
-            this.txtEy3.TabIndex = 26;
-            this.txtEy3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TxtEy3.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TxtEy3.Location = new System.Drawing.Point(300, 260);
+            this.TxtEy3.Margin = new System.Windows.Forms.Padding(4);
+            this.TxtEy3.Name = "TxtEy3";
+            this.TxtEy3.Size = new System.Drawing.Size(70, 39);
+            this.TxtEy3.TabIndex = 26;
+            this.TxtEy3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // labelCoordXY
             // 
@@ -409,15 +410,15 @@
             this.labelX1.TabIndex = 28;
             this.labelX1.Text = "X1:";
             // 
-            // txtX1
+            // TxtX1
             // 
-            this.txtX1.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtX1.Location = new System.Drawing.Point(50, 345);
-            this.txtX1.Margin = new System.Windows.Forms.Padding(4);
-            this.txtX1.Name = "txtX1";
-            this.txtX1.Size = new System.Drawing.Size(70, 39);
-            this.txtX1.TabIndex = 29;
-            this.txtX1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TxtX1.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TxtX1.Location = new System.Drawing.Point(50, 345);
+            this.TxtX1.Margin = new System.Windows.Forms.Padding(4);
+            this.TxtX1.Name = "TxtX1";
+            this.TxtX1.Size = new System.Drawing.Size(70, 39);
+            this.TxtX1.TabIndex = 29;
+            this.TxtX1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // labelY1
             // 
@@ -429,15 +430,15 @@
             this.labelY1.TabIndex = 30;
             this.labelY1.Text = "Y1:";
             // 
-            // txtY1
+            // TxtY1
             // 
-            this.txtY1.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtY1.Location = new System.Drawing.Point(165, 345);
-            this.txtY1.Margin = new System.Windows.Forms.Padding(4);
-            this.txtY1.Name = "txtY1";
-            this.txtY1.Size = new System.Drawing.Size(70, 39);
-            this.txtY1.TabIndex = 31;
-            this.txtY1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TxtY1.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TxtY1.Location = new System.Drawing.Point(165, 345);
+            this.TxtY1.Margin = new System.Windows.Forms.Padding(4);
+            this.TxtY1.Name = "TxtY1";
+            this.TxtY1.Size = new System.Drawing.Size(70, 39);
+            this.TxtY1.TabIndex = 31;
+            this.TxtY1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // labelX2
             // 
@@ -449,15 +450,15 @@
             this.labelX2.TabIndex = 32;
             this.labelX2.Text = "X2:";
             // 
-            // txtX2
+            // TxtX2
             // 
-            this.txtX2.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtX2.Location = new System.Drawing.Point(50, 395);
-            this.txtX2.Margin = new System.Windows.Forms.Padding(4);
-            this.txtX2.Name = "txtX2";
-            this.txtX2.Size = new System.Drawing.Size(70, 39);
-            this.txtX2.TabIndex = 33;
-            this.txtX2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TxtX2.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TxtX2.Location = new System.Drawing.Point(50, 395);
+            this.TxtX2.Margin = new System.Windows.Forms.Padding(4);
+            this.TxtX2.Name = "TxtX2";
+            this.TxtX2.Size = new System.Drawing.Size(70, 39);
+            this.TxtX2.TabIndex = 33;
+            this.TxtX2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // labelY2
             // 
@@ -469,15 +470,15 @@
             this.labelY2.TabIndex = 34;
             this.labelY2.Text = "Y2:";
             // 
-            // txtY2
+            // TxtY2
             // 
-            this.txtY2.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtY2.Location = new System.Drawing.Point(165, 395);
-            this.txtY2.Margin = new System.Windows.Forms.Padding(4);
-            this.txtY2.Name = "txtY2";
-            this.txtY2.Size = new System.Drawing.Size(70, 39);
-            this.txtY2.TabIndex = 35;
-            this.txtY2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TxtY2.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TxtY2.Location = new System.Drawing.Point(165, 395);
+            this.TxtY2.Margin = new System.Windows.Forms.Padding(4);
+            this.TxtY2.Name = "TxtY2";
+            this.TxtY2.Size = new System.Drawing.Size(70, 39);
+            this.TxtY2.TabIndex = 35;
+            this.TxtY2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // labelX3
             // 
@@ -489,15 +490,15 @@
             this.labelX3.TabIndex = 36;
             this.labelX3.Text = "X3:";
             // 
-            // txtX3
+            // TxtX3
             // 
-            this.txtX3.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtX3.Location = new System.Drawing.Point(50, 445);
-            this.txtX3.Margin = new System.Windows.Forms.Padding(4);
-            this.txtX3.Name = "txtX3";
-            this.txtX3.Size = new System.Drawing.Size(70, 39);
-            this.txtX3.TabIndex = 37;
-            this.txtX3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TxtX3.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TxtX3.Location = new System.Drawing.Point(50, 445);
+            this.TxtX3.Margin = new System.Windows.Forms.Padding(4);
+            this.TxtX3.Name = "TxtX3";
+            this.TxtX3.Size = new System.Drawing.Size(70, 39);
+            this.TxtX3.TabIndex = 37;
+            this.TxtX3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // labelY3
             // 
@@ -509,15 +510,15 @@
             this.labelY3.TabIndex = 38;
             this.labelY3.Text = "Y3:";
             // 
-            // txtY3
+            // TxtY3
             // 
-            this.txtY3.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtY3.Location = new System.Drawing.Point(165, 445);
-            this.txtY3.Margin = new System.Windows.Forms.Padding(4);
-            this.txtY3.Name = "txtY3";
-            this.txtY3.Size = new System.Drawing.Size(70, 39);
-            this.txtY3.TabIndex = 39;
-            this.txtY3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TxtY3.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TxtY3.Location = new System.Drawing.Point(165, 445);
+            this.TxtY3.Margin = new System.Windows.Forms.Padding(4);
+            this.TxtY3.Name = "TxtY3";
+            this.TxtY3.Size = new System.Drawing.Size(70, 39);
+            this.TxtY3.TabIndex = 39;
+            this.TxtY3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // panelKeyboard
             // 
@@ -567,7 +568,7 @@
             // 
             // Btn0
             // 
-            this.Btn0.Font = new System.Drawing.Font("Arial", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Btn0.Font = new System.Drawing.Font("Segoe UI", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Btn0.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.Btn0.Location = new System.Drawing.Point(95, 205);
             this.Btn0.Margin = new System.Windows.Forms.Padding(4);
@@ -580,7 +581,7 @@
             // 
             // Btn3
             // 
-            this.Btn3.Font = new System.Drawing.Font("Arial", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Btn3.Font = new System.Drawing.Font("Segoe UI", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Btn3.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.Btn3.Location = new System.Drawing.Point(175, 140);
             this.Btn3.Margin = new System.Windows.Forms.Padding(4);
@@ -593,7 +594,7 @@
             // 
             // Btn2
             // 
-            this.Btn2.Font = new System.Drawing.Font("Arial", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Btn2.Font = new System.Drawing.Font("Segoe UI", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Btn2.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.Btn2.Location = new System.Drawing.Point(95, 140);
             this.Btn2.Margin = new System.Windows.Forms.Padding(4);
@@ -606,7 +607,7 @@
             // 
             // Btn1
             // 
-            this.Btn1.Font = new System.Drawing.Font("Arial", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Btn1.Font = new System.Drawing.Font("Segoe UI", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Btn1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.Btn1.Location = new System.Drawing.Point(15, 140);
             this.Btn1.Margin = new System.Windows.Forms.Padding(4);
@@ -619,7 +620,7 @@
             // 
             // Btn6
             // 
-            this.Btn6.Font = new System.Drawing.Font("Arial", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Btn6.Font = new System.Drawing.Font("Segoe UI", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Btn6.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.Btn6.Location = new System.Drawing.Point(175, 75);
             this.Btn6.Margin = new System.Windows.Forms.Padding(4);
@@ -632,7 +633,7 @@
             // 
             // Btn5
             // 
-            this.Btn5.Font = new System.Drawing.Font("Arial", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Btn5.Font = new System.Drawing.Font("Segoe UI", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Btn5.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.Btn5.Location = new System.Drawing.Point(95, 75);
             this.Btn5.Margin = new System.Windows.Forms.Padding(4);
@@ -645,7 +646,7 @@
             // 
             // Btn4
             // 
-            this.Btn4.Font = new System.Drawing.Font("Arial", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Btn4.Font = new System.Drawing.Font("Segoe UI", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Btn4.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.Btn4.Location = new System.Drawing.Point(15, 75);
             this.Btn4.Margin = new System.Windows.Forms.Padding(4);
@@ -658,7 +659,7 @@
             // 
             // Btn9
             // 
-            this.Btn9.Font = new System.Drawing.Font("Arial", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Btn9.Font = new System.Drawing.Font("Segoe UI", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Btn9.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.Btn9.Location = new System.Drawing.Point(175, 10);
             this.Btn9.Margin = new System.Windows.Forms.Padding(4);
@@ -671,7 +672,7 @@
             // 
             // Btn8
             // 
-            this.Btn8.Font = new System.Drawing.Font("Arial", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Btn8.Font = new System.Drawing.Font("Segoe UI", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Btn8.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.Btn8.Location = new System.Drawing.Point(95, 10);
             this.Btn8.Margin = new System.Windows.Forms.Padding(4);
@@ -684,7 +685,7 @@
             // 
             // Btn7
             // 
-            this.Btn7.Font = new System.Drawing.Font("Arial", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Btn7.Font = new System.Drawing.Font("Segoe UI", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Btn7.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.Btn7.Location = new System.Drawing.Point(15, 10);
             this.Btn7.Margin = new System.Windows.Forms.Padding(4);
@@ -744,9 +745,10 @@
             // LblCopyright
             // 
             this.LblCopyright.AutoSize = true;
+            this.LblCopyright.BackColor = System.Drawing.Color.Transparent;
             this.LblCopyright.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LblCopyright.ForeColor = System.Drawing.SystemColors.AppWorkspace;
-            this.LblCopyright.Location = new System.Drawing.Point(550, 565);
+            this.LblCopyright.Location = new System.Drawing.Point(527, 669);
             this.LblCopyright.Name = "LblCopyright";
             this.LblCopyright.Size = new System.Drawing.Size(99, 13);
             this.LblCopyright.TabIndex = 60;
@@ -754,11 +756,28 @@
             this.LblCopyright.MouseEnter += new System.EventHandler(this.LblCopyright_MouseEnter);
             this.LblCopyright.MouseLeave += new System.EventHandler(this.LblCopyright_MouseEnter);
             // 
+            // cboModel
+            // 
+            this.cboModel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboModel.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cboModel.FormattingEnabled = true;
+            this.cboModel.Items.AddRange(new object[] {
+            "I251",
+            "I252",
+            "I261",
+            "I262",
+            "I263",
+            "I264"});
+            this.cboModel.Location = new System.Drawing.Point(243, 379);
+            this.cboModel.Name = "cboModel";
+            this.cboModel.Size = new System.Drawing.Size(188, 38);
+            this.cboModel.TabIndex = 64;
+            // 
             // labelErrorType
             // 
             this.labelErrorType.AutoSize = true;
             this.labelErrorType.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelErrorType.Location = new System.Drawing.Point(295, 374);
+            this.labelErrorType.Location = new System.Drawing.Point(293, 423);
             this.labelErrorType.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelErrorType.Name = "labelErrorType";
             this.labelErrorType.Size = new System.Drawing.Size(98, 17);
@@ -768,42 +787,18 @@
             // cboErrorType
             // 
             this.cboErrorType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboErrorType.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cboErrorType.Location = new System.Drawing.Point(245, 395);
+            this.cboErrorType.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cboErrorType.Location = new System.Drawing.Point(243, 444);
             this.cboErrorType.Margin = new System.Windows.Forms.Padding(4);
             this.cboErrorType.Name = "cboErrorType";
-            this.cboErrorType.Size = new System.Drawing.Size(188, 40);
+            this.cboErrorType.Size = new System.Drawing.Size(188, 38);
             this.cboErrorType.TabIndex = 3;
-            // 
-            // rdoI251
-            // 
-            this.rdoI251.AutoSize = true;
-            this.rdoI251.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rdoI251.Location = new System.Drawing.Point(431, 61);
-            this.rdoI251.Margin = new System.Windows.Forms.Padding(4);
-            this.rdoI251.Name = "rdoI251";
-            this.rdoI251.Size = new System.Drawing.Size(74, 34);
-            this.rdoI251.TabIndex = 61;
-            this.rdoI251.Text = "I251";
-            this.rdoI251.UseVisualStyleBackColor = true;
-            // 
-            // rdoI252
-            // 
-            this.rdoI252.AutoSize = true;
-            this.rdoI252.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rdoI252.Location = new System.Drawing.Point(528, 61);
-            this.rdoI252.Margin = new System.Windows.Forms.Padding(4);
-            this.rdoI252.Name = "rdoI252";
-            this.rdoI252.Size = new System.Drawing.Size(74, 34);
-            this.rdoI252.TabIndex = 62;
-            this.rdoI252.Text = "I252";
-            this.rdoI252.UseVisualStyleBackColor = true;
             // 
             // linkLabel1
             // 
             this.linkLabel1.AutoSize = true;
             this.linkLabel1.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
-            this.linkLabel1.Location = new System.Drawing.Point(288, 460);
+            this.linkLabel1.Location = new System.Drawing.Point(470, 73);
             this.linkLabel1.Name = "linkLabel1";
             this.linkLabel1.Size = new System.Drawing.Size(114, 17);
             this.linkLabel1.TabIndex = 63;
@@ -822,16 +817,37 @@
             this.LblStatusNas.Size = new System.Drawing.Size(0, 15);
             this.LblStatusNas.TabIndex = 0;
             // 
+            // txtLog
+            // 
+            this.txtLog.BackColor = System.Drawing.SystemColors.Control;
+            this.txtLog.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtLog.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtLog.Location = new System.Drawing.Point(11, 601);
+            this.txtLog.Name = "txtLog";
+            this.txtLog.Size = new System.Drawing.Size(632, 86);
+            this.txtLog.TabIndex = 65;
+            this.txtLog.Text = "";
+            // 
+            // LabelModel
+            // 
+            this.LabelModel.AutoSize = true;
+            this.LabelModel.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LabelModel.Location = new System.Drawing.Point(291, 357);
+            this.LabelModel.Name = "LabelModel";
+            this.LabelModel.Size = new System.Drawing.Size(94, 17);
+            this.LabelModel.TabIndex = 66;
+            this.LabelModel.Text = "CHỌN MODEL";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(654, 586);
+            this.ClientSize = new System.Drawing.Size(654, 689);
+            this.Controls.Add(this.LabelModel);
             this.Controls.Add(this.LblCopyright);
             this.Controls.Add(this.LblStatusNas);
             this.Controls.Add(this.linkLabel1);
-            this.Controls.Add(this.rdoI252);
-            this.Controls.Add(this.rdoI251);
+            this.Controls.Add(this.cboModel);
             this.Controls.Add(this.cboErrorType);
             this.Controls.Add(this.labelErrorType);
             this.Controls.Add(this.LblStatus);
@@ -839,46 +855,47 @@
             this.Controls.Add(this.BtnSave);
             this.Controls.Add(this.panelKeyboard);
             this.Controls.Add(this.labelY3);
-            this.Controls.Add(this.txtY3);
+            this.Controls.Add(this.TxtY3);
             this.Controls.Add(this.labelX3);
-            this.Controls.Add(this.txtX3);
+            this.Controls.Add(this.TxtX3);
             this.Controls.Add(this.labelY2);
-            this.Controls.Add(this.txtY2);
+            this.Controls.Add(this.TxtY2);
             this.Controls.Add(this.labelX2);
-            this.Controls.Add(this.txtX2);
+            this.Controls.Add(this.TxtX2);
             this.Controls.Add(this.labelY1);
-            this.Controls.Add(this.txtY1);
+            this.Controls.Add(this.TxtY1);
             this.Controls.Add(this.labelX1);
-            this.Controls.Add(this.txtX1);
+            this.Controls.Add(this.TxtX1);
             this.Controls.Add(this.labelCoordXY);
             this.Controls.Add(this.labelEy3);
-            this.Controls.Add(this.txtEy3);
+            this.Controls.Add(this.TxtEy3);
             this.Controls.Add(this.labelEx3);
-            this.Controls.Add(this.txtEx3);
+            this.Controls.Add(this.TxtEx3);
             this.Controls.Add(this.labelSy3);
-            this.Controls.Add(this.txtSy3);
+            this.Controls.Add(this.TxtSy3);
             this.Controls.Add(this.labelSx3);
-            this.Controls.Add(this.txtSx3);
+            this.Controls.Add(this.TxtSx3);
             this.Controls.Add(this.labelEy2);
-            this.Controls.Add(this.txtEy2);
+            this.Controls.Add(this.TxtEy2);
             this.Controls.Add(this.labelEx2);
-            this.Controls.Add(this.txtEx2);
+            this.Controls.Add(this.TxtEx2);
             this.Controls.Add(this.labelSy2);
-            this.Controls.Add(this.txtSy2);
+            this.Controls.Add(this.TxtSy2);
             this.Controls.Add(this.labelSx2);
-            this.Controls.Add(this.txtSx2);
+            this.Controls.Add(this.TxtSx2);
             this.Controls.Add(this.labelEy1);
-            this.Controls.Add(this.txtEy1);
+            this.Controls.Add(this.TxtEy1);
             this.Controls.Add(this.labelEx1);
-            this.Controls.Add(this.txtEx1);
+            this.Controls.Add(this.TxtEx1);
             this.Controls.Add(this.labelSy1);
-            this.Controls.Add(this.txtSy1);
+            this.Controls.Add(this.TxtSy1);
             this.Controls.Add(this.labelSx1);
-            this.Controls.Add(this.txtSx1);
+            this.Controls.Add(this.TxtSx1);
             this.Controls.Add(this.labelCoordSE);
-            this.Controls.Add(this.txtSAPN);
+            this.Controls.Add(this.TxtSAPN);
             this.Controls.Add(this.labelSAPN);
             this.Controls.Add(this.LblSAPNCount);
+            this.Controls.Add(this.txtLog);
             this.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -886,13 +903,12 @@
             this.MaximizeBox = false;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "IT CONFIRM";
+            this.Text = " ";
             this.panelKeyboard.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
-
         #endregion
 
         #region KHAI BÁO BIẾN VÀ ĐỐI TƯỢNG
@@ -900,45 +916,45 @@
         private System.Windows.Forms.Label LblCopyright;
         private System.Windows.Forms.Label LblSAPNCount;
         private System.Windows.Forms.Label labelSAPN;
-        private System.Windows.Forms.TextBox txtSAPN;
+        private System.Windows.Forms.TextBox TxtSAPN;
         private System.Windows.Forms.Label labelCoordSE;
         private System.Windows.Forms.Label labelSx1;
-        private System.Windows.Forms.TextBox txtSx1;
+        private System.Windows.Forms.TextBox TxtSx1;
         private System.Windows.Forms.Label labelSy1;
-        private System.Windows.Forms.TextBox txtSy1;
+        private System.Windows.Forms.TextBox TxtSy1;
         private System.Windows.Forms.Label labelEx1;
-        private System.Windows.Forms.TextBox txtEx1;
+        private System.Windows.Forms.TextBox TxtEx1;
         private System.Windows.Forms.Label labelEy1;
-        private System.Windows.Forms.TextBox txtEy1;
+        private System.Windows.Forms.TextBox TxtEy1;
         private System.Windows.Forms.Label labelSx2;
-        private System.Windows.Forms.TextBox txtSx2;
+        private System.Windows.Forms.TextBox TxtSx2;
         private System.Windows.Forms.Label labelSy2;
-        private System.Windows.Forms.TextBox txtSy2;
+        private System.Windows.Forms.TextBox TxtSy2;
         private System.Windows.Forms.Label labelEx2;
-        private System.Windows.Forms.TextBox txtEx2;
+        private System.Windows.Forms.TextBox TxtEx2;
         private System.Windows.Forms.Label labelEy2;
-        private System.Windows.Forms.TextBox txtEy2;
+        private System.Windows.Forms.TextBox TxtEy2;
         private System.Windows.Forms.Label labelSx3;
-        private System.Windows.Forms.TextBox txtSx3;
+        private System.Windows.Forms.TextBox TxtSx3;
         private System.Windows.Forms.Label labelSy3;
-        private System.Windows.Forms.TextBox txtSy3;
+        private System.Windows.Forms.TextBox TxtSy3;
         private System.Windows.Forms.Label labelEx3;
-        private System.Windows.Forms.TextBox txtEx3;
+        private System.Windows.Forms.TextBox TxtEx3;
         private System.Windows.Forms.Label labelEy3;
-        private System.Windows.Forms.TextBox txtEy3;
+        private System.Windows.Forms.TextBox TxtEy3;
         private System.Windows.Forms.Label labelCoordXY;
         private System.Windows.Forms.Label labelX1;
-        private System.Windows.Forms.TextBox txtX1;
+        private System.Windows.Forms.TextBox TxtX1;
         private System.Windows.Forms.Label labelY1;
-        private System.Windows.Forms.TextBox txtY1;
+        private System.Windows.Forms.TextBox TxtY1;
         private System.Windows.Forms.Label labelX2;
-        private System.Windows.Forms.TextBox txtX2;
+        private System.Windows.Forms.TextBox TxtX2;
         private System.Windows.Forms.Label labelY2;
-        private System.Windows.Forms.TextBox txtY2;
+        private System.Windows.Forms.TextBox TxtY2;
         private System.Windows.Forms.Label labelX3;
-        private System.Windows.Forms.TextBox txtX3;
+        private System.Windows.Forms.TextBox TxtX3;
         private System.Windows.Forms.Label labelY3;
-        private System.Windows.Forms.TextBox txtY3;
+        private System.Windows.Forms.TextBox TxtY3;
         private System.Windows.Forms.Panel panelKeyboard;
         private System.Windows.Forms.Button BtnSave;
         private System.Windows.Forms.Button BtnReset;
@@ -957,10 +973,9 @@
         private System.Windows.Forms.Label LblStatus;
         private System.Windows.Forms.Label labelErrorType;
         private System.Windows.Forms.ComboBox cboErrorType;
-        private System.Windows.Forms.RadioButton rdoI251;
-        private System.Windows.Forms.RadioButton rdoI252;
         private System.Windows.Forms.LinkLabel linkLabel1;
+        private System.Windows.Forms.RichTextBox txtLog;
+        private System.Windows.Forms.Label LabelModel;
         #endregion
     }
-
 }
