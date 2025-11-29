@@ -7,7 +7,7 @@
     <ProjectGuid>{89FEE3AC-232C-4B41-A2DD-0DCADCDDB1FB}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>ITCONFIRM</RootNamespace>
-    <AssemblyName>ITCONFIRM</AssemblyName>
+    <AssemblyName>IT CONFIRM</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -105,12 +105,12 @@
     <EmbeddedResource Include="MAP.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-	<Target Name="IncrementBuildVersion" BeforeTargets="BeforeBuild">
-		<PropertyGroup>
-			<AssemblyFile>$(ProjectDir)Properties\AssemblyInfo.cs</AssemblyFile>
-			<ScriptPath>$(ProjectDir)Scripts\IncrementVersion.ps1</ScriptPath>
-			<ConfigurationArg>$(ConfigurationName)</ConfigurationArg>
-		</PropertyGroup>
-		<Exec Command="powershell.exe -ExecutionPolicy Bypass -File &quot;$(ScriptPath)&quot; -assemblyInfoPath &quot;$(AssemblyFile)&quot;" Condition=" '$(ConfigurationName)' == 'Release' And Exists('$(ScriptPath)') And Exists('$(AssemblyFile)') " />
-	</Target>
+  <Target Name="IncrementBuildVersion" BeforeTargets="BeforeBuild">
+    <PropertyGroup>
+      <AssemblyFile>$(ProjectDir)Properties\AssemblyInfo.cs</AssemblyFile>
+      <ScriptPath>$(ProjectDir)Scripts\IncrementVersion.ps1</ScriptPath>
+      <ConfigurationArg>$(ConfigurationName)</ConfigurationArg>
+    </PropertyGroup>
+    <Exec Command="powershell.exe -ExecutionPolicy Bypass -File &quot;$(ScriptPath)&quot; -assemblyInfoPath &quot;$(AssemblyFile)&quot;" Condition=" '$(ConfigurationName)' == 'Release' And Exists('$(ScriptPath)') And Exists('$(AssemblyFile)') " />
+  </Target>
 </Project>
